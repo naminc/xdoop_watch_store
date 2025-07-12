@@ -16,20 +16,16 @@ class Router
 
         if (!empty($segments)) {
             if ($segments[0] === 'admin') {
-                // Admin area
                 $area = 'admin';
                 $controller = $segments[1] ?? 'home';
                 $method = $segments[2] ?? 'index';
                 $params = array_slice($segments, 3);
             } else {
-                // Everything else = site
                 $controller = $segments[0] ?? 'home';
                 $method = $segments[1] ?? 'index';
                 $params = array_slice($segments, 2);
             }
         }
-
-        // Build class name
         $controllerName = ucfirst($controller) . 'Controller';
         $namespace = "\\controllers\\$area";
         $class = $namespace . "\\" . $controllerName;
@@ -43,11 +39,11 @@ class Router
                 call_user_func_array([$controllerObject, $method], $params);
             } else {
                 http_response_code(404);
-                echo "404 - Không tìm thấy phương thức";
+                echo "404 not found";
             }
         } else {
             http_response_code(404);
-            echo "404 - Không tìm thấy controller";
+            echo "404 not found";
         }
     }
 }

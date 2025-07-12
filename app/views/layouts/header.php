@@ -23,6 +23,11 @@
     <link href="/assets/css/plugins.css" rel="stylesheet">
     <!-- Main Style CSS -->
     <link href="/assets/css/style-green.css" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body class="theme-color-5">

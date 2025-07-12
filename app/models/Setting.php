@@ -10,4 +10,8 @@ class Setting extends Model
         $result = $this->db->query("SELECT * FROM settings LIMIT 1");
         return $result->fetch_assoc();
     }
+    public function updateSetting($data)
+    {
+        //
+    }
 }

@@ -19,6 +19,29 @@ class User extends Model
         return false;
     }
 
+    public function checkUsername($username)
+    {
+        $stmt = $this->db->prepare("SELECT COUNT(*) FROM users WHERE username = ?");
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_assoc()['COUNT(*)'];
+    }
+
+    public function checkEmail($email)
+    {
+        $stmt = $this->db->prepare("SELECT COUNT(*) FROM users WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_assoc()['COUNT(*)'];
+    }
+
+    public function register($username, $email, $password, $role, $status, $ip, $user_agent)
+    {
+        $hash = password_hash($password, PASSWORD_DEFAULT);
+        $stmt = $this->db->prepare("INSERT INTO users (username, email, password, role, status, ip_address, user_agent, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), NOW())");
+        $stmt->bind_param("sssssss", $username, $email, $hash, $role, $status, $ip, $user_agent);
+        return $stmt->execute();
+    }
     public function getAll()
     {
         $result = $this->db->query("SELECT id, username, role FROM users");
