@@ -55,6 +55,7 @@ git clone https://github.com/naminc/xdoop_watch_store.git
 ```
 
 2️⃣ Tạo database
+- Tạo DBNAME, USERNAME, PASSWORD
 - Import file db.sql
 
 3️⃣ Cấu hình kết nối DB
