@@ -4949,6 +4949,7 @@ body.modal-open {
 /*------ end Compare Page Wrapper -----*/
 /*-------- Start My Account Page Wrapper --------*/
 .myaccount-tab-menu {
+  background: #ffffff;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
@@ -4987,6 +4988,7 @@ body.modal-open {
 .myaccount-content {
   border: 1px solid #eeeeee;
   padding: 30px;
+  background: #ffffff;
 }
 @media only screen and (max-width: 575px) {
   .myaccount-content {

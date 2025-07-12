@@ -24,7 +24,7 @@ require_once __DIR__ . '/../../layouts/header.php';
     </div>
 
     <main>
-        <div class="login-register-wrapper pt-100 pb-100 pt-sm-58 pb-sm-58">
+        <div class="login-register-wrapper pt-50 pb-50 pt-sm-50 pb-sm-50">
             <div class="container">
                 <div class="member-area-from-wrap">
                     <div class="row">

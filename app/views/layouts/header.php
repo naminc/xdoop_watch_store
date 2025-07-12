@@ -22,7 +22,7 @@
     <!-- Plugins CSS -->
     <link href="/assets/css/plugins.css" rel="stylesheet">
     <!-- Main Style CSS -->
-    <link href="/assets/css/style-green.css" rel="stylesheet">
+    <link href="/assets/css/style-green.css?v=<?php echo time(); ?>" rel="stylesheet">
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- SweetAlert2 -->
@@ -41,7 +41,7 @@
                 <div class="row">
                     <div class="col-lg-6 col-md-5">
                         <div class="header-call-action">
-                            <p>Chào mừng bạn đến với Xdoop store!</p>
+                            <p>Chào mừng bạn đến với <?php echo $setting['brand']; ?> store!</p>
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-7">
@@ -56,7 +56,7 @@
                                             </a>
                                             <div class="dropdown-menu" aria-labelledby="myaccount">
                                                 <?php if (isset($_SESSION['user'])) { ?>
-                                                    <a class="dropdown-item" href="/my-account">Tài khoản</a>
+                                                    <a class="dropdown-item" href="/account">Tài khoản</a>
                                                     <a class="dropdown-item" href="/auth/logout">Đăng xuất</a>
                                                 <?php } else { ?>
                                                     <a class="dropdown-item" href="/auth/login">Đăng nhập</a>
