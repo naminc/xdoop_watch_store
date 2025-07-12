@@ -16,7 +16,7 @@
 ---
 
 ## 📂 Cấu trúc thư mục
-
+```
 /
 ├── app/
 │ ├── controllers/
@@ -27,7 +27,7 @@
 │ ├── assets/
 │ └── index.php
 └── README.md
-
+```
 
 - **app/controllers/**: Controller xử lý logic
 - **app/models/**: Model giao tiếp với database
@@ -52,3 +52,23 @@
 
 ```bash
 git clone https://github.com/naminc/xdoop_watch_store.git
+```
+
+2️⃣ Tạo database
+- Import file db.sql
+
+3️⃣ Cấu hình kết nối DB
+- Cấu hình (HOSTNAME, DBNAME, USERNAME, PASSWORD) trong **app/core/Database.php**
+```env
+$host = "localhost";
+$user = "";
+$pass = "";
+$dbname = "";
+```
+
+---
+
+## 📄 License
+
+Released under the [MIT License](LICENSE)  
+© 2025 [naminc](https://github.com/naminc)
