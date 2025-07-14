@@ -28,6 +28,8 @@
     <!-- SweetAlert2 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Custom JS -->
+    <script src="/assets/js/custom.js?v=<?php echo time(); ?>"></script>
 </head>
 
 <body class="theme-color-5">
@@ -48,6 +50,16 @@
                         <div class="header-top-right float-md-end float-none">
                             <nav>
                                 <ul>
+                                    <?php if (isset($_SESSION['user']) && $_SESSION['user']['role'] == 'admin') { ?>
+                                    <li>
+                                        <div class="dropdown header-top-dropdown">
+                                            <a id="adminpanel" href="/admin/dashboard">
+                                                Admin Panel
+                                                <i class="fa fa-cogs"></i>
+                                            </a>
+                                        </div>
+                                    </li>
+                                    <?php } ?>
                                     <li>
                                         <div class="dropdown header-top-dropdown">
                                             <a class="dropdown-toggle" id="myaccount" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

@@ -8,7 +8,8 @@ class UserController extends BaseController
 {
     public function index()
     {
-        $this->view('admin/user/index');
+        $data['hello'] = 'Hello World, this is User Controller';
+        $this->view('admin/user/index', $data);
     }
 
     public function create()
