@@ -42,4 +42,16 @@ class User extends Model
         $stmt->bind_param("sssssss", $username, $email, $hash, $role, $status, $ip, $user_agent);
         return $stmt->execute();
     }
+    public function getAll()
+    {
+        $stmt = $this->db->prepare("SELECT * FROM users");
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+    public function delete($id)
+    {
+        $stmt = $this->db->prepare("DELETE FROM users WHERE id = ?");
+        $stmt->bind_param("i", $id);
+        return $stmt->execute();
+    }
 }

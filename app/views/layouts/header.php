@@ -128,44 +128,19 @@
                                     <ul>
                                         <li class="active"><a href="/">Trang chủ</a>
                                         </li>
-                                        <li><a href="#">Sản phẩm <i class="fa fa-angle-down"></i></a>
+                                        <li><a href="#">Danh mục <i class="fa fa-angle-down"></i></a>
                                             <ul class="dropdown">
-                                                <li><a href="#">shop grid layout <i class="fa fa-angle-right"></i></a>
-                                                    <ul class="dropdown">
-                                                        <li><a href="shop-grid-left-sidebar.html">shop grid left
-                                                                sidebar</a></li>
-                                                        <li><a href="shop-grid-right-sidebar.html">shop grid right
-                                                                sidebar</a></li>
-                                                        <li><a href="shop-grid-full-width.html">shop grid full width</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li><a href="#">shop list layout <i class="fa fa-angle-right"></i></a>
-                                                    <ul class="dropdown">
-                                                        <li><a href="shop-list-left-sidebar.html">shop list left
-                                                                sidebar</a></li>
-                                                        <li><a href="shop-list-right-sidebar.html">shop list right
-                                                                sidebar</a></li>
-                                                        <li><a href="shop-list-full.html">shop list full width</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li><a href="#">products details <i class="fa fa-angle-right"></i></a>
-                                                    <ul class="dropdown">
-                                                        <li><a href="product-details.html">product details</a></li>
-                                                        <li><a href="product-details-affiliate.html">product
-                                                                details
-                                                                affiliate</a></li>
-                                                        <li><a href="product-details-variable.html">product details
-                                                                variable</a></li>
-                                                        <li><a href="product-details-group.html">product details
-                                                                group</a></li>
-                                                        <li><a href="product-details-box.html">product details box
-                                                                slider</a></li>
-                                                    </ul>
-                                                </li>
+                                                <?php if (!empty($categories)): ?>
+                                                    <?php foreach ($categories as $category): ?>
+                                                        <li><a href="/category/detail/<?= $category['slug'] ?>"><?= $category['name'] ?></a></li>
+                                                    <?php endforeach; ?>
+                                                <?php else: ?>
+                                                    <li><a href="#">Không có danh mục</a></li>
+                                                <?php endif; ?>
                                             </ul>
                                         </li>
                                         <li><a href="/promotion">Khuyến mãi</a></li>
-                                        <li><a href="/about-us">Giới thiệu</a></li>
+                                        <li><a href="/about">Giới thiệu</a></li>
                                         <li><a href="/contact">Liên hệ</a></li>
                                     </ul>
                                 </nav>
@@ -230,14 +205,14 @@
         <div class="box-search-content search_active block-bg close__top">
             <form class="minisearch" action="#">
                 <div class="field__search">
-                    <input type="text" placeholder="Search Our Catalog">
+                    <input type="text" placeholder="Tìm kiếm sản phẩm">
                     <div class="action">
                         <a href="#"><i class="fa fa-search"></i></a>
                     </div>
                 </div>
             </form>
             <div class="close__wrap">
-                <span>close</span>
+                <span>Đóng</span>
             </div>
         </div>
         <!-- End Search Popup -->

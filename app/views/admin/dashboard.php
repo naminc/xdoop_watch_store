@@ -5,23 +5,7 @@ if (empty($_SESSION['user']) || $_SESSION['user']['role'] != 'admin') {
 }
 require_once __DIR__ . '/../layouts/header.php';
 ?>
-<!-- breadcrumb area start -->
-<div class="breadcrumb-area">
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <div class="breadcrumb-wrap">
-                    <nav aria-label="breadcrumb">
-                        <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Admin Panel</li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<?php require_once __DIR__ . '/components/breadcrumb.php'; ?>
 <main>
     <div class="my-account-wrapper pt-50 pb-50 pt-sm-50 pb-sm-50">
         <div class="container">
@@ -35,7 +19,7 @@ require_once __DIR__ . '/../layouts/header.php';
                                 <div class="tab-content" id="myaccountContent">
                                     <div class="tab-pane fade show active" id="dashboad" role="tabpanel">
                                         <div class="myaccount-content">
-                                            <h3>Bảng điều khiển</h3>
+                                            <h3><i class="fa fa-dashboard"></i> Bảng điều khiển</h3>
                                             <div class="welcome">
                                                 <p>Xin chào, <strong><?php echo $_SESSION['user']['username']; ?></strong> (Nếu không phải <strong><?php echo $_SESSION['user']['username']; ?> !</strong><a href="/auth/logout" class="logout"> Đăng xuất</a>)</p>
                                             </div>

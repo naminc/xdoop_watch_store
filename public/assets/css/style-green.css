@@ -1455,6 +1455,7 @@ body.modal-open {
   padding: 10px 20px 6px;
   text-transform: uppercase;
   display: inline-block;
+  border-radius: 5px;
 }
 .sqr-btn:hover {
   color: #ffffff;
@@ -1463,7 +1464,25 @@ body.modal-open {
 .sqr-btn i {
   padding-right: 5px;
 }
-
+.delete-btn {
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  background-color: #dc3545;
+  padding: 10px 20px 6px;
+  text-transform: uppercase;
+  display: inline-block;
+  border-radius: 5px;
+}
+.delete-btn:hover {
+  color: #ffffff;
+  background-color: #4e3033;
+}
+.delete-btn i {
+  padding-right: 5px;
+}
 .product-btn a {
   color: #333c4a;
   font-size: 15px;
