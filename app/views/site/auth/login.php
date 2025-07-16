@@ -5,24 +5,7 @@ if (isset($_SESSION['user'])) {
 }
 require_once __DIR__ . '/../../layouts/header.php';
 ?>
-
-<div class="breadcrumb-area">
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <div class="breadcrumb-wrap">
-                    <nav aria-label="breadcrumb">
-                        <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Đăng nhập - Đăng ký</li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
+<?php require_once __DIR__ . '/../components/breadcrumb.php'; ?>    
 <main>
     <div class="login-register-wrapper pt-50 pb-50 pt-sm-50 pb-sm-50">
         <div class="container">

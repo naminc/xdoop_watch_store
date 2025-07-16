@@ -73,6 +73,7 @@ class AuthController extends BaseController
             }
         }
         // Hiển thị view login và truyền dữ liệu
+        $data['breadcrumbs'] = 'Đăng nhập - Đăng ký';
         $this->view('site/auth/login', $data);
     }
 

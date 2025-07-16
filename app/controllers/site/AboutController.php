@@ -7,6 +7,7 @@ class AboutController extends BaseController
 {
     public function index()
     {
-        $this->view('site/about');
+        $data['breadcrumbs'] = 'Giới thiệu';
+        $this->view('site/about', $data);
     }
 }

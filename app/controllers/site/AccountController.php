@@ -7,6 +7,7 @@ class AccountController extends BaseController
 {
     public function index()
     {
-        $this->view('site/account/index');
+        $data['breadcrumbs'] = 'Tài khoản';
+        $this->view('site/account/index', $data);
     }
 }
