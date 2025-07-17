@@ -10,11 +10,12 @@ $products = $data['products'];
     <?php foreach ($products as $product): ?>
         <div class="col-md-4">
             <div class="card">
-                <img src="<?= $product['image'] ?>" alt="<?= $product['name'] ?>">
+                <img src="/uploads/products/<?= $product['image'] ?>" alt="<?= $product['name'] ?>">
                 <div class="card-body">
                     <h5 class="card-title"><?= $product['name'] ?></h5>
                     <p class="card-text"><?= $product['description'] ?></p>
                     <p class="card-text"><?= $product['price'] ?></p>
+                    <p class="card-text"><?= $product['slug'] ?></p>
                     <a href="/product/detail/<?= $product['slug'] ?>" class="btn btn-primary">Xem chi tiết</a>
                 </div>
             </div>

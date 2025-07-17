@@ -110,5 +110,4 @@ class User extends Model
         $stmt->execute();
         return $stmt->get_result()->fetch_assoc()['COUNT(*)'];
     }
-    
 }
