@@ -110,4 +110,18 @@ class User extends Model
         $stmt->execute();
         return $stmt->get_result()->fetch_assoc()['COUNT(*)'];
     }
+
+    public function updateInfo($id, $fullname, $email, $phone)
+    {
+        $stmt = $this->db->prepare("UPDATE users SET fullname = ?, email = ?, phone = ?, updated_at = NOW() WHERE id = ?");
+        $stmt->bind_param("sssi", $fullname, $email, $phone, $id);
+        return $stmt->execute();
+    }
+    public function updatePassword($id, $password)
+    {
+        $hash = password_hash($password, PASSWORD_DEFAULT);
+        $stmt = $this->db->prepare("UPDATE users SET password = ?, updated_at = NOW() WHERE id = ?");
+        $stmt->bind_param("si", $hash, $id);
+        return $stmt->execute();
+    }
 }

@@ -2,12 +2,20 @@
 namespace controllers\admin;
 
 use core\BaseController;
+use models\Order;
 
 class OrderController extends BaseController
 {
+    private $orderModel;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->orderModel = new Order();
+    }
     public function index()
     {
-        $data['hello'] = 'Hello World, this is Order Controller';
+        $data['orders'] = $this->orderModel->getAll();
         $this->view('admin/order/index', $data);
     }
 }

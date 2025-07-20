@@ -1006,6 +1006,7 @@ body.modal-open {
     transform: translate(64px, 10px);
   }
 }
+
 .header-setting-option .header-mini-cart ul.cart-list li {
   display: -webkit-box;
   display: -ms-flexbox;

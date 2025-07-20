@@ -1,7 +1,4 @@
-    <!-- footer area start -->
     <footer>
-
-        <!-- newsletter area start -->
         <div class="newsletter-area bg-black pt-64 pb-64 pt-sm-56 pb-sm-58">
             <div class="container">
                 <div class="row">
@@ -17,13 +14,11 @@
                                 </form>
                             </div>
                         </div>
-                        <!-- mailchimp-alerts Start -->
                         <div class="mailchimp-alerts">
-                            <div class="mailchimp-submitting"></div><!-- mailchimp-submitting end -->
-                            <div class="mailchimp-success"></div><!-- mailchimp-success end -->
-                            <div class="mailchimp-error"></div><!-- mailchimp-error end -->
+                            <div class="mailchimp-submitting"></div>
+                            <div class="mailchimp-success"></div>
+                            <div class="mailchimp-error"></div>
                         </div>
-                        <!-- mailchimp-alerts end -->
                     </div>
                     <div class="col-lg-6 col-md-6 ms-auto">
                         <div class="social-share-area white-bg">
@@ -41,9 +36,6 @@
                 </div>
             </div>
         </div>
-        <!-- newsletter area end -->
-
-        <!-- footer widget area start -->
         <div class="footer-widget-area white-bg pt-62 pb-56 pb-md-26 pt-sm-56 pb-sm-20">
             <div class="container">
                 <div class="row">
@@ -125,9 +117,6 @@
                 </div>
             </div>
         </div>
-        <!-- footer widget area end -->
-
-        <!-- footer botton area start -->
         <div class="footer-bottom-area">
             <div class="container">
                 <div class="bdr-top-2 pt-18 pb-18">
@@ -146,29 +135,16 @@
                 </div>
             </div>
         </div>
-        <!-- footer botton area end -->
-
     </footer>
-    <!-- footer area end -->
-    <!-- Scroll to top start -->
     <div class="scroll-top not-visible">
         <i class="fa fa-angle-up"></i>
     </div>
-    <!-- Scroll to Top End -->
-
-    <!--All jQuery, Third Party Plugins & Activation (main.js) Files-->
     <script src="/assets/js/vendor/modernizr-3.6.0.min.js"></script>
-    <!-- Jquery Min Js -->
     <script src="/assets/js/vendor/jquery-3.3.1.min.js"></script>
-    <!-- Bootstrap Min Js -->
     <script src="/assets/js/vendor/bootstrap.bundle.min.js"></script>
-    <!-- Plugins Js-->
     <script src="/assets/js/plugins.js"></script>
-    <!-- Ajax Mail Js -->
     <script src="/assets/js/ajax-mail.js"></script>
-    <!-- Active Js -->
-    <script src="/assets/js/main.js"></script>
+    <script src="/assets/js/main.js?v=<?php echo time(); ?>"></script>
+</body>
 
-    </body>
-
-    </html>
+</html>

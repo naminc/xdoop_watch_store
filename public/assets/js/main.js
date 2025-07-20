@@ -24,13 +24,6 @@
 	}
 	dropdownAnimation();
 
-	// mini cart toggler
-	$(".mini-cart-btn").on("click", function (event) {
-		event.stopPropagation();
-		event.preventDefault();
-		$(".cart-list").slideToggle();
-		$(".settings-list").slideUp();
-	});
 
 	// setting toggler
 	$(".settings-btn").on("click", function (event) {

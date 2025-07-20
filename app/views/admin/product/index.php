@@ -18,7 +18,7 @@ require_once __DIR__ . '/../../layouts/header.php';
                             <div class="col-lg-9 col-md-8">
                                 <div class="myaccount-content">
                                     <div class="d-flex justify-content-between align-items-center mb-3">
-                                        <h3 class="mb-0"><i class="fa fa-list"></i> Quản lý sản phẩm</h3>
+                                        <h3 class="mb-0"><i class="fa fa-shopping-cart"></i> Quản lý sản phẩm</h3>
                                         <a href="/admin/product/create" class="btn btn-success"><i class="fa fa-plus"></i> Thêm sản phẩm</a>
                                     </div>
                                     <div class="myaccount-table table-responsive text-center">
@@ -46,7 +46,7 @@ require_once __DIR__ . '/../../layouts/header.php';
                                                     <td><?= $product['id'] ?></td>
                                                     <td><?= $product['name'] ?></td>
                                                     <td><?= $product['slug'] ?></td>
-                                                    <td><?= $product['description'] ?></td>
+                                                    <td><textarea name="description" id="description" cols="30" rows="3" readonly><?= $product['description'] ?></textarea></td>
                                                     <td><img src="/uploads/products/<?= $product['image'] ?>" alt="<?= $product['name'] ?>" style="height: 100px; width: 100px; object-fit: cover;"></td>
                                                     <td><span class="badge bg-danger"><?= number_format($product['price'], 0, ',', '.') ?> VNĐ</span></td>
                                                     <td><?= $product['category_name'] ?></td>

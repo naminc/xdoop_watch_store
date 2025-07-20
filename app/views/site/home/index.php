@@ -1,5 +1,4 @@
 <?php require_once __DIR__ . '/../../layouts/header.php'; ?>
-<!-- slider area start -->
 <div class="hero-area">
     <div class="hero-slider-active slider-arrow-style slick-dot-style hero-dot">
         <div class="hero-single-slide hero-2 hero-2__Style-5 d-flex align-items-center" style="background-image: url(assets/img/slider/slide-9.jpg);">
@@ -22,9 +21,6 @@
         </div>
     </div>
 </div>
-<!-- slider area end -->
-
-<!-- banner statistics 05 start -->
 <div class="banner-statistic-one pt-100 pt-sm-58">
     <div class="container">
         <div class="row">
@@ -57,9 +53,6 @@
         </div>
     </div>
 </div>
-<!-- banner statistics 05 end -->
-
-<!-- featured product area start -->
 <div class="page-section pt-100 pb-50">
     <div class="container">
         <div class="row">
@@ -71,363 +64,52 @@
             </div>
         </div>
 
-        <!-- ROW 1: 4 sản phẩm đầu -->
         <div class="row">
-            <!-- Product 1 -->
-            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-                <div class="product-item item-black">
-                    <div class="product-thumb">
-                        <a href="product-details.html">
-                            <img src="/assets/img/product/product-w1.jpg" alt="product image">
-                        </a>
-                        <div class="box-label">
-                            <div class="product-label new">
-                                <span>new</span>
-                            </div>
-                            <div class="product-label discount">
-                                <span>-5%</span>
-                            </div>
-                        </div>
-                        <div class="product-action-link">
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#quick_view" title="Quick view">
-                                <i class="ion-ios-eye-outline"></i>
+            <?php foreach ($products as $product) : ?>
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                    <div class="product-item item-black">
+                        <div class="product-thumb">
+                            <a href="/product/detail/<?php echo $product['slug']; ?>">
+                                <img src="/uploads/products/<?php echo $product['image']; ?>" alt="product image">
                             </a>
-                            <a href="#" title="Compare"><i class="ion-ios-loop"></i></a>
-                            <a href="#" title="Wishlist"><i class="ion-ios-shuffle"></i></a>
+                            <div class="box-label">
+                                <div class="product-label new">
+                                    <span>new</span>
+                                </div>
+                            </div>
+                            <div class="product-action-link">
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#quick_view" title="Quick view">
+                                    <i class="ion-ios-eye-outline"></i>
+                                </a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="product-description text-center">
-                        <div class="manufacturer">
-                            <p><a href="product-details.html">Fashion Manufacturer</a></p>
-                        </div>
-                        <div class="product-name">
-                            <h3><a href="product-details.html">Endeavor Daytrip</a></h3>
-                        </div>
-                        <div class="price-box">
-                            <span class="regular-price">$100.00</span>
-                            <span class="old-price"><del>$120.00</del></span>
-                        </div>
-                        <div class="hover-box text-center">
-                            <div class="product-btn">
-                                <a href="#"><i class="ion-bag"></i>Add to cart</a>
+                        <div class="product-description text-center">
+                            <div class="manufacturer">
+                                <p><a href="product-details.html"><?php echo $product['category_name']; ?></a></p>
+                            </div>
+                            <div class="product-name">
+                                <h3><a href="/product/detail/<?php echo $product['slug']; ?>"><?php echo $product['name']; ?></a></h3>
+                            </div>
+                            <div class="price-box">
+                                <span class="regular-price"><?php echo number_format($product['price'], 0, ',', '.'); ?> VNĐ</span>
+                            </div>
+                            <div class="hover-box text-center">
+                                <div class="product-btn">
+                                    <form action="/cart/add/<?php echo $product['id']; ?>" method="post">
+                                        <input type="hidden" name="quantity" value="1">
+                                        <button type="submit" class="btn btn-light"><i class="ion-bag"></i>Thêm vào giỏ hàng</button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-            </div>
-            <!-- Product 2 -->
-            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-                <div class="product-item item-black">
-                    <div class="product-thumb">
-                        <a href="product-details.html">
-                            <img src="/assets/img/product/product-w1.jpg" alt="product image">
-                        </a>
-                        <div class="box-label">
-                            <div class="product-label new">
-                                <span>new</span>
-                            </div>
-                            <div class="product-label discount">
-                                <span>-5%</span>
-                            </div>
-                        </div>
-                        <div class="product-action-link">
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#quick_view" title="Quick view">
-                                <i class="ion-ios-eye-outline"></i>
-                            </a>
-                            <a href="#" title="Compare"><i class="ion-ios-loop"></i></a>
-                            <a href="#" title="Wishlist"><i class="ion-ios-shuffle"></i></a>
-                        </div>
-                    </div>
-                    <div class="product-description text-center">
-                        <div class="manufacturer">
-                            <p><a href="product-details.html">Fashion Manufacturer</a></p>
-                        </div>
-                        <div class="product-name">
-                            <h3><a href="product-details.html">Endeavor Daytrip</a></h3>
-                        </div>
-                        <div class="price-box">
-                            <span class="regular-price">$100.00</span>
-                            <span class="old-price"><del>$120.00</del></span>
-                        </div>
-                        <div class="hover-box text-center">
-                            <div class="product-btn">
-                                <a href="#"><i class="ion-bag"></i>Add to cart</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <!-- Product 3 -->
-            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-                <div class="product-item item-black">
-                    <div class="product-thumb">
-                        <a href="product-details.html">
-                            <img src="/assets/img/product/product-w1.jpg" alt="product image">
-                        </a>
-                        <div class="box-label">
-                            <div class="product-label new">
-                                <span>new</span>
-                            </div>
-                            <div class="product-label discount">
-                                <span>-5%</span>
-                            </div>
-                        </div>
-                        <div class="product-action-link">
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#quick_view" title="Quick view">
-                                <i class="ion-ios-eye-outline"></i>
-                            </a>
-                            <a href="#" title="Compare"><i class="ion-ios-loop"></i></a>
-                            <a href="#" title="Wishlist"><i class="ion-ios-shuffle"></i></a>
-                        </div>
-                    </div>
-                    <div class="product-description text-center">
-                        <div class="manufacturer">
-                            <p><a href="product-details.html">Fashion Manufacturer</a></p>
-                        </div>
-                        <div class="product-name">
-                            <h3><a href="product-details.html">Endeavor Daytrip</a></h3>
-                        </div>
-                        <div class="price-box">
-                            <span class="regular-price">$100.00</span>
-                            <span class="old-price"><del>$120.00</del></span>
-                        </div>
-                        <div class="hover-box text-center">
-                            <div class="product-btn">
-                                <a href="#"><i class="ion-bag"></i>Add to cart</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <!-- Product 4 -->
-            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-                <div class="product-item item-black">
-                    <div class="product-thumb">
-                        <a href="product-details.html">
-                            <img src="/assets/img/product/product-w1.jpg" alt="product image">
-                        </a>
-                        <div class="box-label">
-                            <div class="product-label new">
-                                <span>new</span>
-                            </div>
-                            <div class="product-label discount">
-                                <span>-5%</span>
-                            </div>
-                        </div>
-                        <div class="product-action-link">
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#quick_view" title="Quick view">
-                                <i class="ion-ios-eye-outline"></i>
-                            </a>
-                            <a href="#" title="Compare"><i class="ion-ios-loop"></i></a>
-                            <a href="#" title="Wishlist"><i class="ion-ios-shuffle"></i></a>
-                        </div>
-                    </div>
-                    <div class="product-description text-center">
-                        <div class="manufacturer">
-                            <p><a href="product-details.html">Fashion Manufacturer</a></p>
-                        </div>
-                        <div class="product-name">
-                            <h3><a href="product-details.html">Endeavor Daytrip</a></h3>
-                        </div>
-                        <div class="price-box">
-                            <span class="regular-price">$100.00</span>
-                            <span class="old-price"><del>$120.00</del></span>
-                        </div>
-                        <div class="hover-box text-center">
-                            <div class="product-btn">
-                                <a href="#"><i class="ion-bag"></i>Add to cart</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
+            <?php endforeach; ?>
         </div>
 
-        <!-- ROW 2: 4 sản phẩm tiếp -->
-        <div class="row">
-            <!-- Product 5 -->
-            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-                <div class="product-item item-black">
-                    <div class="product-thumb">
-                        <a href="product-details.html">
-                            <img src="/assets/img/product/product-w1.jpg" alt="product image">
-                        </a>
-                        <div class="box-label">
-                            <div class="product-label new">
-                                <span>new</span>
-                            </div>
-                            <div class="product-label discount">
-                                <span>-5%</span>
-                            </div>
-                        </div>
-                        <div class="product-action-link">
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#quick_view" title="Quick view">
-                                <i class="ion-ios-eye-outline"></i>
-                            </a>
-                            <a href="#" title="Compare"><i class="ion-ios-loop"></i></a>
-                            <a href="#" title="Wishlist"><i class="ion-ios-shuffle"></i></a>
-                        </div>
-                    </div>
-                    <div class="product-description text-center">
-                        <div class="manufacturer">
-                            <p><a href="product-details.html">Fashion Manufacturer</a></p>
-                        </div>
-                        <div class="product-name">
-                            <h3><a href="product-details.html">Endeavor Daytrip</a></h3>
-                        </div>
-                        <div class="price-box">
-                            <span class="regular-price">$100.00</span>
-                            <span class="old-price"><del>$120.00</del></span>
-                        </div>
-                        <div class="hover-box text-center">
-                            <div class="product-btn">
-                                <a href="#"><i class="ion-bag"></i>Add to cart</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <!-- Product 6 -->
-            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-                <div class="product-item item-black">
-                    <div class="product-thumb">
-                        <a href="product-details.html">
-                            <img src="/assets/img/product/product-w1.jpg" alt="product image">
-                        </a>
-                        <div class="box-label">
-                            <div class="product-label new">
-                                <span>new</span>
-                            </div>
-                            <div class="product-label discount">
-                                <span>-5%</span>
-                            </div>
-                        </div>
-                        <div class="product-action-link">
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#quick_view" title="Quick view">
-                                <i class="ion-ios-eye-outline"></i>
-                            </a>
-                            <a href="#" title="Compare"><i class="ion-ios-loop"></i></a>
-                            <a href="#" title="Wishlist"><i class="ion-ios-shuffle"></i></a>
-                        </div>
-                    </div>
-                    <div class="product-description text-center">
-                        <div class="manufacturer">
-                            <p><a href="product-details.html">Fashion Manufacturer</a></p>
-                        </div>
-                        <div class="product-name">
-                            <h3><a href="product-details.html">Endeavor Daytrip</a></h3>
-                        </div>
-                        <div class="price-box">
-                            <span class="regular-price">$100.00</span>
-                            <span class="old-price"><del>$120.00</del></span>
-                        </div>
-                        <div class="hover-box text-center">
-                            <div class="product-btn">
-                                <a href="#"><i class="ion-bag"></i>Add to cart</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <!-- Product 7 -->
-            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-                <div class="product-item item-black">
-                    <div class="product-thumb">
-                        <a href="product-details.html">
-                            <img src="/assets/img/product/product-w1.jpg" alt="product image">
-                        </a>
-                        <div class="box-label">
-                            <div class="product-label new">
-                                <span>new</span>
-                            </div>
-                            <div class="product-label discount">
-                                <span>-5%</span>
-                            </div>
-                        </div>
-                        <div class="product-action-link">
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#quick_view" title="Quick view">
-                                <i class="ion-ios-eye-outline"></i>
-                            </a>
-                            <a href="#" title="Compare"><i class="ion-ios-loop"></i></a>
-                            <a href="#" title="Wishlist"><i class="ion-ios-shuffle"></i></a>
-                        </div>
-                    </div>
-                    <div class="product-description text-center">
-                        <div class="manufacturer">
-                            <p><a href="product-details.html">Fashion Manufacturer</a></p>
-                        </div>
-                        <div class="product-name">
-                            <h3><a href="product-details.html">Endeavor Daytrip</a></h3>
-                        </div>
-                        <div class="price-box">
-                            <span class="regular-price">$100.00</span>
-                            <span class="old-price"><del>$120.00</del></span>
-                        </div>
-                        <div class="hover-box text-center">
-                            <div class="product-btn">
-                                <a href="#"><i class="ion-bag"></i>Add to cart</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <!-- Product 8 -->
-            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-                <div class="product-item item-black">
-                    <div class="product-thumb">
-                        <a href="product-details.html">
-                            <img src="/assets/img/product/product-w1.jpg" alt="product image">
-                        </a>
-                        <div class="box-label">
-                            <div class="product-label new">
-                                <span>new</span>
-                            </div>
-                            <div class="product-label discount">
-                                <span>-5%</span>
-                            </div>
-                        </div>
-                        <div class="product-action-link">
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#quick_view" title="Quick view">
-                                <i class="ion-ios-eye-outline"></i>
-                            </a>
-                            <a href="#" title="Compare"><i class="ion-ios-loop"></i></a>
-                            <a href="#" title="Wishlist"><i class="ion-ios-shuffle"></i></a>
-                        </div>
-                    </div>
-                    <div class="product-description text-center">
-                        <div class="manufacturer">
-                            <p><a href="product-details.html">Fashion Manufacturer</a></p>
-                        </div>
-                        <div class="product-name">
-                            <h3><a href="product-details.html">Endeavor Daytrip</a></h3>
-                        </div>
-                        <div class="price-box">
-                            <span class="regular-price">$100.00</span>
-                            <span class="old-price"><del>$120.00</del></span>
-                        </div>
-                        <div class="hover-box text-center">
-                            <div class="product-btn">
-                                <a href="#"><i class="ion-bag"></i>Add to cart</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
     </div>
 </div>
 
-<!-- featured product area end -->
-
-<!-- banner feature start -->
 <div class="banner-feature-area bg-black pt-62 pb-60 pt-sm-56 pb-sm-20">
     <div class="container">
         <div class="row">
@@ -456,5 +138,27 @@
     </div>
 </div>
 
-<!-- banner feature end -->
 <?php require_once __DIR__ . '/../../layouts/footer.php'; ?>
+<?php if (!empty($error)): ?>
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: <?= json_encode($error) ?>
+        }).then(() => {
+            window.location.href = <?= json_encode($redirect ?? "/") ?>;
+        });
+    </script>
+<?php endif; ?>
+
+<?php if (!empty($success)): ?>
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Success!',
+            text: <?= json_encode($success) ?>
+        }).then(() => {
+            window.location.href = <?= json_encode($redirect ?? "/home") ?>;
+        });
+    </script>
+<?php endif; ?>

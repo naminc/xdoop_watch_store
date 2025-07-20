@@ -28,7 +28,7 @@
                             <i class="fa fa-phone"></i>
                         </div>
                         <h3 style="color: #ffffff !important;">Số điện thoại</h3>
-                        <p style="color: #ffffff !important;"><a style="color: #ffffff !important;" href="tel:<?php echo $setting['phone']; ?>"><?php echo $setting['phone']; ?></a></p>
+                        <p style="color: #ffffff !important;">Call: <a style="color: #ffffff !important;" href="tel:<?php echo $setting['phone']; ?>"><?php echo $setting['phone']; ?></a></p>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 col-sm-6">
@@ -38,39 +38,6 @@
                         </div>
                         <h3 style="color: #ffffff !important;">Email</h3>
                         <p style="color: #ffffff !important;"><a style="color: #ffffff !important;" href="mailto:<?php echo $setting['email']; ?>"><?php echo $setting['email']; ?></a></p>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xl-10 col-lg-12 m-auto">
-                    <div class="contact-message pt-60 pt-sm-20">
-                        <form id="contact-form" action="assets/php/mail.php" method="post" class="contact-form">
-                            <div class="row">
-                                <div class="col-lg-6 col-md-6 col-sm-6">
-                                    <input name="first_name" placeholder="Họ tên *" type="text" required>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-6">
-                                    <input name="phone" placeholder="Số điện thoại *" type="tel" required>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-6">
-                                    <input name="email_address" placeholder="Email *" type="email" required>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-6">
-                                    <input name="contact_subject" placeholder="Chủ đề *" type="text" required>
-                                </div>
-                                <div class="col-12">
-                                    <div class="contact2-textarea text-center">
-                                        <textarea placeholder="Nội dung *" name="message" class="form-control2" required=""></textarea>
-                                    </div>
-                                    <div class="contact-btn text-center">
-                                        <button class="check-btn sqr-btn" type="submit"><i class="fa fa-paper-plane"></i> Gửi</button>
-                                    </div>
-                                </div>
-                                <div class="col-12 d-flex justify-content-center">
-                                    <p class="form-messege"></p>
-                                </div>
-                            </div>
-                        </form>
                     </div>
                 </div>
             </div>

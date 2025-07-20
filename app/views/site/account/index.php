@@ -6,7 +6,7 @@ if (empty($_SESSION['user'])) {
 
 require_once __DIR__ . '/../../layouts/header.php';
 ?>
-<?php require_once __DIR__ . '/../components/breadcrumb.php'; ?>    
+<?php require_once __DIR__ . '/../components/breadcrumb.php'; ?>
 <main>
     <div class="my-account-wrapper pt-50 pb-50 pt-sm-50 pb-sm-50">
         <div class="container">
@@ -42,35 +42,48 @@ require_once __DIR__ . '/../../layouts/header.php';
                                                 <table class="table table-bordered">
                                                     <thead class="thead-light">
                                                         <tr>
-                                                            <th>Order</th>
-                                                            <th>Date</th>
-                                                            <th>Status</th>
-                                                            <th>Total</th>
-                                                            <th>Action</th>
+                                                            <th>Mã đơn hàng</th>
+                                                            <th>Ngày đặt hàng</th>
+                                                            <th>Trạng thái</th>
+                                                            <th>Tổng tiền</th>
+                                                            <th>Hành động</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr>
-                                                            <td>1</td>
-                                                            <td>Aug 22, 2022</td>
-                                                            <td>Pending</td>
-                                                            <td>$3000</td>
-                                                            <td><a href="cart.html" class="check-btn sqr-btn ">View</a></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>2</td>
-                                                            <td>July 22, 2022</td>
-                                                            <td>Approved</td>
-                                                            <td>$200</td>
-                                                            <td><a href="cart.html" class="check-btn sqr-btn ">View</a></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>3</td>
-                                                            <td>June 12, 2017</td>
-                                                            <td>On Hold</td>
-                                                            <td>$990</td>
-                                                            <td><a href="cart.html" class="check-btn sqr-btn ">View</a></td>
-                                                        </tr>
+                                                        <?php
+                                                        if (!empty($orders)) {
+                                                            foreach ($orders as $order) {
+                                                        ?>
+                                                                <tr>
+                                                                    <td>#<?php echo $order['id']; ?></td>
+                                                                    <td><?php echo $order['created_at']; ?></td>
+                                                                    <td><?php
+                                                                        switch ($order['status']) {
+                                                                            case 'pending':
+                                                                                echo '<span class="badge bg-warning">Chờ xử lý</span>';
+                                                                                break;
+                                                                            case 'processing':
+                                                                                echo '<span class="badge bg-info">Đang xử lý</span>';
+                                                                                break;
+                                                                            case 'completed':
+                                                                                echo '<span class="badge bg-success">Đã hoàn thành</span>';
+                                                                                break;
+                                                                            case 'cancelled':
+                                                                                echo '<span class="badge bg-danger">Đã hủy</span>';
+                                                                                break;
+                                                                            default:
+                                                                                echo '<span class="badge bg-secondary">Chưa xác định</span>';
+                                                                                break;
+                                                                        }
+                                                                        ?>
+                                                                    </td>
+                                                                    <td><?php echo number_format($order['total'], 0, ',', '.'); ?> VNĐ</td>
+                                                                    <td><a href="/order/detail/<?php echo $order['id']; ?>" class="check-btn sqr-btn ">Xem</a></td>
+                                                                </tr>
+                                                        <?php
+                                                            }
+                                                        }
+                                                        ?>
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -86,7 +99,7 @@ require_once __DIR__ . '/../../layouts/header.php';
                                         <div class="myaccount-content">
                                             <h3>Thông tin tài khoản</h3>
                                             <div class="account-details-form">
-                                                <form action="#">
+                                                <form action="/account/update" method="post">
                                                     <div class="single-input-item">
                                                         <label for="username">Tên người dùng</label>
                                                         <input type="text" id="username" placeholder="Tên người dùng"
@@ -95,52 +108,53 @@ require_once __DIR__ . '/../../layouts/header.php';
 
                                                     <div class="single-input-item">
                                                         <label for="display-name" class="required">Họ và tên</label>
-                                                        <input type="text" id="display-name" placeholder="Họ và tên"
+                                                        <input type="text" id="display-name" name="fullname" placeholder="Họ và tên"
                                                             value="<?php echo isset($_SESSION['user']['fullname']) ? $_SESSION['user']['fullname'] : ''; ?>" required />
                                                     </div>
 
                                                     <div class="single-input-item">
                                                         <label for="email" class="required">Địa chỉ email</label>
-                                                        <input type="email" id="email" placeholder="Địa chỉ email"
+                                                        <input type="email" id="email" name="email" placeholder="Địa chỉ email"
                                                             value="<?php echo isset($_SESSION['user']['email']) ? $_SESSION['user']['email'] : ''; ?>" required />
                                                     </div>
 
                                                     <div class="single-input-item">
                                                         <label for="phone" class="required">Số điện thoại</label>
-                                                        <input type="text" id="phone" placeholder="Số điện thoại"
+                                                        <input type="text" id="phone" name="phone" placeholder="Số điện thoại"
                                                             value="<?php echo isset($_SESSION['user']['phone']) ? $_SESSION['user']['phone'] : ''; ?>" required />
                                                     </div>
 
                                                     <div class="single-input-item">
-                                                        <button class="check-btn sqr-btn" type="submit" name="save-info">
+                                                        <button class="check-btn sqr-btn" type="submit" name="update-info">
                                                             <i class="fa fa-save"></i> Lưu thay đổi
                                                         </button>
                                                     </div>
-
-                                                    <fieldset>
-                                                        <legend style="margin-bottom: 20px;">#Đổi mật khẩu</legend>
-                                                        <div class="single-input-item">
-                                                            <label for="current-pwd" class="required">Mật khẩu hiện tại</label>
-                                                            <input type="password" id="current-pwd" placeholder="Mật khẩu hiện tại" />
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-lg-6">
-                                                                <div class="single-input-item">
-                                                                    <label for="new-pwd" class="required">Mật khẩu mới</label>
-                                                                    <input type="password" id="new-pwd" placeholder="Mật khẩu mới" />
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-6">
-                                                                <div class="single-input-item">
-                                                                    <label for="confirm-pwd" class="required">Xác nhận mật khẩu</label>
-                                                                    <input type="password" id="confirm-pwd" placeholder="Xác nhận mật khẩu" />
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </fieldset>
+                                                </form>
+                                                <form action="/account/update" method="post">
+                                                <fieldset>
+                                                    <legend style="margin-bottom: 20px;">#Đổi mật khẩu</legend>
                                                     <div class="single-input-item">
-                                                        <button class="check-btn sqr-btn"><i class="fa fa-lock"></i> Đổi mật khẩu</button>
+                                                        <label for="current-pwd" class="required">Mật khẩu hiện tại</label>
+                                                        <input type="password" name="password" id="current-pwd" minlength="6" placeholder="Mật khẩu hiện tại" required/>
                                                     </div>
+                                                    <div class="row">
+                                                        <div class="col-lg-6">
+                                                            <div class="single-input-item">
+                                                                <label for="new-pwd" class="required">Mật khẩu mới</label>
+                                                                <input type="password" name="new-password" id="new-pwd" minlength="6" placeholder="Mật khẩu mới" required/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <div class="single-input-item">
+                                                                <label for="confirm-pwd" class="required">Xác nhận mật khẩu</label>
+                                                                <input type="password" name="confirm-password" id="confirm-pwd" minlength="6" placeholder="Xác nhận mật khẩu" required/>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </fieldset>
+                                                <div class="single-input-item">
+                                                    <button class="check-btn sqr-btn" type="submit" name="change-password"><i class="fa fa-lock"></i> Đổi mật khẩu</button>
+                                                </div>
                                                 </form>
                                             </div>
                                         </div>
@@ -155,3 +169,26 @@ require_once __DIR__ . '/../../layouts/header.php';
     </div>
 </main>
 <?php require_once __DIR__ . '/../../layouts/footer.php'; ?>
+<?php if (!empty($error)): ?>
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: <?= json_encode($error) ?>
+        }).then(() => {
+            window.location.href = <?= json_encode($redirect ?? "/account") ?>;
+        });
+    </script>
+<?php endif; ?>
+
+<?php if (!empty($success)): ?>
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Success!',
+            text: <?= json_encode($success) ?>
+        }).then(() => {
+            window.location.href = <?= json_encode($redirect ?? "/account") ?>;
+        });
+    </script>
+<?php endif; ?>

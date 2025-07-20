@@ -26,8 +26,9 @@ class CategoryController extends BaseController
             return;
         }
         $products = $this->productModel->getProductByCategory($category['id']);
-        $data['category'] = $category;
+        $data['detailCategory'] = $category;
         $data['products'] = $products;
+        $data['breadcrumbs'] = $category['name'];
         $this->view('site/category/detail', $data);
     }
 }

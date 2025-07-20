@@ -1,24 +1,87 @@
 <?php
-$category = $data['category'];
-$products = $data['products'];
+require_once __DIR__ . '/../../layouts/header.php';
 ?>
-<h1>Danh mục: <?= $category['name'] ?></h1>
-<div class="row">
-    <div class="col-md-12">
-        <h2>Sản phẩm</h2>
-    </div>
-    <?php foreach ($products as $product): ?>
-        <div class="col-md-4">
-            <div class="card">
-                <img src="/uploads/products/<?= $product['image'] ?>" alt="<?= $product['name'] ?>">
-                <div class="card-body">
-                    <h5 class="card-title"><?= $product['name'] ?></h5>
-                    <p class="card-text"><?= $product['description'] ?></p>
-                    <p class="card-text"><?= $product['price'] ?></p>
-                    <p class="card-text"><?= $product['slug'] ?></p>
-                    <a href="/product/detail/<?= $product['slug'] ?>" class="btn btn-primary">Xem chi tiết</a>
+<?php require_once __DIR__ . '/../components/breadcrumb.php'; ?>
+<main>
+<div class="page-section pt-100 pb-50">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="section-title text-center pb-44">
+                    <p><?= $detailCategory['name'] ?></p>
+                    <h2 class="text-white"><?= $detailCategory['name'] ?></h2>
                 </div>
             </div>
         </div>
-    <?php endforeach; ?>
-</div>  
+
+        <div class="row">
+            <?php foreach ($products as $product) : ?>
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                    <div class="product-item item-black">
+                        <div class="product-thumb">
+                            <a href="/product/detail/<?php echo $product['slug']; ?>">
+                                <img src="/uploads/products/<?php echo $product['image']; ?>" alt="product image">
+                            </a>
+                            <div class="box-label">
+                                <div class="product-label new">
+                                    <span>new</span>
+                                </div>
+                            </div>
+                            <div class="product-action-link">
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#quick_view" title="Quick view">
+                                    <i class="ion-ios-eye-outline"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="product-description text-center">
+                            <div class="manufacturer">
+                                <p><a href="/category/detail/<?php echo $product['category_slug']; ?>"><?php echo $product['category_name']; ?></a></p>
+                            </div>
+                            <div class="product-name">
+                                <h3><a href="/product/detail/<?php echo $product['slug']; ?>"><?php echo $product['name']; ?></a></h3>
+                            </div>
+                            <div class="price-box">
+                                <span class="regular-price"><?php echo number_format($product['price'], 0, ',', '.'); ?> VNĐ</span>
+                            </div>
+                            <div class="hover-box text-center">
+                                <div class="product-btn">
+                                    <form action="/cart/add/<?php echo $product['id']; ?>" method="post">
+                                        <input type="hidden" name="quantity" value="1">
+                                        <button type="submit" class="btn btn-light"><i class="ion-bag"></i>Thêm vào giỏ hàng</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+
+    </div>
+</div>
+</main>
+
+<?php require_once __DIR__ . '/../../layouts/footer.php'; ?>
+<?php if (!empty($error)): ?>
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: <?= json_encode($error) ?>
+        }).then(() => {
+            window.location.href = <?= json_encode($redirect ?? "/home") ?>;
+        });
+    </script>
+<?php endif; ?>
+
+<?php if (!empty($success)): ?>
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Success!',
+            text: <?= json_encode($success) ?>
+        }).then(() => {
+            window.location.href = <?= json_encode($redirect ?? "/home") ?>;
+        });
+    </script>
+<?php endif; ?>

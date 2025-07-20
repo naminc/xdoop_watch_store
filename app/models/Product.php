@@ -13,7 +13,7 @@ class Product extends Model
     }
     public function getProductByCategory($categoryId)
     {
-        $stmt = $this->db->prepare("SELECT * FROM products WHERE category_id = ?");
+        $stmt = $this->db->prepare("SELECT products.*, categories.name as category_name, categories.slug as category_slug FROM products JOIN categories ON products.category_id = categories.id WHERE products.category_id = ?");
         $stmt->bind_param("i", $categoryId);
         $stmt->execute();
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
@@ -58,5 +58,12 @@ class Product extends Model
         $stmt->bind_param("sssdiisi", $name, $description, $image, $price, $category_id, $status, $slug, $id);
         $stmt->execute();
         return $stmt->affected_rows > 0;
+    }
+    public function getBySlug($slug)
+    {
+        $stmt = $this->db->prepare("SELECT products.*, categories.name as category_name FROM products JOIN categories ON products.category_id = categories.id WHERE products.slug = ?");
+        $stmt->bind_param("s", $slug);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_assoc();
     }
 }

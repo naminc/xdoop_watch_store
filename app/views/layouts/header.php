@@ -7,37 +7,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="keywords" content="<?php echo $setting['keyword']; ?>">
     <meta name="description" content="<?php echo $setting['description']; ?>">
-    <!-- Site title -->
     <title><?php echo $setting['title']; ?></title>
-    <!-- Favicon -->
     <link rel="shortcut icon" href="<?php echo $setting['icon']; ?>" type="image/x-icon">
-    <!-- Bootstrap CSS -->
     <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font-Awesome CSS -->
     <link href="/assets/css/font-awesome.min.css" rel="stylesheet">
-    <!-- IonIcon CSS -->
     <link href="/assets/css/ionicons.min.css" rel="stylesheet">
-    <!-- helper class css -->
     <link href="/assets/css/helper.min.css" rel="stylesheet">
-    <!-- Plugins CSS -->
     <link href="/assets/css/plugins.css" rel="stylesheet">
-    <!-- Main Style CSS -->
     <link href="/assets/css/style-green.css?v=<?php echo time(); ?>" rel="stylesheet">
-    <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- SweetAlert2 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <!-- Custom JS -->
     <script src="/assets/js/custom.js?v=<?php echo time(); ?>"></script>
 </head>
 
 <body class="theme-color-5">
-
-    <!-- header area start -->
     <header>
-
-        <!-- header top start -->
         <div class="header-top-area theme-color-5 text-center text-md-start bdr-bottom">
             <div class="container">
                 <div class="row">
@@ -51,14 +36,14 @@
                             <nav>
                                 <ul>
                                     <?php if (isset($_SESSION['user']) && $_SESSION['user']['role'] == 'admin') { ?>
-                                    <li>
-                                        <div class="dropdown header-top-dropdown">
-                                            <a id="adminpanel" href="/admin/dashboard">
-                                                Admin Panel
-                                                <i class="fa fa-cogs"></i>
-                                            </a>
-                                        </div>
-                                    </li>
+                                        <li>
+                                            <div class="dropdown header-top-dropdown">
+                                                <a id="adminpanel" href="/admin/dashboard">
+                                                    Admin Panel
+                                                    <i class="fa fa-cogs"></i>
+                                                </a>
+                                            </div>
+                                        </li>
                                     <?php } ?>
                                     <li>
                                         <div class="dropdown header-top-dropdown">
@@ -108,9 +93,6 @@
                 </div>
             </div>
         </div>
-        <!-- header top end -->
-
-        <!-- main menu area start -->
         <div class="header-main sticky hm_5 theme-color-5 pt-sm-10 pb-sm-10 pt-md-10 pb-md-10">
             <div class="container">
                 <div class="row align-items-center">
@@ -152,44 +134,14 @@
                             <div class="search-wrap">
                                 <button type="submit" class="search-trigger"><i class="ion-ios-search-strong"></i></button>
                             </div>
-                            <div class="header-mini-cart">
-                                <div class="mini-cart-btn">
-                                    <i class="ion-bag"></i>
-                                    <span class="cart-notification">2</span>
+                            
+                                <div class="header-mini-cart">
+                                    <div class="mini-cart-btn">
+                                    <a href="/cart/index" class="text-white">
+                                        <i class="ion-bag"></i>
+                                        <span class="cart-notification"><?php echo $cartCount ?? 0; ?></span>
+                                    </a>
                                 </div>
-                                <ul class="cart-list">
-                                    <li>
-                                        <div class="cart-img">
-                                            <a href="product-details.html"><img src="/assets/img/cart/cart-1.jpg" alt=""></a>
-                                        </div>
-                                        <div class="cart-info">
-                                            <h4><a href="product-details.html">simple product 09</a></h4>
-                                            <span>$60.00</span>
-                                        </div>
-                                        <div class="del-icon">
-                                            <i class="fa fa-times"></i>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="cart-img">
-                                            <a href="product-details.html"><img src="/assets/img/cart/cart-2.jpg" alt=""></a>
-                                        </div>
-                                        <div class="cart-info">
-                                            <h4><a href="product-details.html">virtual product 10</a></h4>
-                                            <span>$50.00</span>
-                                        </div>
-                                        <div class="del-icon">
-                                            <i class="fa fa-times"></i>
-                                        </div>
-                                    </li>
-                                    <li class="mini-cart-price">
-                                        <span class="subtotal">subtotal : </span>
-                                        <span class="subtotal-price ms-auto">$110.00</span>
-                                    </li>
-                                    <li class="checkout-btn">
-                                        <a href="#">checkout</a>
-                                    </li>
-                                </ul>
                             </div>
                         </div>
                     </div>
@@ -199,9 +151,6 @@
                 </div>
             </div>
         </div>
-        <!-- main menu area end -->
-
-        <!-- Start Search Popup -->
         <div class="box-search-content search_active block-bg close__top">
             <form class="minisearch" action="#">
                 <div class="field__search">
@@ -215,7 +164,4 @@
                 <span>Đóng</span>
             </div>
         </div>
-        <!-- End Search Popup -->
-
     </header>
-    <!-- header area end -->
