@@ -12,13 +12,18 @@ class BaseController
     protected $cartCount = 0;
     public function __construct()
     {
-        $settingModel = new Setting();
-        $this->setting = $settingModel->getSetting();
-        $categoryModel = new Category();
-        $this->categories = $categoryModel->getAll();
+        $settingM = new Setting();
+        $this->setting = $settingM->getSetting();
+
+        if ($this->setting['maintenance'] == 'on') {
+            die('Website đang được bảo trì, vui lòng quay lại sau.');
+        }
+        $categoryM = new Category();
+        $this->categories = $categoryM->getAll();
         if (isset($_SESSION['user'])) {
-            $cartModel = new Cart();
-            $this->cartCount = $cartModel->getCartCount($_SESSION['user']['id']);
+            $cartM = new Cart();
+            $cartM->setUserId($_SESSION['user']['id']);
+            $this->cartCount = $cartM->getCartCount();
         }
     }
     protected function view($viewPath, $data = [])

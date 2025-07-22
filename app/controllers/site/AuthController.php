@@ -7,29 +7,28 @@ use models\User;
 
 class AuthController extends BaseController
 {
-    private $userModel;
     public function __construct()
     {
-        parent::__construct();
-        $this->userModel = new User();
+        parent::__construct(); // gọi constructor của BaseController
     }
 
     public function login()
     {
         $data = [];
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
-            $username = $_POST['username'] ?? '';
-            $password = $_POST['password'] ?? '';
-            if (empty($username) || empty($password)) {
+            $userM = new User(); // khởi tạo model User
+            $userM->setUsername($_POST['username'] ?? ''); // set username
+            $userM->setPassword($_POST['password'] ?? ''); // set password
+            if (empty($userM->getUsername()) || empty($userM->getPassword())) { 
                 $data['error'] = 'Tên đăng nhập và mật khẩu không được để trống.';
-            } else if (strlen($username) < 6) {
+            } else if (strlen($userM->getUsername()) < 6) {
                 $data['error'] = 'Tên đăng nhập phải có ít nhất 6 ký tự.';
-            } else if (strlen($password) < 6) {
+            } else if (strlen($userM->getPassword()) < 6) {
                 $data['error'] = 'Mật khẩu phải có ít nhất 6 ký tự.';
             } else {
-                $user = $this->userModel->checkLogin($username, $password);
-                if ($user) {
-                    $_SESSION['user'] = $user;
+                $user = $userM->checkLogin(); // kiểm tra xem tên đăng nhập và mật khẩu có khớp không
+                if ($user) { // kiểm tra xem tên đăng nhập và mật khẩu có khớp không
+                    $_SESSION['user'] = $user; // lưu thông tin người dùng vào session
                     $data['success'] = 'Đăng nhập thành công!';
                     $data['redirect'] = '/home';
                 } else {
@@ -38,33 +37,32 @@ class AuthController extends BaseController
             }
         }
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
-            $username         = trim($_POST['username'] ?? '');
-            $email            = trim($_POST['email'] ?? '');
-            $password         = $_POST['password'] ?? '';
-            $confirm_password = $_POST['confirm_password'] ?? '';
-            $role             = 'user';
-            $status           = 1;
-            $ip = filter_var($_SERVER['REMOTE_ADDR'], FILTER_VALIDATE_IP) ?: 'unknown';
-            $user_agent = substr($_SERVER['HTTP_USER_AGENT'] ?? 'unknown', 0, 255);
+            $userM = new User(); // khởi tạo model User
+            $userM->setUsername($_POST['username'] ?? ''); // set username
+            $userM->setEmail($_POST['email'] ?? ''); // set email
+            $userM->setPassword($_POST['password'] ?? ''); // set password
+            $confirm_password = $_POST['confirm_password'] ?? ''; // lấy confirm password
+            $userM->setRole('user'); // set role
+            $userM->setStatus(1); // set status
+            $userM->setIpAddress(filter_var($_SERVER['REMOTE_ADDR'], FILTER_VALIDATE_IP) ?: 'unknown'); // set ip address
+            $userM->setUserAgent(substr($_SERVER['HTTP_USER_AGENT'] ?? 'unknown', 0, 255)); // set user agent
 
-            // Kiểm tra thông tin đăng ký
-            if (!$username || !$email || !$password || !$confirm_password) {
+            if (!$userM->getUsername() || !$userM->getEmail() || !$userM->getPassword() || !$confirm_password) { // kiểm tra xem tên đăng nhập, email, password và confirm password có rỗng không
                 $data['error'] = 'Vui lòng điền đầy đủ thông tin.';
-            } elseif (strlen($username) < 6) {
+            } elseif (strlen($userM->getUsername()) < 6) { // kiểm tra xem tên đăng nhập có ít nhất 6 ký tự không
                 $data['error'] = 'Tên đăng nhập phải có ít nhất 6 ký tự.';
-            } elseif (strlen($password) < 6) {
+            } elseif (strlen($userM->getPassword()) < 6) { // kiểm tra xem password có ít nhất 6 ký tự không
                 $data['error'] = 'Mật khẩu phải có ít nhất 6 ký tự.';
-            } elseif ($password !== $confirm_password) {
+            } elseif ($userM->getPassword() !== $confirm_password) { // kiểm tra xem password và confirm password có khớp không
                 $data['error'] = 'Mật khẩu và xác nhận mật khẩu không khớp.';
-            } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            } elseif (!filter_var($userM->getEmail(), FILTER_VALIDATE_EMAIL)) { // kiểm tra xem email có hợp lệ không
                 $data['error'] = 'Email không hợp lệ.';
-            } elseif ($this->userModel->checkUsername($username) > 0) {
+            } elseif ($userM->checkUsername() > 0) { // kiểm tra xem tên đăng nhập đã tồn tại chưa
                 $data['error'] = 'Tên đăng nhập đã tồn tại. Vui lòng chọn tên khác.';
-            } elseif ($this->userModel->checkEmail($email) > 0) {
+            } elseif ($userM->checkEmail() > 0) { // kiểm tra xem email đã tồn tại chưa
                 $data['error'] = 'Email đã tồn tại. Vui lòng chọn email khác.';
             } else {
-                // Tạo tài khoản, gọi hàm register trong model User
-                if ($this->userModel->register($username, $email, $password, $role, $status, $ip, $user_agent)) {
+                if ($userM->register()) { // đăng ký
                     $data['success'] = 'Đăng ký thành công! Vui lòng đăng nhập để tiếp tục.';
                     $data['redirect'] = '/auth/login';
                 } else {
@@ -72,15 +70,14 @@ class AuthController extends BaseController
                 }
             }
         }
-        // Hiển thị view login và truyền dữ liệu
-        $data['breadcrumbs'] = 'Đăng nhập - Đăng ký';
-        $this->view('site/auth/login', $data);
+        $data['breadcrumbs'] = 'Đăng nhập - Đăng ký'; // lấy breadcrumbs
+        $this->view('site/auth/login', $data); // hiển thị view login
     }
 
     public function logout()
     {
-        session_destroy();
-        header("Location: /");
+        session_destroy(); // hủy session
+        header("Location: /"); // chuyển hướng đến trang chủ
         exit;
     }
 }

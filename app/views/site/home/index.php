@@ -6,7 +6,7 @@
                 <div class="slider-content text-center">
                     <h1>Một chiếc đồng hồ thông minh với<br>màn hình luôn bật<br>và tính năng Fitbit.</h1>
                     <h3 class="text-white">Và thời lượng pin 30 ngày</h3>
-                    <a href="/" class="slider-btn">Xem bộ sưu tập</a>
+                    <a href="#all-product" class="slider-btn">Xem bộ sưu tập</a>
                 </div>
             </div>
         </div>
@@ -15,7 +15,7 @@
                 <div class="slider-content text-center ms-auto">
                     <h1>Một chiếc đồng hồ thông minh với<br>màn hình luôn bật<br>và tính năng Fitbit.</h1>
                     <h3 class="text-white">Và thời lượng pin 30 ngày</h3>
-                    <a href="/" class="slider-btn">Xem bộ sưu tập</a>
+                    <a href="#all-product" class="slider-btn">Xem bộ sưu tập</a>
                 </div>
             </div>
         </div>
@@ -57,7 +57,7 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <div class="section-title text-center pb-44">
+                <div class="section-title text-center pb-44" id="all-product">
                     <p>Tất cả sản phẩm</p>
                     <h2 class="text-white">Tất cả sản phẩm</h2>
                 </div>

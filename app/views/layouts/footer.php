@@ -64,8 +64,8 @@
                                 <ul class="useful-link">
                                     <li><a href="/about">Giới thiệu</a></li>
                                     <li><a href="/contact">Liên hệ</a></li>
-                                    <li><a href="/promotion">Khuyến mãi</a></li>
-                                    <li><a href="/">Điều khoản điều kiện</a></li>
+                                    <li><a href="#">Khuyến mãi</a></li>
+                                    <li><a href="#">Điều khoản điều kiện</a></li>
                                     <li><a href="/">Trang chủ</a></li>
                                 </ul>
                             </div>

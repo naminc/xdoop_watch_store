@@ -121,7 +121,7 @@
                                                 <?php endif; ?>
                                             </ul>
                                         </li>
-                                        <li><a href="/promotion">Khuyến mãi</a></li>
+                                        <li><a href="#">Khuyến mãi</a></li>
                                         <li><a href="/about">Giới thiệu</a></li>
                                         <li><a href="/contact">Liên hệ</a></li>
                                     </ul>
@@ -152,11 +152,11 @@
             </div>
         </div>
         <div class="box-search-content search_active block-bg close__top">
-            <form class="minisearch" action="#">
+            <form class="minisearch" action="/search/detail" method="get">
                 <div class="field__search">
-                    <input type="text" placeholder="Tìm kiếm sản phẩm">
+                    <input type="text" name="keyword" placeholder="Tìm kiếm sản phẩm">
                     <div class="action">
-                        <a href="#"><i class="fa fa-search"></i></a>
+                        <button type="submit"><i class="fa fa-search"></i></button>
                     </div>
                 </div>
             </form>

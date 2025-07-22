@@ -6,30 +6,30 @@ use Exception;
 
 class Database
 {
-    private static $instance = null;
-    private $conn;
+    private static $instance = null; // instance
+    private $conn; // conn
 
-    private function __construct()
+    private function __construct() // constructor
     {
-        $host = "localhost";
-        $user = "root";
-        $pass = "";
-        $dbname = "ruiz-watch";
+        $host = "localhost"; // host
+        $user = "root"; // user
+        $pass = ""; // pass
+        $dbname = "ruiz-watch"; // dbname
 
-        $this->conn = new mysqli($host, $user, $pass, $dbname);
+        $this->conn = new mysqli($host, $user, $pass, $dbname); // kết nối đến database
 
-        if ($this->conn->connect_error) {
-            die("Kết nối thất bại: " . $this->conn->connect_error);
+        if ($this->conn->connect_error) { // kiểm tra xem có lỗi kết nối không
+            die("Kết nối thất bại: " . $this->conn->connect_error); // hiển thị lỗi kết nối
         }
 
-        $this->conn->set_charset("utf8");
+        $this->conn->set_charset("utf8"); // set charset
     }
 
-    public static function getInstance()
+    public static function getInstance() // lấy instance của database
     {
-        if (self::$instance === null) {
-            self::$instance = new Database();
+        if (self::$instance === null) { // kiểm tra xem instance đã tồn tại chưa
+            self::$instance = new Database(); // khởi tạo instance
         }
-        return self::$instance->conn;
+        return self::$instance->conn; // trả về instance
     }
 }

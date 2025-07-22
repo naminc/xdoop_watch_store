@@ -7,28 +7,27 @@ use models\Category;
 
 class CategoryController extends BaseController
 {
-    private $categoryModel;
     public function __construct()
     {
-        parent::__construct();
-        $this->categoryModel = new Category();
+        parent::__construct(); // gọi constructor của BaseController
     }
     public function index()
     {
-        $data['categories'] = $this->categoryModel->getAll();
-        $this->view('admin/category/index', $data);
+        $categoryM = new Category(); // khởi tạo model Category
+        $data['categories'] = $categoryM->getAll(); // lấy tất cả danh mục
+        $this->view('admin/category/index', $data); // hiển thị view index
     }
 
     public function create()
     {
         $data = [];
+        $categoryM = new Category(); // khởi tạo model Category
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['create'])) {
-            $name = $_POST['name'];
-            $description = $_POST['description'];
-            $status = $_POST['status'];
-            $slug = $this->generateSlug($name);
-            $result = $this->categoryModel->create($name, $slug, $description, $status);
-            if ($result) {
+            $categoryM->setName($_POST['name']); // set name
+            $categoryM->setDescription($_POST['description']); // set description
+            $categoryM->setStatus($_POST['status']); // set status
+            $categoryM->setSlug($this->generateSlug($categoryM->getName())); // tạo slug
+            if ($categoryM->create()) {
                 $data['success'] = 'Thêm danh mục thành công';
                 $data['redirect'] = '/admin/category/index';
             } else {
@@ -36,46 +35,49 @@ class CategoryController extends BaseController
                 $data['redirect'] = '/admin/category/create';
             }
         }
-        $this->view('admin/category/create', $data);
+        $this->view('admin/category/create', $data); // hiển thị view create
     }
     public function edit($id)
     {
         $data = [];
-        $data['dcategory'] = $this->categoryModel->getByID($id);
+        $categoryM = new Category(); // khởi tạo model Category
+        $categoryM->setId($id); // set id
+        $data['dcategory'] = $categoryM->getByID(); // lấy danh mục theo id
         if (!$data['dcategory']) {
             $data['error'] = 'Danh mục không tồn tại';
             $data['redirect'] = '/admin/category/index';
         }
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['edit'])) {
-            $name = $_POST['name'];
-            $description = $_POST['description'];
-            $status = $_POST['status'];
-            $slug = $this->generateSlug($name);
-            $result = $this->categoryModel->update($id, $name, $slug, $description, $status);
-            if ($result) {
-                $data['success'] = 'Cập nhật danh mục thành công';
-                $data['redirect'] = '/admin/category/index';
+            $categoryM->setName($_POST['name']); // set name
+            $categoryM->setDescription($_POST['description']); // set description
+            $categoryM->setStatus($_POST['status']); // set status
+            $categoryM->setSlug($this->generateSlug($categoryM->getName())); // tạo slug
+            if ($categoryM->update()) { // cập nhật danh mục
+                $data['success'] = 'Cập nhật danh mục thành công'; 
+                $data['redirect'] = '/admin/category/index'; 
             } else {
                 $data['error'] = 'Cập nhật danh mục thất bại';
                 $data['redirect'] = '/admin/category/edit/' . $id;
             }
         }
-        $this->view('admin/category/edit', $data);
+        $this->view('admin/category/edit', $data); // hiển thị view edit
     }
     public function delete($id)
     {
-        $result = $this->categoryModel->delete($id);
-        if ($result) {
-            $data['success'] = 'Xóa danh mục thành công';
-            $data['redirect'] = '/admin/category/index';
+        $data = [];
+        $categoryM = new Category(); // khởi tạo model Category
+        $categoryM->setId($id); // set id
+        if ($categoryM->delete()) { // xóa danh mục
+            $data['success'] = 'Xóa danh mục thành công'; 
+            $data['redirect'] = '/admin/category/index'; 
         } else {
             $data['error'] = 'Xóa danh mục thất bại';
             $data['redirect'] = '/admin/category/index';
         }
-        $this->view('admin/category/index', $data);
+        $this->view('admin/category/index', $data); // hiển thị view index
     }
 
-    private function generateSlug($string)
+    private function generateSlug($string) // tạo slug
     {
         $string = $this->stripVietnamese($string);
         $slug = strtolower($string);
@@ -86,7 +88,7 @@ class CategoryController extends BaseController
         return $slug;
     }
     
-    private function stripVietnamese($str)
+    private function stripVietnamese($str) // xóa dấu tiếng việt
     {
         $accents = [
             'a' => 'áàạảãâấầậẩẫăắằặẳẵ',

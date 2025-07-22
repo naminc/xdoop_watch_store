@@ -8,14 +8,9 @@ use models\Cart;
 
 class CartController extends BaseController
 {
-    private $productModel;
-    private $cartModel;
-
     public function __construct()
     {
         parent::__construct();
-        $this->productModel = new Product();
-        $this->cartModel = new Cart();
     }
     public function index()
     {
@@ -26,8 +21,10 @@ class CartController extends BaseController
             $this->view('site/home/index', $data);
             return;
         }
-        $data['cart'] = $this->cartModel->getCart($_SESSION['user']['id']);
-        $data['subtotal'] = $this->cartModel->getCartSubtotal($_SESSION['user']['id']);
+        $cartM = new Cart();
+        $cartM->setUserId($_SESSION['user']['id']);
+        $data['cart'] = $cartM->getCart();
+        $data['subtotal'] = $cartM->getCartSubtotal();
         $data['breadcrumbs'] = 'Giỏ hàng';
         $this->view('site/cart/index', $data);
     }
@@ -40,7 +37,9 @@ class CartController extends BaseController
             $this->view('site/home/index', $data);
             return;
         }
-        $product = $this->productModel->getProductById($id);
+        $productM = new Product();
+        $productM->setId($id);
+        $product = $productM->getProductById();
         if (!$product) {
             $data['error'] = 'Sản phẩm không tồn tại.';
             $data['redirect'] = '/home';
@@ -48,11 +47,12 @@ class CartController extends BaseController
             return;
         }
 
-        $quantity = $_POST['quantity'] ?? 1;
-        $quantity = max(1, intval($quantity));
-        $user_id = $_SESSION['user']['id'];
+        $cartM = new Cart();
+        $cartM->setUserId($_SESSION['user']['id']);
+        $cartM->setProductId($productM->getId());
+        $cartM->setQuantity(max(1, intval($_POST['quantity'] ?? 1)));
 
-        if ($this->cartModel->addToCart($user_id, $id, $quantity)) {
+        if ($cartM->addToCart()) {
             $data['success'] = 'Thêm sản phẩm vào giỏ hàng thành công.';
             $data['redirect'] = '/home';
         } else {
@@ -62,16 +62,12 @@ class CartController extends BaseController
 
         $this->view('site/home/index', $data);
     }
-    public function update($id)
-    {
-        $data = [];
-        $data['cart'] = $this->cartModel->getCart($_SESSION['user']['id']);
-        $this->view('site/cart/index', $data);
-    }
     public function remove($id)
     {
         $data = [];
-        if ($this->cartModel->removeFromCart($id)) {
+        $cartM = new Cart();
+        $cartM->setId($id);
+        if ($cartM->removeFromCart()) {
             $data['success'] = 'Xóa sản phẩm khỏi giỏ hàng thành công.';
             $data['redirect'] = '/cart/index';
         } else {

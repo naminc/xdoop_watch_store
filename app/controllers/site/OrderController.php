@@ -3,27 +3,28 @@ namespace controllers\site;
 
 use core\BaseController;
 use models\Order;
-
+use models\OrderItem;
 class OrderController extends BaseController
 {
-    private $orderModel;
-
     public function __construct()
     {
         parent::__construct();
-        $this->orderModel = new Order();
     }
 
     public function detail($id = '')
     {
-        $order = $this->orderModel->getOrder($id);
+        $orderM = new Order();
+        $orderM->setId($id);
+        $order = $orderM->getOrder();
         if (!$order) {
             http_response_code(404);
             echo "404 - Đơn hàng không tồn tại.";
             return;
         }
         $data['order'] = $order;
-        $data['orderItems'] = $this->orderModel->getOrderItems($id);
+        $orderItemM = new OrderItem();
+        $orderItemM->setOrderId($id);
+        $data['orderItems'] = $orderItemM->getOrderItemsByOrderId();
         $data['breadcrumbs'] = 'Chi tiết đơn hàng';
         $this->view('site/order/detail', $data);
     }

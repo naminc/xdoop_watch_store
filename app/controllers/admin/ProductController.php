@@ -8,61 +8,53 @@ use models\Product;
 
 class ProductController extends BaseController
 {
-    private $categoryModel;
-    private $productModel;
     public function __construct()
     {
-        parent::__construct();
-        $this->categoryModel = new Category();
-        $this->productModel = new Product();
+        parent::__construct(); // gọi constructor của BaseController
     }
     public function index()
     {
-        $data['products'] = $this->productModel->getAll();
-        $this->view('admin/product/index', $data);
+        $productM = new Product(); // khởi tạo model Product
+        $data['products'] = $productM->getAll(); // lấy tất cả sản phẩm
+        $this->view('admin/product/index', $data); // hiển thị view index
     }
     public function create()
     {
         $data = [];
-        $data['list_category'] = $this->categoryModel->getAll();
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create'])) {
-            $name = $_POST['name'];
-            $description = $_POST['description'];
-            $price = $_POST['price'];
-            $category_id = $_POST['category_id'];
-            $status = $_POST['status'];
-            $image = $_FILES['image'];
-            $slug = $this->generateSlug($name);
-            if (empty($name) || empty($description) || empty($price) || empty($category_id) || $status === "" || $image['error'] != 0) {
+        $categoryM = new Category(); // khởi tạo model Category
+        $data['list_category'] = $categoryM->getAll(); // lấy tất cả danh mục
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create'])) { // kiểm tra xem phương thức request có phải là POST và có tồn tại biến create không
+            $productM = new Product(); // khởi tạo model Product
+            $productM->setName($_POST['name']);
+            $productM->setDescription($_POST['description']); // set description
+            $productM->setPrice($_POST['price']); // set price
+            $productM->setCategoryId($_POST['category_id']); // set category id
+            $productM->setStatus($_POST['status']); // set status
+            $image = $_FILES['image']; // lấy ảnh
+            $productM->setSlug($this->generateSlug($productM->getName())); // tạo slug
+            if (empty($productM->getName()) || empty($productM->getDescription()) || empty($productM->getPrice()) || empty($productM->getCategoryId()) || $productM->getStatus() === "" || $image['error'] != 0) {
                 $data['error'] = 'Vui lòng điền đầy đủ thông tin và chọn ảnh hợp lệ';
                 $data['redirect'] = '/admin/product/create';
-                $this->view('admin/product/create', $data);
+                $this->view('admin/product/create', $data); // hiển thị view create
                 return;
             }
-            if ($this->productModel->checkSlug($slug) > 0) {
+            if ($productM->checkSlug() > 0) { // kiểm tra xem slug đã tồn tại chưa
                 $data['error'] = 'Slug đã tồn tại';
                 $data['redirect'] = '/admin/product/create';
-                $this->view('admin/product/create', $data);
+                $this->view('admin/product/create', $data); // hiển thị view create
                 return;
             }
-            $uploadDir = __DIR__ . '/../../../public/uploads/products/';
-            $uploadResult = $this->uploadImage($image, $uploadDir);
+            $uploadDir = __DIR__ . '/../../../public/uploads/products/'; // đường dẫn lưu ảnh
+            $uploadResult = $this->uploadImage($image, $uploadDir); // upload ảnh 
             if (!empty($uploadResult['error'])) {
                 $data['error'] = $uploadResult['error'];
                 $data['redirect'] = '/admin/product/create';
-                $this->view('admin/product/create', $data);
+                $this->view('admin/product/create', $data); // hiển thị view create
                 return;
             }
-            $filename = $uploadResult['filename'];
-            $result = $this->productModel->create(
-                $name,
-                $description,
-                $filename,
-                $price,
-                $category_id,
-                $status,
-                $slug
-            );
+            $filename = $uploadResult['filename']; // lấy tên ảnh
+            $productM->setImage($filename); // set ảnh
+            $result = $productM->create(); // tạo sản phẩm
             if ($result) {
                 $data['success'] = 'Thêm sản phẩm thành công';
                 $data['redirect'] = '/admin/product/index';
@@ -70,65 +62,58 @@ class ProductController extends BaseController
                 $data['error'] = 'Thêm sản phẩm thất bại';
                 $data['redirect'] = '/admin/product/create';
             }
-            $this->view('admin/product/create', $data);
+            $this->view('admin/product/create', $data); // hiển thị view create
             return;
         }
-        $this->view('admin/product/create', $data);
+        $this->view('admin/product/create', $data); // hiển thị view create
     }
     public function edit($id)
     {
-        $data['dproduct'] = $this->productModel->getProductById($id);
-        $data['list_category'] = $this->categoryModel->getAll();
+        $productM = new Product(); // khởi tạo model Product
+        $productM->setId($id); // set id
+        $data['dproduct'] = $productM->getProductById(); // lấy sản phẩm theo id
+        $categoryM = new Category(); // khởi tạo model Category
+        $data['list_category'] = $categoryM->getAll(); // lấy tất cả danh mục
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit'])) {
-            $name = $_POST['name'];
-            $description = $_POST['description'];
-            $price = $_POST['price'];
-            $category_id = $_POST['category_id'];
-            $status = $_POST['status'];
-            $image = $_FILES['image'];
-            $slug = $this->generateSlug($name);
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit'])) { 
+            $productM->setName($_POST['name']); // set name
+            $productM->setDescription($_POST['description']); // set description
+            $productM->setPrice($_POST['price']); // set price
+            $productM->setCategoryId($_POST['category_id']); // set category id
+            $productM->setStatus($_POST['status']); // set status
+            $image = $_FILES['image']; // lấy ảnh
+            $productM->setSlug($this->generateSlug($productM->getName())); // tạo slug
 
-            if (empty($name) || empty($description) || empty($price) || empty($category_id) || $status === "") {
+            if (empty($productM->getName()) || empty($productM->getDescription()) || empty($productM->getPrice()) || empty($productM->getCategoryId()) || $productM->getStatus() === "") {
                 $data['error'] = 'Vui lòng điền đầy đủ thông tin';
                 $data['redirect'] = '/admin/product/edit/' . $id;
-                $this->view('admin/product/edit', $data);
+                $this->view('admin/product/edit', $data); // hiển thị view edit
                 return;
             }
 
-            if ($this->productModel->checkSlug($slug, $id) > 0) {
+            if ($productM->checkSlug() > 0) { // kiểm tra xem slug đã tồn tại chưa
                 $data['error'] = 'Slug đã tồn tại';
                 $data['redirect'] = '/admin/product/edit/' . $id;
-                $this->view('admin/product/edit', $data);
+                $this->view('admin/product/edit', $data); // hiển thị view edit
                 return;
             }
 
-            if ($image['error'] == 0) {
-                // có ảnh mới
-                $uploadDir = __DIR__ . '/../../../public/uploads/products/';
-                $uploadResult = $this->uploadImage($image, $uploadDir);
-                if (!empty($uploadResult['error'])) {
+            if ($image['error'] == 0) { // kiểm tra xem có ảnh mới không
+                $uploadDir = __DIR__ . '/../../../public/uploads/products/'; // đường dẫn lưu ảnh
+                $uploadResult = $this->uploadImage($image, $uploadDir); // upload ảnh
+                if (!empty($uploadResult['error'])) { // kiểm tra xem có lỗi không
                     $data['error'] = $uploadResult['error'];
                     $data['redirect'] = '/admin/product/edit/' . $id;
-                    $this->view('admin/product/edit', $data);
+                    $this->view('admin/product/edit', $data); 
                     return;
                 }
-                $filename = $uploadResult['filename'];
+                $filename = $uploadResult['filename']; // lấy tên ảnh
             } else {
-                // giữ ảnh cũ
-                $filename = $data['dproduct']['image'];
+                $filename = $data['dproduct']['image']; // lấy tên ảnh cũ
             }
 
-            $result = $this->productModel->update(
-                $id,
-                $name,
-                $description,
-                $filename,
-                $price,
-                $category_id,
-                $status,
-                $slug
-            );
+            $productM->setImage($filename); // set ảnh
+            $result = $productM->update(); // cập nhật sản phẩm
 
             if ($result) {
                 $data['success'] = 'Cập nhật sản phẩm thành công';
@@ -138,16 +123,18 @@ class ProductController extends BaseController
                 $data['redirect'] = '/admin/product/edit/' . $id;
             }
 
-            $this->view('admin/product/edit', $data);
+            $this->view('admin/product/edit', $data); // hiển thị view edit
             return;
         }
 
-        $this->view('admin/product/edit', $data);
+        $this->view('admin/product/edit', $data); // hiển thị view edit
     }
 
     public function delete($id)
     {
-        $result = $this->productModel->delete($id);
+        $productM = new Product(); // khởi tạo model Product
+        $productM->setId($id); // set id
+        $result = $productM->delete(); // xóa sản phẩm
         if ($result) {
             $data['success'] = 'Xóa sản phẩm thành công';
             $data['redirect'] = '/admin/product/index';
@@ -155,25 +142,25 @@ class ProductController extends BaseController
             $data['error'] = 'Xóa sản phẩm thất bại';
             $data['redirect'] = '/admin/product/index';
         }
-        $this->view('admin/product/index', $data);
+        $this->view('admin/product/index', $data); // hiển thị view index
     }
-    private function uploadImage($file, $uploadDir)
+    private function uploadImage($file, $uploadDir) // upload ảnh
     {
-        if ($file['error'] != 0) {
+        if ($file['error'] != 0) { // kiểm tra xem có lỗi không
             return ['error' => 'Lỗi upload file'];
         }
-        $allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
-        if (!in_array($file['type'], $allowedTypes)) {
+        $allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp']; // kiểm tra xem định dạng ảnh có hợp lệ không
+        if (!in_array($file['type'], $allowedTypes)) { // kiểm tra xem định dạng ảnh có hợp lệ không
             return ['error' => 'File ảnh không hợp lệ. Chỉ chấp nhận jpeg, png, gif, webp'];
         }
-        $filename = uniqid() . '_' . basename($file['name']);
-        $targetFile = rtrim($uploadDir, '/') . '/' . $filename;
-        if (!move_uploaded_file($file['tmp_name'], $targetFile)) {
+        $filename = uniqid() . '_' . basename($file['name']); // tạo tên ảnh
+        $targetFile = rtrim($uploadDir, '/') . '/' . $filename; // đường dẫn lưu ảnh
+        if (!move_uploaded_file($file['tmp_name'], $targetFile)) { // lưu ảnh
             return ['error' => 'Không thể lưu ảnh lên server'];
         }
         return ['filename' => $filename];
     }
-    private function generateSlug($string)
+    private function generateSlug($string) // tạo slug
     {
         $string = $this->stripVietnamese($string);
         $slug = strtolower($string);
@@ -183,7 +170,7 @@ class ProductController extends BaseController
         $slug = str_replace(' ', '-', $slug);
         return $slug;
     }
-    private function stripVietnamese($str)
+    private function stripVietnamese($str) // xóa dấu tiếng việt
     {
         $accents = [
             'a' => 'áàạảãâấầậẩẫăắằặẳẵ',

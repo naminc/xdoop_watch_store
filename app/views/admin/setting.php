@@ -39,16 +39,22 @@ require_once __DIR__ . '/../layouts/header.php';
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <div class="col-lg-6">
+                                                <div class="col-lg-4">
                                                     <div class="single-input-item">
                                                         <label for="domain" class="required">Tên miền</label>
                                                         <input type="text" name="domain" placeholder="Tên miền" value="<?php echo $setting['domain']; ?>" required />
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6">
+                                                <div class="col-lg-4">
                                                     <div class="single-input-item">
                                                         <label for="brand" class="required">Thương hiệu</label>
                                                         <input type="text" name="brand" placeholder="Thương hiệu" value="<?php echo $setting['brand']; ?>" required />
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <div class="single-input-item">
+                                                        <label for="owner" class="required">Tên chủ cửa hàng</label>
+                                                        <input type="text" name="owner" placeholder="Tên chủ cửa hàng" value="<?php echo $setting['owner']; ?>" required />
                                                     </div>
                                                 </div>
                                             </div>

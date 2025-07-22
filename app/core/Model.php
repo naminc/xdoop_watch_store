@@ -3,10 +3,11 @@ namespace core;
 
 abstract class Model
 {
-    protected $db;
+    protected $db; // db
 
-    public function __construct()
+    public function __construct() // constructor
     {
-        $this->db = Database::getInstance();
+        $this->db = Database::getInstance(); // lấy instance của database
     }
+
 }
