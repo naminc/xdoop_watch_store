@@ -25,19 +25,22 @@ require_once __DIR__ . '/../../layouts/header.php';
                                             <p><strong>Ngày đặt hàng:</strong> <?= $order['created_at'] ?></p>
                                             <p><strong>Trạng thái:</strong> <?php switch ($order['status']) {
                                                 case 'pending':
-                                                    echo '<span class="badge bg-warning">Chờ xử lý</span>';
+                                                    echo '<span class="badge bg-warning"><i class="fa fa-spinner fa-spin"></i> Chờ xử lý</span>';
                                                     break;
                                                 case 'processing':
-                                                    echo '<span class="badge bg-info">Đang xử lý</span>';
+                                                    echo '<span class="badge bg-info"><i class="fa fa-spinner fa-spin"></i> Đang xử lý</span>';
                                                     break;
                                                 case 'completed':
-                                                    echo '<span class="badge bg-success">Đã hoàn thành</span>';
+                                                    echo '<span class="badge bg-success"><i class="fa fa-check"></i> Đã hoàn thành</span>';
+                                                    break;
+                                                case 'shipping':
+                                                    echo '<span class="badge bg-info"><i class="fa fa-truck"></i> Đang giao hàng</span>';
                                                     break;
                                                 case 'cancelled':
-                                                    echo '<span class="badge bg-danger">Đã hủy</span>';
+                                                    echo '<span class="badge bg-danger"><i class="fa fa-times"></i> Đã hủy</span>';
                                                     break;
                                                 default:
-                                                    echo '<span class="badge bg-secondary">Chưa xác định</span>';
+                                                    echo '<span class="badge bg-secondary"><i class="fa fa-question"></i> Chưa xác định</span>';
                                                     break;
                                             } ?></p>
                                             <p><strong>Phương thức thanh toán:</strong> <?= $order['payment_method'] == 'cash' ? 'Thanh toán khi nhận hàng' : 'Thanh toán online' ?></p>
