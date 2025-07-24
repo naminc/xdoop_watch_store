@@ -48,6 +48,7 @@ class User extends Model
     public function setUpdatedAt($updated_at) { $this->updated_at = $updated_at; }
 
 
+    // Kiểm tra đăng nhập
     public function checkLogin()
     {
         $stmt = $this->db->prepare("SELECT * FROM users WHERE username = ?");
@@ -61,6 +62,7 @@ class User extends Model
         return false;
     }
 
+    // Kiểm tra username
     public function checkUsername()
     {
         $stmt = $this->db->prepare("SELECT COUNT(*) FROM users WHERE username = ?");
@@ -69,6 +71,7 @@ class User extends Model
         return $stmt->get_result()->fetch_assoc()['COUNT(*)'];
     }
 
+    // Kiểm tra email
     public function checkEmail()
     {
         $stmt = $this->db->prepare("SELECT COUNT(*) FROM users WHERE email = ?");
@@ -77,6 +80,7 @@ class User extends Model
         return $stmt->get_result()->fetch_assoc()['COUNT(*)'];
     }
 
+    // Đăng ký
     public function register()
     {
         $hash = password_hash($this->getPassword(), PASSWORD_DEFAULT);
@@ -84,12 +88,14 @@ class User extends Model
         $stmt->bind_param("sssssss", $this->getUsername(), $this->getEmail(), $hash, $this->getRole(), $this->getStatus(), $this->getIpAddress(), $this->getUserAgent());
         return $stmt->execute();
     }
+    // Lất tất cả người dùng
     public function getAll()
     {
         $stmt = $this->db->prepare("SELECT * FROM users");
         $stmt->execute();
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
+    // Tạo người dùng
     public function create()
     {
         $hash = password_hash($this->getPassword(), PASSWORD_DEFAULT);
@@ -98,12 +104,14 @@ class User extends Model
         $stmt->execute();
         return $stmt->affected_rows > 0;
     }
+    // Xóa người dùng
     public function delete()
     {
         $stmt = $this->db->prepare("DELETE FROM users WHERE id = ?");
         $stmt->bind_param("i", $this->getId());
         return $stmt->execute();
     }
+    // Lấy người dùng theo ID
     public function getByID()
     {
         $stmt = $this->db->prepare("SELECT * FROM users WHERE id = ?");
@@ -111,6 +119,7 @@ class User extends Model
         $stmt->execute();
         return $stmt->get_result()->fetch_assoc();
     }
+    // Cập nhật người dùng
     public function update()
     {
         $hash = password_hash($this->getPassword(), PASSWORD_DEFAULT);
@@ -121,6 +130,7 @@ class User extends Model
         }
         return true;
     }
+    // Cập nhật người dùng không cần mật khẩu
     public function updateWithoutPassword()
     {
         $stmt = $this->db->prepare("UPDATE users SET fullname = ?, username = ?, email = ?, phone = ?, role = ?, status = ?, ip_address = ?, user_agent = ? WHERE id = ?");
@@ -130,6 +140,7 @@ class User extends Model
         }
         return true;
     }
+    // Kiểm tra username cập nhật
     public function checkUsernameUpdate() {
         if ($this->getId()) {
             $stmt = $this->db->prepare("SELECT COUNT(*) FROM users WHERE username = ? AND id != ?");
@@ -141,6 +152,7 @@ class User extends Model
         $stmt->execute();
         return $stmt->get_result()->fetch_assoc()['COUNT(*)'];
     }
+    // Kiểm tra email cập nhật
     public function checkEmailUpdate() {
         if ($this->getId()) {
             $stmt = $this->db->prepare("SELECT COUNT(*) FROM users WHERE email = ? AND id != ?");
@@ -153,12 +165,14 @@ class User extends Model
         return $stmt->get_result()->fetch_assoc()['COUNT(*)'];
     }
 
+    // Cập nhật thông tin người dùng
     public function updateInfo()
     {
         $stmt = $this->db->prepare("UPDATE users SET fullname = ?, email = ?, phone = ?, updated_at = NOW() WHERE id = ?");
         $stmt->bind_param("sssi", $this->getFullname(), $this->getEmail(), $this->getPhone(), $this->getId());
         return $stmt->execute();
     }
+    // Cập nhật mật khẩu người dùng
     public function updatePassword()
     {
         $hash = password_hash($this->getPassword(), PASSWORD_DEFAULT);
@@ -166,6 +180,7 @@ class User extends Model
         $stmt->bind_param("si", $hash, $this->getId());
         return $stmt->execute();
     }
+    // Đếm tất cả người dùng
     public function countAll()
     {
         $stmt = $this->db->prepare("SELECT COUNT(*) FROM users");

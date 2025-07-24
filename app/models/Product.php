@@ -42,12 +42,14 @@ class Product extends Model
     public function setUpdatedAt($updated_at) { $this->updated_at = $updated_at; }
 
 
+    // Lấy tất cả sản phẩm
     public function getAll()
     {
         $stmt = $this->db->prepare("SELECT products.*, categories.name as category_name FROM products JOIN categories ON products.category_id = categories.id ORDER BY products.created_at DESC");
         $stmt->execute();
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
+    // Lấy sản phẩm theo danh mục
     public function getProductByCategory()
     {
         $stmt = $this->db->prepare("SELECT products.*, categories.name as category_name, categories.slug as category_slug FROM products JOIN categories ON products.category_id = categories.id WHERE products.category_id = ?");
@@ -55,6 +57,7 @@ class Product extends Model
         $stmt->execute();
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
+    // Tạo sản phẩm
     public function create()
     {
         $stmt = $this->db->prepare("INSERT INTO products (name, description, image, price, category_id, status, slug) VALUES (?, ?, ?, ?, ?, ?, ?)");
@@ -63,6 +66,7 @@ class Product extends Model
         $stmt->execute();
         return $stmt->affected_rows > 0;
     }
+    // Kiểm tra slug
     public function checkSlug()
     {
         if ($this->getId()) {
@@ -75,6 +79,7 @@ class Product extends Model
         $stmt->execute();
         return $stmt->get_result()->fetch_assoc()['COUNT(*)'];
     }
+    // Xóa sản phẩm
     public function delete()
     {
         $stmt = $this->db->prepare("DELETE FROM products WHERE id = ?");
@@ -82,6 +87,7 @@ class Product extends Model
         $stmt->execute();
         return $stmt->affected_rows > 0;
     }
+    // Lấy sản phẩm theo ID
     public function getProductById()
     {
         $stmt = $this->db->prepare("SELECT * FROM products WHERE id = ?");
@@ -89,6 +95,7 @@ class Product extends Model
         $stmt->execute();
         return $stmt->get_result()->fetch_assoc();
     }
+    // Cập nhật sản phẩm
     public function update()
     {
         $stmt = $this->db->prepare("UPDATE products SET name = ?, description = ?, image = ?, price = ?, category_id = ?, status = ?, slug = ? WHERE id = ?");
@@ -96,6 +103,7 @@ class Product extends Model
         $stmt->execute();
         return $stmt->affected_rows > 0;
     }
+    // Lấy sản phẩm theo slug
     public function getBySlug()
     {
         $stmt = $this->db->prepare("SELECT products.*, categories.name as category_name FROM products JOIN categories ON products.category_id = categories.id WHERE products.slug = ?");
@@ -103,18 +111,28 @@ class Product extends Model
         $stmt->execute();
         return $stmt->get_result()->fetch_assoc();
     }
+    // Đếm tất cả sản phẩm
     public function countAll()
     {
         $stmt = $this->db->prepare("SELECT COUNT(*) FROM products");
         $stmt->execute();
         return $stmt->get_result()->fetch_assoc()['COUNT(*)'];
     }
+    // Tìm kiếm sản phẩm
     public function searchProduct()
     {
         $like = '%' . $this->getName() . '%';
-        $stmt = $this->db->prepare("SELECT * FROM products WHERE name LIKE ? OR description LIKE ? OR slug LIKE ?");
+        $stmt = $this->db->prepare("SELECT products.*, categories.name as category_name FROM products JOIN categories ON products.category_id = categories.id WHERE products.name LIKE ? OR products.description LIKE ? OR products.slug LIKE ?");
         $stmt->bind_param("sss", $like, $like, $like);
         $stmt->execute();
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+    // Kiểm tra trạng thái sản phẩm
+    public function checkStatus()
+    {
+        $stmt = $this->db->prepare("SELECT status FROM products WHERE id = ?");
+        $stmt->bind_param("i", $this->getId());
+        $stmt->execute();
+        return $stmt->get_result()->fetch_assoc()['status'];
     }
 }

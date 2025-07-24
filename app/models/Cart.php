@@ -29,6 +29,7 @@ class Cart extends Model
     public function setCreatedAt($created_at) { $this->created_at = $created_at; }
     public function setUpdatedAt($updated_at) { $this->updated_at = $updated_at; }
 
+    // Thêm sản phẩm vào giỏ hàng
     public function addToCart()
     {
         $stmt = $this->db->prepare("SELECT id, quantity FROM cart_items WHERE user_id = ? AND product_id = ?");
@@ -49,6 +50,7 @@ class Cart extends Model
         }
     }
 
+    // Lấy giỏ hàng
     public function getCart()
     {
         $stmt = $this->db->prepare("SELECT cart_items.*, products.name, products.price, products.image, products.slug FROM cart_items JOIN products ON cart_items.product_id = products.id WHERE cart_items.user_id = ?");
@@ -57,6 +59,7 @@ class Cart extends Model
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 
+    // Lấy số lượng sản phẩm trong giỏ hàng
     public function getCartCount()
     {
         $stmt = $this->db->prepare("SELECT COUNT(*) FROM cart_items WHERE user_id = ?");
@@ -65,6 +68,7 @@ class Cart extends Model
         return $stmt->get_result()->fetch_assoc()['COUNT(*)'];
     }
 
+    // Lấy tổng tiền của giỏ hàng
     public function getCartSubtotal()
     {
         $stmt = $this->db->prepare("SELECT SUM(products.price * cart_items.quantity) as subtotal FROM cart_items JOIN products ON cart_items.product_id = products.id WHERE cart_items.user_id = ?");
@@ -74,6 +78,7 @@ class Cart extends Model
         return $result['subtotal'] ?? 0;
     }
 
+    // Xóa sản phẩm khỏi giỏ hàng
     public function removeFromCart()
     {
         $stmt = $this->db->prepare("DELETE FROM cart_items WHERE id = ?");
@@ -81,6 +86,7 @@ class Cart extends Model
         return $stmt->execute();
     }
 
+    // Xóa tất cả sản phẩm khỏi giỏ hàng
     public function clearCart()
     {
         $stmt = $this->db->prepare("DELETE FROM cart_items WHERE user_id = ?");

@@ -10,7 +10,6 @@ class SearchController extends BaseController
     {
         parent::__construct();
     }
-
     public function detail()
     {
         if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['keyword'])){

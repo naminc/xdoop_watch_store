@@ -31,13 +31,14 @@ class Category extends Model
     public function setCreatedAt($created_at) { $this->created_at = $created_at; }
     public function setUpdatedAt($updated_at) { $this->updated_at = $updated_at; }
 
-    
+    // Lấy tất cả danh mục
     public function getAll()
     {
         $stmt = $this->db->prepare("SELECT * FROM categories WHERE status = 1");
         $stmt->execute();
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
+    // Tạo danh mục
     public function create()
     {
         $stmt = $this->db->prepare("INSERT INTO categories (name, slug, description, status, created_at, updated_at) VALUES (?, ?, ?, ?, NOW(), NOW())");
@@ -45,6 +46,7 @@ class Category extends Model
         $stmt->execute();
         return $stmt->affected_rows > 0;
     }
+    // Lấy danh mục theo ID
     public function getByID()
     {
         $stmt = $this->db->prepare("SELECT * FROM categories WHERE id = ?");
@@ -52,6 +54,7 @@ class Category extends Model
         $stmt->execute();
         return $stmt->get_result()->fetch_assoc();
     }
+    // Cập nhật danh mục
     public function update()
     {
         $stmt = $this->db->prepare("UPDATE categories SET name = ?, slug = ?, description = ?, status = ? WHERE id = ?");
@@ -59,6 +62,7 @@ class Category extends Model
         $stmt->execute();
         return $stmt->affected_rows > 0;
     }
+    // Xóa danh mục
     public function delete()
     {
         $stmt = $this->db->prepare("DELETE FROM categories WHERE id = ?");
@@ -66,6 +70,7 @@ class Category extends Model
         $stmt->execute();
         return $stmt->affected_rows > 0;
     }
+    // Tìm danh mục theo slug
     public function findBySlug()
     {
         $stmt = $this->db->prepare("SELECT * FROM categories WHERE slug = ?");
@@ -73,6 +78,7 @@ class Category extends Model
         $stmt->execute();
         return $stmt->get_result()->fetch_assoc();
     }
+    // Đếm tất cả danh mục
     public function countAll()
     {
         $stmt = $this->db->prepare("SELECT COUNT(*) FROM categories");

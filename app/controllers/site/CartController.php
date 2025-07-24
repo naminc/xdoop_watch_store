@@ -46,7 +46,12 @@ class CartController extends BaseController
             $this->view('site/home/index', $data);
             return;
         }
-
+        if ($productM->checkStatus() == 0) {
+            $data['error'] = 'Sản phẩm đã hết hàng.';
+            $data['redirect'] = '/home';
+            $this->view('site/home/index', $data);
+            return;
+        }
         $cartM = new Cart();
         $cartM->setUserId($_SESSION['user']['id']);
         $cartM->setProductId($productM->getId());

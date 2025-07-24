@@ -121,7 +121,7 @@ require_once __DIR__ . '/../../layouts/header.php';
     </div>
 </main>
 <?php require_once __DIR__ . '/../../layouts/footer.php'; ?>
-<?php require_once __DIR__ . '/../../layouts/footer.php'; ?>
+
 <?php if (!empty($error)): ?>
     <script>
         Swal.fire({

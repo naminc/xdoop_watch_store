@@ -56,12 +56,14 @@ class Setting extends Model
     public function setCreatedAt($created_at) { $this->created_at = $created_at; }
     public function setUpdatedAt($updated_at) { $this->updated_at = $updated_at; }
 
+    // Lấy cấu hình
     public function getSetting()
     {
         $stmt = $this->db->prepare("SELECT * FROM settings LIMIT 1");
         $stmt->execute();
         return $stmt->get_result()->fetch_assoc();
     }
+    // Cập nhật cấu hình
     public function updateSetting()
     {
         $stmt = $this->db->prepare("

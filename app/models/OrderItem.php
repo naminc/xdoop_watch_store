@@ -31,6 +31,7 @@ class OrderItem extends Model
     public function setUpdatedAt($updated_at) { $this->updated_at = $updated_at; }
     
     // Method
+    // Lấy tất cả sản phẩm trong đơn hàng
     public function getOrderItemsByOrderId()
     {
         $stmt = $this->db->prepare("SELECT order_items.*, products.name, products.image, products.slug FROM order_items JOIN products ON order_items.product_id = products.id WHERE order_id = ?");
@@ -38,6 +39,7 @@ class OrderItem extends Model
         $stmt->execute();
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
+    // Thêm sản phẩm vào đơn hàng
     public function addOrderItem()
     {
         $stmt = $this->db->prepare("INSERT INTO order_items (order_id, product_id, quantity, price) VALUES (?, ?, ?, ?)");
