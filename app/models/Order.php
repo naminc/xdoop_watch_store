@@ -71,7 +71,7 @@ class Order extends Model
     // Lấy đơn hàng theo ID
     public function getOrder()
     {
-        $stmt = $this->db->prepare("SELECT orders.*, coupons.code as coupon_code, coupons.discount_type as coupon_discount_type, coupons.discount_value as coupon_discount_value FROM orders LEFT JOIN coupon_usages ON orders.id = coupon_usages.order_id LEFT JOIN coupons ON coupon_usages.coupon_id = coupons.id WHERE orders.id = ?");
+        $stmt = $this->db->prepare("SELECT orders.*, coupons.code as coupon_code, coupons.discount_type as coupon_discount_type, coupons.discount_value as coupon_discount_value FROM orders LEFT JOIN coupon_usages ON orders.id = coupon_usages.order_id LEFT JOIN coupons ON coupon_usages.coupon_id = coupons.id WHERE orders.id = ? ORDER BY orders.created_at DESC");
         $stmt->bind_param("i", $this->getId());
         $stmt->execute();
         return $stmt->get_result()->fetch_assoc();
@@ -79,7 +79,7 @@ class Order extends Model
     // Lấy đơn hàng theo ID người dùng
     public function getOrdersByUserId()
     {
-        $stmt = $this->db->prepare("SELECT orders.*, coupons.code as coupon_code, coupons.discount_type as coupon_discount_type, coupons.discount_value as coupon_discount_value FROM orders LEFT JOIN coupon_usages ON orders.id = coupon_usages.order_id LEFT JOIN coupons ON coupon_usages.coupon_id = coupons.id WHERE orders.user_id = ?");
+        $stmt = $this->db->prepare("SELECT orders.*, coupons.code as coupon_code, coupons.discount_type as coupon_discount_type, coupons.discount_value as coupon_discount_value FROM orders LEFT JOIN coupon_usages ON orders.id = coupon_usages.order_id LEFT JOIN coupons ON coupon_usages.coupon_id = coupons.id WHERE orders.user_id = ? ORDER BY orders.created_at DESC");
         $stmt->bind_param("i", $this->getUserId());
         $stmt->execute();
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);

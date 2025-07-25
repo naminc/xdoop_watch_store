@@ -1479,9 +1479,28 @@ body.modal-open {
 }
 .delete-btn:hover {
   color: #ffffff;
-  background-color: #4e3033;
+  background-color: #3c2729;
 }
 .delete-btn i {
+  padding-right: 5px;
+}
+.enable-btn {
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  background-color: #2aaf74;
+  padding: 10px 20px 6px;
+  text-transform: uppercase;
+  display: inline-block;
+  border-radius: 5px;
+}
+.enable-btn:hover {
+  color: #ffffff;
+  background-color: #09824f;
+}
+.enable-btn i {
   padding-right: 5px;
 }
 .product-btn a {
