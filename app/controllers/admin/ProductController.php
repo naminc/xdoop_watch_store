@@ -29,10 +29,10 @@ class ProductController extends BaseController
             $productM->setDescription($_POST['description']); // set description
             $productM->setPrice($_POST['price']); // set price
             $productM->setCategoryId($_POST['category_id']); // set category id
-            $productM->setStatus($_POST['status']); // set status
+            $productM->setStock($_POST['stock']); // set stock
             $image = $_FILES['image']; // lấy ảnh
             $productM->setSlug($this->generateSlug($productM->getName())); // tạo slug
-            if (empty($productM->getName()) || empty($productM->getDescription()) || empty($productM->getPrice()) || empty($productM->getCategoryId()) || $productM->getStatus() === "" || $image['error'] != 0) {
+            if (empty($productM->getName()) || empty($productM->getDescription()) || empty($productM->getPrice()) || empty($productM->getCategoryId()) || $productM->getStock() === "" || $image['error'] != 0) {
                 $data['error'] = 'Vui lòng điền đầy đủ thông tin và chọn ảnh hợp lệ';
                 $data['redirect'] = '/admin/product/create';
                 $this->view('admin/product/create', $data); // hiển thị view create
@@ -80,11 +80,11 @@ class ProductController extends BaseController
             $productM->setDescription($_POST['description']); // set description
             $productM->setPrice($_POST['price']); // set price
             $productM->setCategoryId($_POST['category_id']); // set category id
-            $productM->setStatus($_POST['status']); // set status
+            $productM->setStock($_POST['stock']); // set stock
             $image = $_FILES['image']; // lấy ảnh
             $productM->setSlug($this->generateSlug($productM->getName())); // tạo slug
 
-            if (empty($productM->getName()) || empty($productM->getDescription()) || empty($productM->getPrice()) || empty($productM->getCategoryId()) || $productM->getStatus() === "") {
+            if (empty($productM->getName()) || empty($productM->getDescription()) || empty($productM->getPrice()) || empty($productM->getCategoryId()) || $productM->getStock() === "") {
                 $data['error'] = 'Vui lòng điền đầy đủ thông tin';
                 $data['redirect'] = '/admin/product/edit/' . $id;
                 $this->view('admin/product/edit', $data); // hiển thị view edit

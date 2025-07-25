@@ -4,6 +4,7 @@ namespace controllers\admin;
 use core\BaseController;
 use models\Order;
 use models\OrderItem;
+use models\Product;
 class OrderController extends BaseController
 {
     public function __construct()
@@ -35,6 +36,14 @@ class OrderController extends BaseController
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update'])) {
             $orderM->setStatus($_POST['status']); // set status
+            if($orderM->getStatus() == 'cancelled') {
+                foreach ($data['orderItems'] as $item) {
+                    $productM = new Product(); // khởi tạo model Product
+                    $productM->setId($item['product_id']); // set id
+                    $productM->setStock($productM->checkStock() + $item['quantity']); // set quantity
+                    $productM->updateStock(); // cập nhật sản phẩm
+                }
+            }
             if ($orderM->updateStatus()) { // cập nhật trạng thái đơn hàng
                 $data['success'] = 'Cập nhật trạng thái đơn hàng thành công';
                 $data['redirect'] = '/admin/order/edit/' . $id; 

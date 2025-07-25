@@ -9,8 +9,9 @@ class AccountController extends BaseController
 {
     public function __construct()
     {
-        parent::__construct(); // gọi constructor của BaseController
+        parent::__construct();
     }
+    
     public function index()
     {
         $orderM = new Order(); // khởi tạo model Order

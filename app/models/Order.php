@@ -20,7 +20,6 @@ class Order extends Model
     private $status;
     private $created_at;
     private $updated_at;    
-
     // Getter
     public function getId() { return $this->id; }
     public function getUserId() { return $this->user_id; }
@@ -57,7 +56,7 @@ class Order extends Model
     // Lấy tất cả đơn hàng
     public function getAll()
     {
-        $stmt = $this->db->prepare("SELECT orders.*, users.username as user_name FROM orders JOIN users ON orders.user_id = users.id ORDER BY orders.created_at DESC");
+        $stmt = $this->db->prepare("SELECT orders.*, users.username as user_name FROM orders LEFT JOIN users ON orders.user_id = users.id ORDER BY orders.created_at DESC");
         $stmt->execute();
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
@@ -72,7 +71,7 @@ class Order extends Model
     // Lấy đơn hàng theo ID
     public function getOrder()
     {
-        $stmt = $this->db->prepare("SELECT * FROM orders WHERE id = ?");
+        $stmt = $this->db->prepare("SELECT orders.*, coupons.code as coupon_code, coupons.discount_type as coupon_discount_type, coupons.discount_value as coupon_discount_value FROM orders LEFT JOIN coupon_usages ON orders.id = coupon_usages.order_id LEFT JOIN coupons ON coupon_usages.coupon_id = coupons.id WHERE orders.id = ?");
         $stmt->bind_param("i", $this->getId());
         $stmt->execute();
         return $stmt->get_result()->fetch_assoc();
@@ -80,7 +79,7 @@ class Order extends Model
     // Lấy đơn hàng theo ID người dùng
     public function getOrdersByUserId()
     {
-        $stmt = $this->db->prepare("SELECT * FROM orders WHERE user_id = ?");
+        $stmt = $this->db->prepare("SELECT orders.*, coupons.code as coupon_code, coupons.discount_type as coupon_discount_type, coupons.discount_value as coupon_discount_value FROM orders LEFT JOIN coupon_usages ON orders.id = coupon_usages.order_id LEFT JOIN coupons ON coupon_usages.coupon_id = coupons.id WHERE orders.user_id = ?");
         $stmt->bind_param("i", $this->getUserId());
         $stmt->execute();
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);

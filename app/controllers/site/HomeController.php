@@ -10,7 +10,6 @@ class HomeController extends BaseController
     {
         parent::__construct();
     }
-
     public function index()
     {
         $productM = new Product();

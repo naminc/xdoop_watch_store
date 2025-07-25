@@ -55,7 +55,13 @@ require_once __DIR__ . '/../../layouts/header.php';
                                             <p><strong>Địa chỉ:</strong> <?= $order['address'] ?>, <?= $order['district'] ?>, <?= $order['city'] ?> - <?= $order['postcode'] ?></p>
                                             <p><strong>Ghi chú:</strong> <?= $order['note'] ?></p>
                                         </div>
-
+                                        <?php if (!empty($order['coupon_code'])): ?>
+                                            <div class="order-coupon">
+                                                <h4>Mã giảm giá</h4>
+                                                <p><strong>Mã giảm giá:</strong> <?= $order['coupon_code'] ?></p>
+                                                <p><strong>Giảm giá:</strong> <?= $order['coupon_discount_type'] == 'percentage' ? $order['coupon_discount_value'] . '%' : number_format($order['coupon_discount_value'], 0, ',', '.') . ' VNĐ' ?></p>
+                                            </div>
+                                        <?php endif; ?>
                                         <!-- Danh sách sản phẩm -->
                                         <div class="order-products mt-4">
                                             <h4>Sản phẩm đã mua</h4>

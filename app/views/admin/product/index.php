@@ -31,8 +31,8 @@ require_once __DIR__ . '/../../layouts/header.php';
                                                     <th>Mô tả</th>
                                                     <th>Ảnh sản phẩm</th>
                                                     <th>Giá</th>
+                                                    <th>Số lượng tồn</th>
                                                     <th>Danh mục</th>
-                                                    <th>Trạng thái</th>
                                                     <th>Ngày tạo</th>
                                                     <th>Ngày cập nhật</th>
                                                     <th>Hành động</th>
@@ -49,8 +49,8 @@ require_once __DIR__ . '/../../layouts/header.php';
                                                     <td><textarea name="description" id="description" cols="30" rows="3" readonly><?= $product['description'] ?></textarea></td>
                                                     <td><img src="/uploads/products/<?= $product['image'] ?>" alt="<?= $product['name'] ?>" style="height: 100px; width: 100px; object-fit: cover;"></td>
                                                     <td><span class="badge bg-danger"><?= number_format($product['price'], 0, ',', '.') ?> VNĐ</span></td>
+                                                    <td><?= $product['stock'] ?></td>
                                                     <td><?= $product['category_name'] ?></td>
-                                                    <td><span class="badge bg-<?= $product['status'] == 1 ? 'success' : 'danger' ?>"><?= $product['status'] == 1 ? 'Đang hoạt động' : 'Không hoạt động' ?></span></td>
                                                     <td><?= date('d/m/Y H:i:s', strtotime($product['created_at'])) ?></td>
                                                     <td><?= date('d/m/Y H:i:s', strtotime($product['updated_at'])) ?></td>
                                                     <td>

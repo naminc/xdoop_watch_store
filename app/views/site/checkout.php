@@ -107,9 +107,22 @@ require_once __DIR__ . '/../layouts/header.php';
                                                     </ul>
                                                 </td>
                                             </tr>
+                                            <?php if (!empty($_SESSION['coupon'])): ?>
+                                                <tr>
+                                                    <td>Giảm giá</td>
+                                                    <td><?php if ($_SESSION['coupon']['discount_type'] == 'percentage') {
+                                                            $discount = $subtotal * $_SESSION['coupon']['discount_value'] / 100;
+                                                            echo $_SESSION['coupon']['discount_value'] . '%';
+                                                        } else {
+                                                            $discount = $_SESSION['coupon']['discount_value'];
+                                                            echo number_format($_SESSION['coupon']['discount_value'], 0, ',', '.') . ' VNĐ';
+                                                        }
+                                                    ?></td>
+                                                </tr>
+                                            <?php endif; ?>
                                             <tr>
                                                 <td>Tổng tiền</td>
-                                                <td><strong><?= number_format($subtotal, 0, ',', '.') ?> VNĐ</strong></td>
+                                                <td><strong><?= number_format($subtotal - $discount, 0, ',', '.') ?> VNĐ</strong></td>
                                             </tr>
                                         </tfoot>
                                     </table>

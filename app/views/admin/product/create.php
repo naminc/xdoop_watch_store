@@ -37,20 +37,16 @@ require_once __DIR__ . '/../../layouts/header.php';
                                                 <input type="number" name="price" placeholder="Giá" required />
                                             </div>
                                             <div class="single-input-item">
+                                                <label for="stock" class="required">Số lượng tồn</label>
+                                                <input type="number" name="stock" placeholder="Số lượng tồn" required />
+                                            </div>
+                                            <div class="single-input-item">
                                                 <label for="category_id" class="required">Danh mục</label>
                                                 <select name="category_id" required>
                                                     <option value="">Chọn danh mục</option>
                                                     <?php foreach ($list_category as $category): ?>
                                                         <option value="<?= $category['id'] ?>"><?= $category['name'] ?></option>
                                                     <?php endforeach; ?>
-                                                </select>
-                                            </div>
-                                            <div class="single-input-item">
-                                                <label for="status" class="required">Trạng thái</label>
-                                                <select name="status" required>
-                                                    <option value="">Chọn trạng thái</option>
-                                                    <option value="1">Hoạt động</option>
-                                                    <option value="0">Không hoạt động</option>
                                                 </select>
                                             </div>
                                             </div>

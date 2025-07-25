@@ -73,8 +73,8 @@
                                 <img src="/uploads/products/<?php echo $product['image']; ?>" alt="product image">
                             </a>
                             <div class="box-label">
-                                <div class="product-label <?php if ($product['status'] == 1) echo 'new'; else echo 'discount'; ?>">
-                                    <span><?php if ($product['status'] == 1) echo 'Còn hàng'; else echo 'Hết hàng'; ?></span>
+                                <div class="product-label <?php if ($product['stock'] > 0) echo 'new'; else echo 'discount'; ?>">
+                                    <span><?php if ($product['stock'] > 0) echo 'Còn hàng'; else echo 'Hết hàng'; ?></span>
                                 </div>
                             </div>
                             <div class="product-action-link">
@@ -85,7 +85,7 @@
                         </div>
                         <div class="product-description text-center">
                             <div class="manufacturer">
-                                <p><a href="product-details.html"><?php echo $product['category_name']; ?></a></p>
+                                <p><a href="/category/detail/<?php echo $product['category_slug']; ?>"><?php echo $product['category_name']; ?></a></p>
                             </div>
                             <div class="product-name">
                                 <h3><a href="/product/detail/<?php echo $product['slug']; ?>"><?php echo $product['name']; ?></a></h3>

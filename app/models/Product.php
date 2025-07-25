@@ -13,7 +13,7 @@ class Product extends Model
     private $image;
     private $price;
     private $category_id;
-    private $status;
+    private $stock;
     private $created_at;
     private $updated_at;
 
@@ -25,7 +25,7 @@ class Product extends Model
     public function getImage() { return $this->image; }
     public function getPrice() { return $this->price; }
     public function getCategoryId() { return $this->category_id; }
-    public function getStatus() { return $this->status; }
+    public function getStock() { return $this->stock; }
     public function getCreatedAt() { return $this->created_at; }
     public function getUpdatedAt() { return $this->updated_at; }
     
@@ -37,7 +37,7 @@ class Product extends Model
     public function setImage($image) { $this->image = $image; }
     public function setPrice($price) { $this->price = $price; }
     public function setCategoryId($category_id) { $this->category_id = $category_id; }
-    public function setStatus($status) { $this->status = $status; }
+    public function setStock($stock) { $this->stock = $stock; }
     public function setCreatedAt($created_at) { $this->created_at = $created_at; }
     public function setUpdatedAt($updated_at) { $this->updated_at = $updated_at; }
 
@@ -45,7 +45,7 @@ class Product extends Model
     // Lấy tất cả sản phẩm
     public function getAll()
     {
-        $stmt = $this->db->prepare("SELECT products.*, categories.name as category_name FROM products JOIN categories ON products.category_id = categories.id ORDER BY products.created_at DESC");
+        $stmt = $this->db->prepare("SELECT products.*, categories.name as category_name, categories.slug as category_slug FROM products JOIN categories ON products.category_id = categories.id ORDER BY products.created_at DESC");
         $stmt->execute();
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
@@ -60,8 +60,8 @@ class Product extends Model
     // Tạo sản phẩm
     public function create()
     {
-        $stmt = $this->db->prepare("INSERT INTO products (name, description, image, price, category_id, status, slug) VALUES (?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("sssdiis", $this->getName(), $this->getDescription(), $this->getImage(), $this->getPrice(), $this->getCategoryId(), $this->getStatus(), $this->getSlug());
+        $stmt = $this->db->prepare("INSERT INTO products (name, description, image, price, category_id, stock, slug) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssdiis", $this->getName(), $this->getDescription(), $this->getImage(), $this->getPrice(), $this->getCategoryId(), $this->getStock(), $this->getSlug());
 
         $stmt->execute();
         return $stmt->affected_rows > 0;
@@ -98,8 +98,8 @@ class Product extends Model
     // Cập nhật sản phẩm
     public function update()
     {
-        $stmt = $this->db->prepare("UPDATE products SET name = ?, description = ?, image = ?, price = ?, category_id = ?, status = ?, slug = ? WHERE id = ?");
-        $stmt->bind_param("sssdiisi", $this->getName(), $this->getDescription(), $this->getImage(), $this->getPrice(), $this->getCategoryId(), $this->getStatus(), $this->getSlug(), $this->getId());
+        $stmt = $this->db->prepare("UPDATE products SET name = ?, description = ?, image = ?, price = ?, category_id = ?, stock = ?, slug = ? WHERE id = ?");
+        $stmt->bind_param("sssdiisi", $this->getName(), $this->getDescription(), $this->getImage(), $this->getPrice(), $this->getCategoryId(), $this->getStock(), $this->getSlug(), $this->getId());
         $stmt->execute();
         return $stmt->affected_rows > 0;
     }
@@ -128,11 +128,19 @@ class Product extends Model
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
     // Kiểm tra trạng thái sản phẩm
-    public function checkStatus()
+    public function checkStock()
     {
-        $stmt = $this->db->prepare("SELECT status FROM products WHERE id = ?");
+        $stmt = $this->db->prepare("SELECT stock FROM products WHERE id = ?");
         $stmt->bind_param("i", $this->getId());
         $stmt->execute();
-        return $stmt->get_result()->fetch_assoc()['status'];
+        return $stmt->get_result()->fetch_assoc()['stock'];
+    }
+
+    public function updateStock()
+    {
+        $stmt = $this->db->prepare("UPDATE products SET stock = ? WHERE id = ?");
+        $stmt->bind_param("ii", $this->getStock(), $this->getId());
+        $stmt->execute();
+        return $stmt->affected_rows > 0;
     }
 }

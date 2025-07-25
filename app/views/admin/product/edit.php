@@ -37,19 +37,16 @@ require_once __DIR__ . '/../../layouts/header.php';
                                                 <input type="number" name="price" placeholder="Giá" value="<?= $dproduct['price'] ?>" required />
                                             </div>
                                             <div class="single-input-item">
+                                                <label for="stock" class="required">Số lượng tồn</label>
+                                                <input type="number" name="stock" placeholder="Số lượng tồn" value="<?= $dproduct['stock'] ?>" required />
+                                            </div>
+                                            <div class="single-input-item">
                                                 <label for="category_id" class="required">Danh mục</label>
                                                 <select name="category_id" required>
                                                     <option value="">Chọn danh mục</option>
                                                     <?php foreach ($list_category as $category): ?>
                                                         <option value="<?= $category['id'] ?>" <?= $dproduct['category_id'] == $category['id'] ? 'selected' : '' ?>><?= $category['name'] ?></option>
                                                     <?php endforeach; ?>
-                                                </select>
-                                            </div>
-                                            <div class="single-input-item">
-                                                <label for="status" class="required">Trạng thái</label>
-                                                <select name="status" required>
-                                                    <option value="1" <?= $dproduct['status'] == 1 ? 'selected' : '' ?>>Hoạt động</option>
-                                                    <option value="0" <?= $dproduct['status'] == 0 ? 'selected' : '' ?>>Không hoạt động</option>
                                                 </select>
                                             </div>
                                             <div class="row">

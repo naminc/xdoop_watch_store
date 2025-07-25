@@ -93,4 +93,12 @@ class Cart extends Model
         $stmt->bind_param("i", $this->getUserId());
         return $stmt->execute();
     }
+
+    public function checkQuantity()
+    {
+        $stmt = $this->db->prepare("SELECT quantity FROM cart_items WHERE user_id = ? AND product_id = ?");
+        $stmt->bind_param("ii", $this->getUserId(), $this->getProductId());
+        $stmt->execute();
+        return $stmt->get_result()->fetch_assoc()['quantity'];
+    }
 }
