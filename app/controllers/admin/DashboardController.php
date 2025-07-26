@@ -38,6 +38,9 @@ class DashboardController extends BaseController
             'totalRevenueMonth' => $this->orderModel->getTotalRevenueMonth(), // lấy tổng số doanh thu theo tháng
             'totalRevenueYear' => $this->orderModel->getTotalRevenueYear(), // lấy tổng số doanh thu theo năm
             'totalRevenueAll' => $this->orderModel->getTotalRevenueAll(), // lấy tổng số doanh thu
+            'bestSelling' => $this->productModel->getBestSellingProducts(), // lấy sản phẩm bán chạy
+            'leastSelling' => $this->productModel->getLeastSellingProducts(), // lấy sản phẩm bán ít
+            'neverSold' => $this->productModel->getNeverSoldProducts(), // lấy sản phẩm chưa bán được lần nào
         ];
         $data['breadcrumbs'] = 'Bảng điều khiển'; // lấy breadcrumbs
         $this->view('admin/dashboard', $data); // hiển thị view dashboard

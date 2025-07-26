@@ -18,28 +18,88 @@ class Product extends Model
     private $updated_at;
 
     // Getter
-    public function getId() { return $this->id; }
-    public function getName() { return $this->name; }
-    public function getSlug() { return $this->slug; }
-    public function getDescription() { return $this->description; }
-    public function getImage() { return $this->image; }
-    public function getPrice() { return $this->price; }
-    public function getCategoryId() { return $this->category_id; }
-    public function getStock() { return $this->stock; }
-    public function getCreatedAt() { return $this->created_at; }
-    public function getUpdatedAt() { return $this->updated_at; }
-    
+    public function getId()
+    {
+        return $this->id;
+    }
+    public function getName()
+    {
+        return $this->name;
+    }
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+    public function getDescription()
+    {
+        return $this->description;
+    }
+    public function getImage()
+    {
+        return $this->image;
+    }
+    public function getPrice()
+    {
+        return $this->price;
+    }
+    public function getCategoryId()
+    {
+        return $this->category_id;
+    }
+    public function getStock()
+    {
+        return $this->stock;
+    }
+    public function getCreatedAt()
+    {
+        return $this->created_at;
+    }
+    public function getUpdatedAt()
+    {
+        return $this->updated_at;
+    }
+
     // Setter
-    public function setId($id) { $this->id = $id; }
-    public function setName($name) { $this->name = $name; }
-    public function setSlug($slug) { $this->slug = $slug; }
-    public function setDescription($description) { $this->description = $description; }
-    public function setImage($image) { $this->image = $image; }
-    public function setPrice($price) { $this->price = $price; }
-    public function setCategoryId($category_id) { $this->category_id = $category_id; }
-    public function setStock($stock) { $this->stock = $stock; }
-    public function setCreatedAt($created_at) { $this->created_at = $created_at; }
-    public function setUpdatedAt($updated_at) { $this->updated_at = $updated_at; }
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+    }
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+    public function setImage($image)
+    {
+        $this->image = $image;
+    }
+    public function setPrice($price)
+    {
+        $this->price = $price;
+    }
+    public function setCategoryId($category_id)
+    {
+        $this->category_id = $category_id;
+    }
+    public function setStock($stock)
+    {
+        $this->stock = $stock;
+    }
+    public function setCreatedAt($created_at)
+    {
+        $this->created_at = $created_at;
+    }
+    public function setUpdatedAt($updated_at)
+    {
+        $this->updated_at = $updated_at;
+    }
 
 
     // Lấy tất cả sản phẩm
@@ -142,5 +202,44 @@ class Product extends Model
         $stmt->bind_param("ii", $this->getStock(), $this->getId());
         $stmt->execute();
         return $stmt->affected_rows > 0;
+    }
+    // Lấy sản phẩm bán chạy
+    public function getBestSellingProducts($limit = 5)
+    {
+        $sql = "SELECT p.*, SUM(oi.quantity) AS total_sold
+            FROM order_items oi
+            JOIN products p ON p.id = oi.product_id
+            GROUP BY p.id
+            ORDER BY total_sold DESC
+            LIMIT ?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bind_param("i", $limit);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getLeastSellingProducts($limit = 5)
+    {
+        $sql = "SELECT p.*, SUM(oi.quantity) AS total_sold
+            FROM order_items oi
+            JOIN products p ON p.id = oi.product_id
+            GROUP BY p.id
+            ORDER BY total_sold ASC
+            LIMIT ?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bind_param("i", $limit);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getNeverSoldProducts()
+    {
+        $sql = "SELECT * FROM products 
+            WHERE id NOT IN (
+                SELECT DISTINCT product_id FROM order_items
+            )";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 }

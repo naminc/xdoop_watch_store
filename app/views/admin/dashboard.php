@@ -20,7 +20,7 @@ require_once __DIR__ . '/../layouts/header.php';
                                     <div class="tab-pane fade show active" id="dashboad" role="tabpanel">
                                         <div class="myaccount-content">
                                             <h3><i class="fa fa-dashboard"></i> Bảng điều khiển</h3>
-                                            <div class="row text-center mb-4" >
+                                            <div class="row text-center mb-4">
                                                 <div class="col-md-3 mb-2">
                                                     <div class="p-3 bg-dark text-white rounded shadow">
                                                         <h4><?= $totalOrders ?></h4>
@@ -46,7 +46,7 @@ require_once __DIR__ . '/../layouts/header.php';
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="row text-center mb-4 mt-4" >
+                                            <div class="row text-center mb-4 mt-4">
                                                 <div class="col-md-3 mb-2">
                                                     <div class="p-3 bg-dark text-white rounded shadow">
                                                         <h4><?= $totalOrdersPending ?></h4>
@@ -72,7 +72,7 @@ require_once __DIR__ . '/../layouts/header.php';
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="row text-center mb-4 mt-4" >
+                                            <div class="row text-center mb-4 mt-4">
                                                 <div class="col-md-3 mb-2">
                                                     <div class="p-3 bg-dark text-white rounded shadow">
                                                         <h5><?= number_format($totalRevenueAll, 0, ',', '.') ?> VNĐ</h5>
@@ -98,16 +98,62 @@ require_once __DIR__ . '/../layouts/header.php';
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="row mt-3 mb-2">
+                                                <div class="col-md-12">
+                                                    <div class="p-3 bg-dark text-white rounded shadow">
+                                                        <h4>Sản phẩm bán chạy nhất</h4>
+                                                        <ul class="list-group">
+                                                            <?php foreach ($bestSelling as $product): ?>
+                                                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                                    <a href="/admin/product/edit/<?= $product['id'] ?>" style="text-decoration: none; color:rgb(68, 183, 133);"><?= $product['name']; ?></a>
+                                                                    <span class="badge bg-success"><?= $product['total_sold']; ?> đã bán</span>
+                                                                </li>
+                                                            <?php endforeach; ?>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-3">
+                                                <div class="col-md-12">
+                                                    <div class="p-3 bg-dark text-white rounded shadow">
+                                                        <h4>Sản phẩm bán ít nhất</h4>
+                                                        <ul class="list-group">
+                                                            <?php foreach ($leastSelling as $product): ?>
+                                                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                                    <a href="/admin/product/edit/<?= $product['id'] ?>" style="text-decoration: none; color:rgb(68, 183, 133);"><?= $product['name']; ?></a>
+                                                                    <span class="badge bg-warning"><?= $product['total_sold']; ?> đã bán</span>
+                                                                </li>
+                                                            <?php endforeach; ?>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-3">
+                                                <div class="col-md-12">
+                                                    <div class="p-3 bg-dark text-white rounded shadow">
+                                                        <h4>Sản phẩm chưa bán được lần nào</h4>
+                                                        <ul class="list-group">
+                                                            <?php foreach ($neverSold as $product): ?>
+                                                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                                    <a href="/admin/product/edit/<?= $product['id'] ?>" style="text-decoration: none; color:rgb(68, 183, 133);"><?= $product['name']; ?></a>
+                                                                    <span class="badge bg-info">Còn lại <?= $product['stock']; ?> sản phẩm</span>
+                                                                </li>
+                                                            <?php endforeach; ?>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-
                                 </div>
+
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     </div>
 </main>
 <?php require_once __DIR__ . '/../layouts/footer.php'; ?>
