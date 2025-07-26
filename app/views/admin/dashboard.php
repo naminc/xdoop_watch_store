@@ -105,7 +105,7 @@ require_once __DIR__ . '/../layouts/header.php';
                                                         <ul class="list-group">
                                                             <?php foreach ($bestSelling as $product): ?>
                                                                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                                    <a href="/admin/product/edit/<?= $product['id'] ?>" style="text-decoration: none; color:rgb(68, 183, 133);"><?= $product['name']; ?></a>
+                                                                    <a href="/admin/product/edit/<?= $product['id'] ?>" style="text-decoration: none; color:rgb(68, 183, 133);"><?= $product['name']; ?> (ID: <?= $product['id']; ?>)</a>
                                                                     <span class="badge bg-success"><?= $product['total_sold']; ?> đã bán</span>
                                                                 </li>
                                                             <?php endforeach; ?>
@@ -120,7 +120,7 @@ require_once __DIR__ . '/../layouts/header.php';
                                                         <ul class="list-group">
                                                             <?php foreach ($leastSelling as $product): ?>
                                                                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                                    <a href="/admin/product/edit/<?= $product['id'] ?>" style="text-decoration: none; color:rgb(68, 183, 133);"><?= $product['name']; ?></a>
+                                                                    <a href="/admin/product/edit/<?= $product['id'] ?>" style="text-decoration: none; color:rgb(68, 183, 133);"><?= $product['name']; ?> (ID: <?= $product['id']; ?>)</a>
                                                                     <span class="badge bg-warning"><?= $product['total_sold']; ?> đã bán</span>
                                                                 </li>
                                                             <?php endforeach; ?>
@@ -135,7 +135,7 @@ require_once __DIR__ . '/../layouts/header.php';
                                                         <ul class="list-group">
                                                             <?php foreach ($neverSold as $product): ?>
                                                                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                                    <a href="/admin/product/edit/<?= $product['id'] ?>" style="text-decoration: none; color:rgb(68, 183, 133);"><?= $product['name']; ?></a>
+                                                                    <a href="/admin/product/edit/<?= $product['id'] ?>" style="text-decoration: none; color:rgb(68, 183, 133);"><?= $product['name']; ?> (ID: <?= $product['id']; ?>)</a>
                                                                     <span class="badge bg-info">Còn lại <?= $product['stock']; ?> sản phẩm</span>
                                                                 </li>
                                                             <?php endforeach; ?>
