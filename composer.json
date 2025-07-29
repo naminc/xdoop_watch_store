@@ -1,0 +1,17 @@
+{
+    "name": "naminc/xdoop",
+    "autoload": {
+        "psr-4": {
+            "Naminc\\Xdoop\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ngo Dinh Nam",
+            "email": "ngodinhnam.dev@gmail.com"
+        }
+    ],
+    "require": {
+        "phpmailer/phpmailer": "^6.10"
+    }
+}

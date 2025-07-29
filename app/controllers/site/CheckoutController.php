@@ -9,6 +9,10 @@ use models\OrderItem;
 use models\Product;
 use models\Coupon;
 use models\CouponUsage;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require_once __DIR__ . '/../../../vendor/autoload.php';
 
 class CheckoutController extends BaseController
 {
@@ -159,6 +163,79 @@ class CheckoutController extends BaseController
         if (!empty($_SESSION['coupon'])) {
             unset($_SESSION['coupon']);
         }
+
+        $mail = new PHPMailer(true);
+        $mail->CharSet = 'UTF-8';
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
+        try {
+            $mail->isSMTP();
+            $mail->Host       = 'smtp.gmail.com';
+            $mail->SMTPAuth   = true;
+            $mail->Username   = 'typo7201@gmail.com';
+            $mail->Password   = 'fvzahalcvmwimkxv';
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port       = 587;
+
+            $mail->setFrom('typo7201@gmail.com', 'Xdoop Store');
+            $mail->addAddress($_POST['email'], $_POST['fullname']);
+
+            $mail->isHTML(true);
+            $mail->Subject = mb_encode_mimeheader('Xác nhận đơn hàng #' . $orderId, 'UTF-8', 'B');
+
+            $itemsHtml = '';
+            foreach ($cartItems as $item) {
+                $itemsHtml .= "
+        <tr>
+            <td style='padding: 8px; border: 1px solid #ddd;'>{$item['name']}</td>
+            <td style='padding: 8px; border: 1px solid #ddd;'>{$item['quantity']}</td>
+            <td style='padding: 8px; border: 1px solid #ddd;'>" . number_format($item['price'], 0, ',', '.') . "đ</td>
+        </tr>
+    ";
+            }
+
+            $mail->Body = "
+<div style='font-family: Arial, sans-serif; color: #333;'>
+    <h2 style='color: #2c3e50;'>Cảm ơn bạn đã đặt hàng tại Xdoop!</h2>
+    <p>Xin chào <strong>{$orderM->getFullname()}</strong>,</p>
+    <p>Chúng tôi đã nhận được đơn hàng của bạn. Dưới đây là chi tiết đơn hàng:</p>
+
+    <h3 style='color: #2c3e50;'>Thông tin đơn hàng</h3>
+    <p><strong>Mã đơn hàng:</strong> #{$orderId}</p>
+    <p><strong>Ngày đặt:</strong> " . date('d/m/Y H:i') . "</p>
+    <p><strong>Phương thức thanh toán:</strong> Thanh toán khi nhận hàng</p>
+
+    <h3 style='color: #2c3e50;'>Thông tin người nhận</h3>
+    <p><strong>Họ tên:</strong> {$orderM->getFullname()}</p>
+    <p><strong>SĐT:</strong> {$orderM->getPhone()}</p>
+    <p><strong>Email:</strong> {$orderM->getEmail()}</p>
+    <p><strong>Địa chỉ:</strong> {$orderM->getAddress()}, {$orderM->getDistrict()}, {$orderM->getCity()} - {$orderM->getPostcode()}</p>
+
+    <h3 style='color: #2c3e50;'>Sản phẩm đã đặt</h3>
+    <table style='border-collapse: collapse; width: 100%; margin-top: 10px;'>
+        <thead>
+            <tr>
+                <th style='padding: 8px; border: 1px solid #ddd; background-color: #f7f7f7;'>Tên sản phẩm</th>
+                <th style='padding: 8px; border: 1px solid #ddd; background-color: #f7f7f7;'>Số lượng</th>
+                <th style='padding: 8px; border: 1px solid #ddd; background-color: #f7f7f7;'>Giá</th>
+            </tr>
+        </thead>
+        <tbody>
+            $itemsHtml
+        </tbody>
+    </table>
+
+    <p style='margin-top: 10px;'><strong>Giảm giá:</strong> " . number_format($discount, 0, ',', '.') . "đ</p>
+    <p><strong>Tổng tiền:</strong> <span style='color: #e74c3c; font-size: 18px;'>" . number_format($total, 0, ',', '.') . " VNĐ</span></p>
+
+    <p>Chúng tôi sẽ liên hệ với bạn để xác nhận đơn hàng và tiến hành giao hàng sớm nhất.</p>
+    <p>Trân trọng,<br><strong>Xdoop Team</strong></p>
+</div>";
+
+            $mail->send();
+        } catch (Exception $e) {
+            error_log("Email không gửi được. Lỗi: {$mail->ErrorInfo}");
+        }
+
         $data['success'] = 'Đặt hàng thành công!';
         $data['redirect'] = '/home';
         $this->view('site/home/index', $data);
