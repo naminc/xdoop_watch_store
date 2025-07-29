@@ -48,10 +48,14 @@
 
 ## 🚀 Cài đặt nhanh
 
-1️⃣ Clone project
+1️⃣ Clone project, cài thư viện
 
 ```bash
 git clone https://github.com/naminc/xdoop_watch_store.git
+```
+
+```bash
+composer install
 ```
 
 2️⃣ Tạo database
