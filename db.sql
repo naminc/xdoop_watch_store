@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th7 22, 2025 lúc 04:32 PM
+-- Thời gian đã tạo: Th8 01, 2025 lúc 07:42 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.0.30
 
@@ -36,6 +36,13 @@ CREATE TABLE `cart_items` (
   `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Đang đổ dữ liệu cho bảng `cart_items`
+--
+
+INSERT INTO `cart_items` (`id`, `user_id`, `product_id`, `quantity`, `created_at`, `updated_at`) VALUES
+(73, 18, 37, 1, '2025-07-25 17:05:27', '2025-07-25 17:05:27');
+
 -- --------------------------------------------------------
 
 --
@@ -61,6 +68,58 @@ INSERT INTO `categories` (`id`, `name`, `slug`, `description`, `status`, `create
 (2, 'Đồng hồ nữ', 'dong-ho-nu', 'Các mẫu đồng hồ dành cho nữ giới.', 1, '2025-07-08 13:23:18', '2025-07-08 13:23:18'),
 (5, 'Đồng hồ thông minh', 'dong-ho-thong-minh', 'Smartwatch với nhiều tính năng hay ho.', 1, '2025-07-08 13:23:18', '2025-07-15 10:15:16'),
 (6, 'Phụ kiện đồng hồ', 'phu-kien-dong-ho', 'Dây đeo, hộp đựng, và phụ kiện khác.', 1, '2025-07-08 13:23:18', '2025-07-15 10:16:36');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `coupons`
+--
+
+CREATE TABLE `coupons` (
+  `id` int(11) NOT NULL,
+  `code` varchar(50) NOT NULL,
+  `discount_type` enum('percentage','fixed') NOT NULL,
+  `discount_value` decimal(10,2) NOT NULL,
+  `expires_at` datetime DEFAULT NULL,
+  `usage_limit` int(11) DEFAULT NULL,
+  `used_count` int(11) DEFAULT 0,
+  `status` tinyint(1) DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `coupons`
+--
+
+INSERT INTO `coupons` (`id`, `code`, `discount_type`, `discount_value`, `expires_at`, `usage_limit`, `used_count`, `status`) VALUES
+(1, 'GIAM10', 'percentage', 10.00, '2025-12-31 23:59:59', 100, 0, 1),
+(3, 'VIP20', 'percentage', 20.00, '2025-07-31 14:19:48', 2, 2, 1),
+(4, 'FREE100', 'fixed', 100000.00, '2025-07-31 23:59:59', 10, 10, 1),
+(5, 'HETHAN', 'fixed', 30000.00, '2024-12-31 23:59:59', 10, 5, 1),
+(6, 'FREE200', 'fixed', 200000.00, '2025-09-10 00:00:00', 5, 1, 1),
+(8, 'VIP10', 'percentage', 10.00, '2026-10-16 00:12:00', 5, 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `coupon_usages`
+--
+
+CREATE TABLE `coupon_usages` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `coupon_id` int(11) NOT NULL,
+  `order_id` int(11) DEFAULT NULL,
+  `used_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `coupon_usages`
+--
+
+INSERT INTO `coupon_usages` (`id`, `user_id`, `coupon_id`, `order_id`, `used_at`) VALUES
+(5, 1, 4, 23, '2025-07-25 09:36:46'),
+(7, 1, 6, 26, '2025-07-25 10:02:24'),
+(9, 1, 3, 30, '2025-07-29 05:44:50');
 
 -- --------------------------------------------------------
 
@@ -91,11 +150,15 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `user_id`, `fullname`, `phone`, `email`, `address`, `district`, `city`, `postcode`, `note`, `payment_method`, `total`, `status`, `created_at`, `updated_at`) VALUES
-(5, 1, 'Ngô Đình Nam', '0347101143', 'admin@naminc.dev', '39 đường số 19, khu phố 48', 'Hiệp Bình', 'Thành phố Hồ Chí Minh', '70000', 'Ship cẩn thận', 'cash', 32400000.00, 'pending', '2025-07-22 20:43:26', '2025-07-22 21:14:34'),
-(6, 1, 'TRoy Jome', '3067783344', 'inc006@xnaminc.com', '313 St Rd', 'Hiệp Bình', 'New York', '10001', '', 'cash', 9600000.00, 'shipping', '2025-07-22 20:48:06', '2025-07-22 21:09:30'),
-(7, 1, 'Nam Ngo Dinh', '0347101143', 'ngodinhnam.dev@gmail.com', 'Xóm 1, thôn Phụng Sơn', 'Hiệp Bình', 'Gia Lai', '70000', 'dsfsdf', 'cash', 5430000.00, 'cancelled', '2025-07-22 21:03:33', '2025-07-22 21:04:01'),
-(8, 18, 'Jame Bond', '91886554', 'j20116931@gmail.com', 'Straße 144, Hf. Lundborg', 'Hiệp Bình', 'Viborg', '8800', 'cvbvcb', 'cash', 13467000.00, 'completed', '2025-07-22 21:04:43', '2025-07-22 21:06:55'),
-(9, 1, 'Daniel Johnson', '3056689900', 'yuyfkuw@exelica.com', '313 St Rd', 'Hiệp Bình', 'New York', '10001', 'zxc', 'cash', 13780000.00, 'shipping', '2025-07-22 21:18:21', '2025-07-22 21:19:52');
+(23, 1, 'Ngô Đình Nam', '0347101143', 'admin@naminc.dev', '39 đường số 19, khu phố 39', 'Hiệp Bình', 'Thành phố Hồ Chí Minh', '70000', 'FREE100', 'cash', 13367000.00, 'pending', '2025-07-25 16:36:46', '2025-07-25 16:36:46'),
+(24, 1, 'Ngô Đình Nam', '0347101143', 'admin@naminc.dev', '39 đường số 19, khu phố 39', 'Hiệp Bình', 'Thành phố Hồ Chí Minh', '70000', 'VIP20', 'cash', 10773600.00, 'pending', '2025-07-25 16:38:48', '2025-07-25 16:38:48'),
+(25, 1, 'Ngô Đình Nam', '0347101143', 'admin@naminc.dev', '39 đường số 19, khu phố 39', 'Hiệp Bình', 'Thành phố Hồ Chí Minh', '70000', 'None', 'cash', 13467000.00, 'shipping', '2025-07-25 16:39:21', '2025-07-25 16:43:02'),
+(26, 1, 'Ngô Đình Nam', '0347101143', 'admin@naminc.dev', '39 đường số 19, khu phố 39', 'Hiệp Bình', 'Thành phố Hồ Chí Minh', '70000', 'FREE200', 'cash', 13267000.00, 'completed', '2025-07-25 17:02:23', '2025-07-25 17:03:04'),
+(27, 1, 'Ngô Đình Nam', '0347101143', 'admin@naminc.dev', '39 đường số 19, khu phố 39', 'Hiệp Bình', 'Thành phố Hồ Chí Minh', '70000', '2BSgJJsN', 'cash', 969000.00, 'pending', '2025-07-25 17:11:51', '2025-07-25 17:11:51'),
+(28, 1, 'Ngô Đình Nam', '0347101143', 'admin@naminc.dev', '39 đường số 19, khu phố 40', 'Hiệp Bình', 'Thành phố Hồ Chí Minh', '70000', '', 'cash', 9690000.00, 'pending', '2025-07-29 12:36:25', '2025-07-29 12:36:25'),
+(29, 1, 'Ngô Đình Nam', '0347101143', 'admin@naminc.dev', '39 đường số 19, khu phố 39', 'Hiệp Bình', 'Thành phố Hồ Chí Minh', '70000', '', 'cash', 8230000.00, 'pending', '2025-07-29 12:41:03', '2025-07-29 12:41:03'),
+(30, 1, 'Ngô Đình Nam', '0347101143', 'admin@naminc.dev', '39 đường số 19, khu phố 39', 'Hiệp Bình', 'Thành phố Hồ Chí Minh', '70000', '', 'cash', 10928000.00, 'pending', '2025-07-29 12:44:50', '2025-07-29 12:44:50'),
+(31, 1, 'Ngô Đình Nam', '0347101143', 'admin@naminc.dev', '39 đường số 19, khu phố 39', 'Hiệp Bình', 'Thành phố Hồ Chí Minh', '70000', '', 'cash', 6300000.00, 'pending', '2025-07-29 12:53:11', '2025-07-29 12:53:11');
 
 -- --------------------------------------------------------
 
@@ -118,15 +181,23 @@ CREATE TABLE `order_items` (
 --
 
 INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `quantity`, `price`, `created_at`, `updated_at`) VALUES
-(12, 5, 31, 1, 6300000.00, '2025-07-22 20:43:26', '2025-07-22 20:43:26'),
-(13, 5, 34, 1, 5430000.00, '2025-07-22 20:43:26', '2025-07-22 20:43:26'),
-(14, 5, 37, 3, 6890000.00, '2025-07-22 20:43:26', '2025-07-22 20:43:26'),
-(15, 6, 32, 1, 2800000.00, '2025-07-22 20:48:06', '2025-07-22 20:48:06'),
-(16, 6, 33, 1, 6800000.00, '2025-07-22 20:48:06', '2025-07-22 20:48:06'),
-(17, 7, 34, 1, 5430000.00, '2025-07-22 21:03:33', '2025-07-22 21:03:33'),
-(18, 8, 37, 1, 6890000.00, '2025-07-22 21:04:43', '2025-07-22 21:04:43'),
-(19, 8, 36, 1, 6577000.00, '2025-07-22 21:04:43', '2025-07-22 21:04:43'),
-(20, 9, 37, 2, 6890000.00, '2025-07-22 21:18:21', '2025-07-22 21:18:21');
+(41, 23, 37, 1, 6890000.00, '2025-07-25 16:36:46', '2025-07-25 16:36:46'),
+(42, 23, 36, 1, 6577000.00, '2025-07-25 16:36:46', '2025-07-25 16:36:46'),
+(43, 24, 37, 1, 6890000.00, '2025-07-25 16:38:48', '2025-07-25 16:38:48'),
+(44, 24, 36, 1, 6577000.00, '2025-07-25 16:38:48', '2025-07-25 16:38:48'),
+(45, 25, 37, 1, 6890000.00, '2025-07-25 16:39:21', '2025-07-25 16:39:21'),
+(46, 25, 36, 1, 6577000.00, '2025-07-25 16:39:21', '2025-07-25 16:39:21'),
+(47, 26, 37, 1, 6890000.00, '2025-07-25 17:02:24', '2025-07-25 17:02:24'),
+(48, 26, 36, 1, 6577000.00, '2025-07-25 17:02:24', '2025-07-25 17:02:24'),
+(49, 27, 37, 1, 6890000.00, '2025-07-25 17:11:51', '2025-07-25 17:11:51'),
+(50, 27, 35, 1, 2800000.00, '2025-07-25 17:11:51', '2025-07-25 17:11:51'),
+(51, 28, 37, 1, 6890000.00, '2025-07-29 12:36:25', '2025-07-29 12:36:25'),
+(52, 28, 35, 1, 2800000.00, '2025-07-29 12:36:25', '2025-07-29 12:36:25'),
+(53, 29, 35, 1, 2800000.00, '2025-07-29 12:41:03', '2025-07-29 12:41:03'),
+(54, 29, 34, 1, 5430000.00, '2025-07-29 12:41:03', '2025-07-29 12:41:03'),
+(55, 30, 34, 2, 5430000.00, '2025-07-29 12:44:50', '2025-07-29 12:44:50'),
+(56, 30, 35, 1, 2800000.00, '2025-07-29 12:44:50', '2025-07-29 12:44:50'),
+(57, 31, 31, 1, 6300000.00, '2025-07-29 12:53:11', '2025-07-29 12:53:11');
 
 -- --------------------------------------------------------
 
@@ -141,6 +212,7 @@ CREATE TABLE `products` (
   `description` text DEFAULT NULL,
   `image` varchar(255) DEFAULT NULL,
   `price` decimal(10,2) DEFAULT 0.00,
+  `stock` int(11) NOT NULL,
   `category_id` int(11) NOT NULL,
   `status` tinyint(1) DEFAULT 1,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
@@ -151,15 +223,15 @@ CREATE TABLE `products` (
 -- Đang đổ dữ liệu cho bảng `products`
 --
 
-INSERT INTO `products` (`id`, `name`, `slug`, `description`, `image`, `price`, `category_id`, `status`, `created_at`, `updated_at`) VALUES
-(30, 'Aurora Classic W1', 'aurora-classic-w1', 'Aurora Classic W1 là mẫu đồng hồ theo phong cách tối giản, nổi bật với mặt số trắng tinh khôi và kim xanh sắc nét. Vỏ thép không gỉ sáng bóng kết hợp cùng dây da nâu cổ điển tạo nên vẻ ngoài thanh lịch, sang trọng. Mẫu đồng hồ này là sự lựa chọn lý tưởng cho những quý ông yêu thích phong cách cổ điển, tinh tế, phù hợp với môi trường công sở hoặc các sự kiện trang trọng.', '687ca99303a5e_product-w1.jpg', 4120000.00, 2, 1, '2025-07-20 08:32:19', '2025-07-20 10:58:58'),
-(31, 'Celestia Moonphase W2', 'celestia-moonphase-w2', 'Celestia Moonphase W2 sở hữu thiết kế ấn tượng với mặt đồng hồ tích hợp lịch trăng (moonphase), kết hợp với nền sao và mặt trời tạo chiều sâu huyền ảo. Vỏ màu vàng sang trọng phối với dây da xanh dương nổi bật, mang đậm phong cách châu Âu cổ điển. Đây là mẫu đồng hồ dành cho những người yêu thích sự lãng mạn và tinh tế, đồng thời thể hiện gu thẩm mỹ độc đáo và đẳng cấp.', '687ca9b49534d_product-w2.jpg', 6300000.00, 1, 1, '2025-07-20 08:32:52', '2025-07-20 10:58:58'),
-(32, 'Chronomaster Heritage W3', 'chronomaster-heritage-w3', 'Chronomaster Heritage W3 là mẫu chronograph cổ điển với mặt trắng sáng và ba mặt số phụ tinh tế. Thiết kế cân đối, vỏ thép sáng bóng và dây da đen thanh lịch, tạo nên vẻ ngoài lịch lãm nhưng không kém phần mạnh mẽ. Đồng hồ phù hợp cho các quý ông yêu thích sự cổ điển kết hợp tính năng thể thao, sử dụng tốt trong công việc lẫn sự kiện.', '687ca9f6dc909_product-w3.jpg', 2800000.00, 1, 1, '2025-07-20 08:33:58', '2025-07-20 10:58:58'),
-(33, 'NeoTech Minimalist W4', 'neotech-minimalist-w4', 'NeoTech Minimalist W4 mang hơi thở hiện đại với mặt số đen tuyền đơn giản, tinh gọn trong từng chi tiết. Dây cao su đen mềm mại, dễ đeo và chống nước, phù hợp với lối sống năng động. Với phong cách tối giản và trẻ trung, đây là lựa chọn hoàn hảo cho giới trẻ thành thị, đặc biệt là những người yêu công nghệ hoặc hybrid smartwatch.', '687caa18dc98c_product-w4.jpg', 6800000.00, 1, 1, '2025-07-20 08:34:32', '2025-07-20 10:58:58'),
-(34, 'Titan Sport Chrono W5', 'titan-sport-chrono-w5', 'Titan Sport Chrono W5 là mẫu đồng hồ thể thao mang phong cách mạnh mẽ và cá tính. Vỏ thép đen phối với chi tiết viền vàng tạo điểm nhấn táo bạo, cùng với các nút bấm chức năng và 3 mặt số phụ hỗ trợ bấm giờ chuyên nghiệp. Dây cao su chắc chắn, phù hợp cho các hoạt động thể thao cường độ cao hoặc người yêu phong cách mạnh mẽ, nam tính.', '687caa5886d70_product-w5.jpg', 5430000.00, 1, 1, '2025-07-20 08:35:36', '2025-07-20 10:58:58'),
-(35, 'Vintage Rose Classic W6', 'vintage-rose-classic-w6', 'Vintage Rose Classic W6 là mẫu đồng hồ mang phong cách hoài cổ với thiết kế thanh lịch, viền vàng hồng nhẹ nhàng và dây da nâu sáng. Mặt số màu trắng trang nhã, kim mảnh và mặt phụ hiển thị giây nhỏ tinh tế. Mẫu đồng hồ này thể hiện sự nhẹ nhàng và lịch thiệp, phù hợp với người yêu thời trang cổ điển, tinh giản và sang trọng.', '687caab0ecc0e_product-w6.jpg', 2800000.00, 2, 1, '2025-07-20 08:37:04', '2025-07-20 10:58:58'),
-(36, 'Royal Blue Chronograph', 'royal-blue-chronograph', 'Royal Blue Chronograph là sự kết hợp hài hòa giữa cổ điển và thể thao, với mặt số xanh navy đậm cùng các chữ số La Mã màu trắng tạo nên độ tương phản cao. Vỏ thép vàng bóng bẩy kết hợp dây da nâu cao cấp, cùng với 3 mặt phụ chronograph hỗ trợ bấm giờ tiện lợi. Mẫu đồng hồ này mang đến sự đẳng cấp, phù hợp cho cả doanh nhân lẫn giới trẻ hiện đại yêu thích sự nổi bật và cá tính.', '687cae7758e20_product-06-removebg-preview.png', 6577000.00, 1, 1, '2025-07-20 08:38:31', '2025-07-20 10:58:58'),
-(37, 'TitanX Tactical Pro', 'titanx-tactical-pro', 'TitanX Tactical Pro là mẫu đồng hồ kỹ thuật số chuyên dụng dành cho các hoạt động ngoài trời và quân sự. Vỏ đồng hồ bằng nhựa ABS chịu lực, dây cao su dày dặn cùng màn hình điện tử lớn dễ quan sát. Tích hợp nhiều tính năng như hiển thị giờ, ngày, lịch, la bàn số, nhiệt kế, đo độ cao, áp suất không khí và đèn nền LED giúp bạn sẵn sàng trong mọi điều kiện. Phù hợp cho người yêu phượt, trekking, dã ngoại hoặc làm việc trong môi trường khắc nghiệt.', '687caf16844b8_product-10-removebg-preview.png', 6890000.00, 5, 1, '2025-07-20 08:55:50', '2025-07-20 10:58:58');
+INSERT INTO `products` (`id`, `name`, `slug`, `description`, `image`, `price`, `stock`, `category_id`, `status`, `created_at`, `updated_at`) VALUES
+(30, 'Aurora Classic W1', 'aurora-classic-w1', 'Aurora Classic W1 là mẫu đồng hồ theo phong cách tối giản, nổi bật với mặt số trắng tinh khôi và kim xanh sắc nét. Vỏ thép không gỉ sáng bóng kết hợp cùng dây da nâu cổ điển tạo nên vẻ ngoài thanh lịch, sang trọng. Mẫu đồng hồ này là sự lựa chọn lý tưởng cho những quý ông yêu thích phong cách cổ điển, tinh tế, phù hợp với môi trường công sở hoặc các sự kiện trang trọng.', '687ca99303a5e_product-w1.jpg', 4120000.00, 10, 2, 0, '2025-07-20 08:32:19', '2025-07-25 06:17:19'),
+(31, 'Celestia Moonphase W2', 'celestia-moonphase-w2', 'Celestia Moonphase W2 sở hữu thiết kế ấn tượng với mặt đồng hồ tích hợp lịch trăng (moonphase), kết hợp với nền sao và mặt trời tạo chiều sâu huyền ảo. Vỏ màu vàng sang trọng phối với dây da xanh dương nổi bật, mang đậm phong cách châu Âu cổ điển. Đây là mẫu đồng hồ dành cho những người yêu thích sự lãng mạn và tinh tế, đồng thời thể hiện gu thẩm mỹ độc đáo và đẳng cấp.', '687ca9b49534d_product-w2.jpg', 6300000.00, 9, 1, 1, '2025-07-20 08:32:52', '2025-07-29 05:53:11'),
+(32, 'Chronomaster Heritage W3', 'chronomaster-heritage-w3', 'Chronomaster Heritage W3 là mẫu chronograph cổ điển với mặt trắng sáng và ba mặt số phụ tinh tế. Thiết kế cân đối, vỏ thép sáng bóng và dây da đen thanh lịch, tạo nên vẻ ngoài lịch lãm nhưng không kém phần mạnh mẽ. Đồng hồ phù hợp cho các quý ông yêu thích sự cổ điển kết hợp tính năng thể thao, sử dụng tốt trong công việc lẫn sự kiện.', '687ca9f6dc909_product-w3.jpg', 2800000.00, 10, 1, 1, '2025-07-20 08:33:58', '2025-07-25 06:17:26'),
+(33, 'NeoTech Minimalist W4', 'neotech-minimalist-w4', 'NeoTech Minimalist W4 mang hơi thở hiện đại với mặt số đen tuyền đơn giản, tinh gọn trong từng chi tiết. Dây cao su đen mềm mại, dễ đeo và chống nước, phù hợp với lối sống năng động. Với phong cách tối giản và trẻ trung, đây là lựa chọn hoàn hảo cho giới trẻ thành thị, đặc biệt là những người yêu công nghệ hoặc hybrid smartwatch.', '687caa18dc98c_product-w4.jpg', 6800000.00, 10, 1, 1, '2025-07-20 08:34:32', '2025-07-25 06:17:29'),
+(34, 'Titan Sport Chrono W5', 'titan-sport-chrono-w5', 'Titan Sport Chrono W5 là mẫu đồng hồ thể thao mang phong cách mạnh mẽ và cá tính. Vỏ thép đen phối với chi tiết viền vàng tạo điểm nhấn táo bạo, cùng với các nút bấm chức năng và 3 mặt số phụ hỗ trợ bấm giờ chuyên nghiệp. Dây cao su chắc chắn, phù hợp cho các hoạt động thể thao cường độ cao hoặc người yêu phong cách mạnh mẽ, nam tính.', '687caa5886d70_product-w5.jpg', 5430000.00, 4, 1, 1, '2025-07-20 08:35:36', '2025-07-29 05:44:50'),
+(35, 'Vintage Rose Classic W6', 'vintage-rose-classic-w6', 'Vintage Rose Classic W6 là mẫu đồng hồ mang phong cách hoài cổ với thiết kế thanh lịch, viền vàng hồng nhẹ nhàng và dây da nâu sáng. Mặt số màu trắng trang nhã, kim mảnh và mặt phụ hiển thị giây nhỏ tinh tế. Mẫu đồng hồ này thể hiện sự nhẹ nhàng và lịch thiệp, phù hợp với người yêu thời trang cổ điển, tinh giản và sang trọng.', '687caab0ecc0e_product-w6.jpg', 2800000.00, 6, 2, 1, '2025-07-20 08:37:04', '2025-07-29 05:44:50'),
+(36, 'Royal Blue Chronograph', 'royal-blue-chronograph', 'Royal Blue Chronograph là sự kết hợp hài hòa giữa cổ điển và thể thao, với mặt số xanh navy đậm cùng các chữ số La Mã màu trắng tạo nên độ tương phản cao. Vỏ thép vàng bóng bẩy kết hợp dây da nâu cao cấp, cùng với 3 mặt phụ chronograph hỗ trợ bấm giờ tiện lợi. Mẫu đồng hồ này mang đến sự đẳng cấp, phù hợp cho cả doanh nhân lẫn giới trẻ hiện đại yêu thích sự nổi bật và cá tính.', '687cae7758e20_product-06-removebg-preview.png', 6577000.00, 0, 1, 1, '2025-07-20 08:38:31', '2025-07-25 10:02:24'),
+(37, 'TitanX Tactical Pro', 'titanx-tactical-pro', 'TitanX Tactical Pro là mẫu đồng hồ kỹ thuật số chuyên dụng dành cho các hoạt động ngoài trời và quân sự. Vỏ đồng hồ bằng nhựa ABS chịu lực, dây cao su dày dặn cùng màn hình điện tử lớn dễ quan sát. Tích hợp nhiều tính năng như hiển thị giờ, ngày, lịch, la bàn số, nhiệt kế, đo độ cao, áp suất không khí và đèn nền LED giúp bạn sẵn sàng trong mọi điều kiện. Phù hợp cho người yêu phượt, trekking, dã ngoại hoặc làm việc trong môi trường khắc nghiệt.', '687caf16844b8_product-10-removebg-preview.png', 6890000.00, 8, 5, 1, '2025-07-20 08:55:50', '2025-07-29 05:36:25');
 
 -- --------------------------------------------------------
 
@@ -242,6 +314,22 @@ ALTER TABLE `categories`
   ADD UNIQUE KEY `slug` (`slug`);
 
 --
+-- Chỉ mục cho bảng `coupons`
+--
+ALTER TABLE `coupons`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `code` (`code`);
+
+--
+-- Chỉ mục cho bảng `coupon_usages`
+--
+ALTER TABLE `coupon_usages`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `order_id` (`order_id`),
+  ADD KEY `fk_coupon` (`coupon_id`);
+
+--
 -- Chỉ mục cho bảng `orders`
 --
 ALTER TABLE `orders`
@@ -285,7 +373,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT cho bảng `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
 
 --
 -- AUTO_INCREMENT cho bảng `categories`
@@ -294,22 +382,34 @@ ALTER TABLE `categories`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
+-- AUTO_INCREMENT cho bảng `coupons`
+--
+ALTER TABLE `coupons`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT cho bảng `coupon_usages`
+--
+ALTER TABLE `coupon_usages`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
 -- AUTO_INCREMENT cho bảng `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT cho bảng `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT cho bảng `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT cho bảng `users`
@@ -327,6 +427,14 @@ ALTER TABLE `users`
 ALTER TABLE `cart_items`
   ADD CONSTRAINT `fk_product` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Các ràng buộc cho bảng `coupon_usages`
+--
+ALTER TABLE `coupon_usages`
+  ADD CONSTRAINT `coupon_usages_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `coupon_usages_ibfk_2` FOREIGN KEY (`coupon_id`) REFERENCES `coupons` (`id`),
+  ADD CONSTRAINT `coupon_usages_ibfk_3` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`);
 
 --
 -- Các ràng buộc cho bảng `orders`

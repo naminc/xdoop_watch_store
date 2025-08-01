@@ -84,8 +84,8 @@ class User extends Model
     public function register()
     {
         $hash = password_hash($this->getPassword(), PASSWORD_DEFAULT);
-        $stmt = $this->db->prepare("INSERT INTO users (username, email, password, role, status, ip_address, user_agent, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), NOW())");
-        $stmt->bind_param("sssssss", $this->getUsername(), $this->getEmail(), $hash, $this->getRole(), $this->getStatus(), $this->getIpAddress(), $this->getUserAgent());
+        $stmt = $this->db->prepare("INSERT INTO users (fullname, username, email, password, phone, role, status, ip_address, user_agent, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())");
+        $stmt->bind_param("sssssssss", $this->getFullname(), $this->getUsername(), $this->getEmail(), $hash, $this->getPhone(), $this->getRole(), $this->getStatus(), $this->getIpAddress(), $this->getUserAgent());
         return $stmt->execute();
     }
     // Lất tất cả người dùng

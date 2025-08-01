@@ -39,6 +39,8 @@ class AuthController extends BaseController
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
             $userM = new User(); // khởi tạo model User
             $userM->setUsername($_POST['username'] ?? ''); // set username
+            $userM->setFullname(''); // set fullname
+            $userM->setPhone(''); // set phone
             $userM->setEmail($_POST['email'] ?? ''); // set email
             $userM->setPassword($_POST['password'] ?? ''); // set password
             $confirm_password = $_POST['confirm_password'] ?? ''; // lấy confirm password
