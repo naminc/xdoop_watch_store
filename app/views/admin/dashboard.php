@@ -143,6 +143,21 @@ require_once __DIR__ . '/../layouts/header.php';
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="row mt-3">
+                                                <div class="col-md-12">
+                                                    <div class="p-3 bg-dark text-white rounded shadow">
+                                                        <h4>Khách hàng mua nhiều nhất</h4>
+                                                        <ul class="list-group">
+                                                            <?php foreach ($bestCustomers as $customer): ?>
+                                                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                                    <a href="/admin/user/edit/<?= $customer['id'] ?>" style="text-decoration: none; color:rgb(68, 183, 133);"><?= $customer['fullname']; ?> (Tài khoản: <?= $customer['username']; ?>)</a>
+                                                                    <span class="badge bg-info"><?= $customer['total_orders']; ?> đơn hàng</span>
+                                                                </li>
+                                                            <?php endforeach; ?>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

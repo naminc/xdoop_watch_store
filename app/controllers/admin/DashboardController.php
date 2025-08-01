@@ -41,6 +41,7 @@ class DashboardController extends BaseController
             'bestSelling' => $this->productModel->getBestSellingProducts(), // lấy sản phẩm bán chạy
             'leastSelling' => $this->productModel->getLeastSellingProducts(), // lấy sản phẩm bán ít
             'neverSold' => $this->productModel->getNeverSoldProducts(), // lấy sản phẩm chưa bán được lần nào
+            'bestCustomers' => $this->orderModel->getBestCustomers(), // lấy khách hàng mua nhiều nhất
         ];
         $data['breadcrumbs'] = 'Bảng điều khiển'; // lấy breadcrumbs
         $this->view('admin/dashboard', $data); // hiển thị view dashboard

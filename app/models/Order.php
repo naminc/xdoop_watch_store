@@ -136,29 +136,36 @@ class Order extends Model
     // Lấy tổng doanh thu theo ngày
     public function getTotalRevenueDay()
     {
-        $stmt = $this->db->prepare("SELECT SUM(total) FROM orders WHERE DATE(created_at) = DATE(NOW())");
+        $stmt = $this->db->prepare("SELECT SUM(total) FROM orders WHERE DATE(created_at) = DATE(NOW()) AND status = 'completed'");
         $stmt->execute();
         return $stmt->get_result()->fetch_assoc()['SUM(total)'];
     }
     // Lấy tổng doanh thu theo tháng
     public function getTotalRevenueMonth()
     {
-        $stmt = $this->db->prepare("SELECT SUM(total) FROM orders WHERE MONTH(created_at) = MONTH(NOW())");
+        $stmt = $this->db->prepare("SELECT SUM(total) FROM orders WHERE MONTH(created_at) = MONTH(NOW()) AND status = 'completed'");
         $stmt->execute();
         return $stmt->get_result()->fetch_assoc()['SUM(total)'];
     }
     // Lấy tổng doanh thu theo năm
     public function getTotalRevenueYear()
     {
-        $stmt = $this->db->prepare("SELECT SUM(total) FROM orders WHERE YEAR(created_at) = YEAR(NOW())");
+        $stmt = $this->db->prepare("SELECT SUM(total) FROM orders WHERE YEAR(created_at) = YEAR(NOW()) AND status = 'completed'");
         $stmt->execute();
         return $stmt->get_result()->fetch_assoc()['SUM(total)'];
     }
     // Lấy tổng doanh thu tất cả
     public function getTotalRevenueAll()
     {
-        $stmt = $this->db->prepare("SELECT SUM(total) FROM orders");
+        $stmt = $this->db->prepare("SELECT SUM(total) FROM orders WHERE status = 'completed'");
         $stmt->execute();
         return $stmt->get_result()->fetch_assoc()['SUM(total)'];
+    }
+    // Lấy khách hàng mua nhiều nhất
+    public function getBestCustomers()
+    {
+        $stmt = $this->db->prepare("SELECT users.id, users.username, users.fullname, COUNT(orders.id) as total_orders FROM users LEFT JOIN orders ON users.id = orders.user_id WHERE orders.status = 'completed' GROUP BY users.id ORDER BY total_orders DESC LIMIT 10");
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 }

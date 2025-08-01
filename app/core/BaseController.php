@@ -12,6 +12,7 @@ class BaseController
     protected $cartCount = 0;
     public function __construct()
     {
+        date_default_timezone_set('Asia/Ho_Chi_Minh'); // set timezone
         $settingM = new Setting();
         $this->setting = $settingM->getSetting();
 
