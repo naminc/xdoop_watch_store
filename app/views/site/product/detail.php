@@ -37,7 +37,7 @@ require_once __DIR__ . '/../../layouts/header.php';
                                         </form>
                                         <div class="availability mb-20">
                                             <h5>Tình trạng:</h5>
-                                            <span><?= $product['status'] == 1 ? 'Còn hàng' : 'Hết hàng' ?></span>
+                                            <span><?= $product['stock'] > 0 ? 'Còn hàng' : '<span style="color: red;">Hết hàng</span>' ?></span>
                                         </div>
                                         <div class="share-icon mt-2">
                                             <h5>Chia sẻ:</h5>
