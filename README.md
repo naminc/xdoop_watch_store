@@ -62,13 +62,27 @@ composer install
 - Tạo DBNAME, USERNAME, PASSWORD
 - Import file db.sql
 
-3️⃣ Cấu hình kết nối DB
-- Cấu hình (HOSTNAME, DBNAME, USERNAME, PASSWORD) trong **app/core/Database.php**
+3️⃣ Cấu hình kết nối DB & SMTP
+- Cấu hình thông tin Database & SMTP trong **app/config/config.php**
 ```env
-$host = "localhost";
-$user = "";
-$pass = "";
-$dbname = "";
+return [
+    'database' => [
+        'host' => 'localhost',
+        'user' => 'root',
+        'pass' => '',
+        'dbname' => 'ruiz-watch',
+        'charset' => 'utf8'
+    ],
+    'smtp' => [
+        'host' => 'smtp.gmail.com',
+        'username' => '',
+        'password' => '',
+        'encryption' => 'tls',
+        'port' => 587,
+        'from_email' => '',
+        'from_name' => ''
+    ]
+];
 ```
 
 ---

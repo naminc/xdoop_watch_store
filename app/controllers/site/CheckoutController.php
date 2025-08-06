@@ -16,9 +16,15 @@ require_once __DIR__ . '/../../../vendor/autoload.php';
 
 class CheckoutController extends BaseController
 {
+    private $config;
     public function __construct()
     {
         parent::__construct();
+        $configPath = __DIR__ . '/../../config/config.php';
+        if (!file_exists($configPath)) {
+            die('File config.php không tồn tại.');
+        }
+        $this->config = require $configPath;
     }
     public function index()
     {
@@ -169,14 +175,14 @@ class CheckoutController extends BaseController
         date_default_timezone_set('Asia/Ho_Chi_Minh');
         try {
             $mail->isSMTP();
-            $mail->Host       = 'smtp.gmail.com';
+            $mail->Host       = $this->config['smtp']['host'];
             $mail->SMTPAuth   = true;
-            $mail->Username   = 'typo7201@gmail.com';
-            $mail->Password   = 'fvzahalcvmwimkxv';
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-            $mail->Port       = 587;
+            $mail->Username   = $this->config['smtp']['username'];
+            $mail->Password   = $this->config['smtp']['password'];
+            $mail->SMTPSecure = $this->config['smtp']['encryption'];
+            $mail->Port       = $this->config['smtp']['port'];
 
-            $mail->setFrom('typo7201@gmail.com', 'Xdoop Store');
+            $mail->setFrom($this->config['smtp']['from_email'], $this->config['smtp']['from_name']);
             $mail->addAddress($_POST['email'], $_POST['fullname']);
 
             $mail->isHTML(true);

@@ -11,18 +11,18 @@ class Database
 
     private function __construct() // constructor
     {
-        $host = "localhost"; // host
-        $user = "root"; // user
-        $pass = ""; // pass
-        $dbname = "ruiz-watch"; // dbname
-
+        $config = require_once __DIR__ . '/../config/config.php';
+        $host = $config['database']['host']; // host
+        $user = $config['database']['user']; // user
+        $pass = $config['database']['pass']; // pass
+        $dbname = $config['database']['dbname']; // dbname
+        $charset = $config['database']['charset']; // charset
         $this->conn = new mysqli($host, $user, $pass, $dbname); // kết nối đến database
 
         if ($this->conn->connect_error) { // kiểm tra xem có lỗi kết nối không
             die("Kết nối thất bại: " . $this->conn->connect_error); // hiển thị lỗi kết nối
         }
-
-        $this->conn->set_charset("utf8"); // set charset
+        $this->conn->set_charset($charset); // set charset
     }
 
     public static function getInstance() // lấy instance của database
