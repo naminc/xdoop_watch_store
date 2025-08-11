@@ -101,4 +101,18 @@ class Cart extends Model
         $stmt->execute();
         return $stmt->get_result()->fetch_assoc()['quantity'];
     }
+
+    public function updateCart()
+    {
+        $stmt = $this->db->prepare("UPDATE cart_items SET quantity = ?, updated_at = NOW() WHERE id = ?");
+        $stmt->bind_param("ii", $this->getQuantity(), $this->getId());
+        return $stmt->execute();
+    }
+    public function getCartItem()
+    {
+        $stmt = $this->db->prepare("SELECT * FROM cart_items WHERE id = ? AND user_id = ?");
+        $stmt->bind_param("ii", $this->getId(), $this->getUserId());
+        $stmt->execute();
+        return $stmt->get_result()->fetch_assoc();
+    }
 }

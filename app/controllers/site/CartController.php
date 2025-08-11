@@ -158,4 +158,42 @@ class CartController extends BaseController
         $data['subtotal'] = $cartM->getCartSubtotal();
         $this->view('site/cart/index', $data);
     }
+    public function update($id)
+    {
+        $data = [];
+        $cartM = new Cart();
+        $cartM->setId($id);
+        $cartM->setQuantity($_POST['quantity']);
+        $cartM->setUserId($_SESSION['user']['id']);
+        $cartItem = $cartM->getCartItem();
+        $productM = new Product();
+        $productM->setId($cartItem['product_id']);
+        $product = $productM->getProductById();
+        if (!$product) {
+            $data['error'] = 'Sản phẩm không tồn tại.';
+            $data['redirect'] = '/cart/index';
+            $this->view('site/cart/index', $data);
+            return;
+        }
+        if ($productM->checkStock() <= 0) {
+            $data['error'] = 'Sản phẩm đã hết hàng.';
+            $data['redirect'] = '/cart/index';
+            $this->view('site/cart/index', $data);
+            return;
+        }
+        if ($productM->checkStock() < $cartM->getQuantity()) {
+            $data['error'] = 'Vượt quá số lượng tồn của sản phẩm.';
+            $data['redirect'] = '/cart/index';
+            $this->view('site/cart/index', $data);
+            return;
+        }
+        if ($cartM->updateCart()) {
+            $data['success'] = 'Cập nhật số lượng sản phẩm thành công.';
+            $data['redirect'] = '/cart/index';
+        } else {
+            $data['error'] = 'Cập nhật số lượng sản phẩm thất bại.';
+            $data['redirect'] = '/cart/index';
+        }
+        $this->view('site/cart/index', $data);
+    }
 }

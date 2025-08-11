@@ -192,6 +192,9 @@ class CheckoutController extends BaseController
             foreach ($cartItems as $item) {
                 $itemsHtml .= "
         <tr>
+            <td style='padding: 8px; border: 1px solid #ddd; text-align: center;'>
+                <img src='{$this->config['site']['url']}/uploads/products/{$item['image']}' alt='{$item['name']}' style='width: 50px; height: 50px;'>
+            </td>
             <td style='padding: 8px; border: 1px solid #ddd;'>{$item['name']}</td>
             <td style='padding: 8px; border: 1px solid #ddd;'>{$item['quantity']}</td>
             <td style='padding: 8px; border: 1px solid #ddd;'>" . number_format($item['price'], 0, ',', '.') . "đ</td>
@@ -220,6 +223,7 @@ class CheckoutController extends BaseController
     <table style='border-collapse: collapse; width: 100%; margin-top: 10px;'>
         <thead>
             <tr>
+                <th style='padding: 8px; border: 1px solid #ddd; background-color: #f7f7f7;'>Ảnh</th>
                 <th style='padding: 8px; border: 1px solid #ddd; background-color: #f7f7f7;'>Tên sản phẩm</th>
                 <th style='padding: 8px; border: 1px solid #ddd; background-color: #f7f7f7;'>Số lượng</th>
                 <th style='padding: 8px; border: 1px solid #ddd; background-color: #f7f7f7;'>Giá</th>

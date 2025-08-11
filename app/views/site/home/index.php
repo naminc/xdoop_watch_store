@@ -27,7 +27,7 @@
             <div class="col1 col-sm-6">
                 <div class="img-container img-full fix">
                     <a href="#">
-                        <img src="/assets/img/banner/cms_5.1.jpg" alt="banner image">
+                        <img src="http://tybe.me/uploads/img_6898b003ed6e0.jpg" alt="banner image">
                     </a>
                 </div>
             </div>

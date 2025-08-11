@@ -22,6 +22,7 @@ require_once __DIR__ . '/../../layouts/header.php';
                             </thead>
                             <tbody>
                                 <?php if (!empty($cart)) : ?>
+                                    <?php $discount = 0; ?>
                                     <?php foreach ($cart as $item) : ?>
                                         <tr>
                                             <td class="pro-thumbnail"><a href="#"><img class="img-fluid" src="/uploads/products/<?= $item['image'] ?>"
@@ -29,7 +30,16 @@ require_once __DIR__ . '/../../layouts/header.php';
                                             <td class="pro-title"><a href="/product/detail/<?= $item['slug'] ?>"><?= $item['name'] ?></a></td>
                                             <td class="pro-price"><span><?= number_format($item['price'], 0, ',', '.') ?> VNĐ</span></td>
                                             <td class="pro-quantity">
-                                                <?= $item['quantity'] ?>
+                                                <form action="/cart/update/<?= $item['id'] ?>" method="post" class="d-flex align-items-center gap-2">
+                                                    <div class="input-group" style="width: 70px;">
+                                                        <input type="number"
+                                                            name="quantity"
+                                                            class="form-control form-control-sm text-center input-qty"
+                                                            value="<?= (int)$item['quantity'] ?>"
+                                                            min="1" step="1" required>
+                                                    </div>
+                                                    <button type="submit" class="sqr-btn-sm">Cập nhật</button>
+                                                </form>
                                             </td>
                                             <td class="pro-subtotal"><span><?= number_format($item['price'] * $item['quantity'], 0, ',', '.') ?> VNĐ</span></td>
                                             <td class="pro-remove">
@@ -89,7 +99,7 @@ require_once __DIR__ . '/../../layouts/header.php';
                                                     $discount = $_SESSION['coupon']['discount_value'];
                                                     echo number_format($_SESSION['coupon']['discount_value'], 0, ',', '.') . ' VNĐ';
                                                 }
-                                            ?></td>
+                                                ?></td>
                                         </tr>
                                     <?php endif; ?>
                                     <tr class="total">

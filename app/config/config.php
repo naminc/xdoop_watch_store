@@ -15,5 +15,8 @@ return [
         'port' => 587,
         'from_email' => 'typo7201@gmail.com',
         'from_name' => 'Xdoop Store'
+    ],
+    'site' => [
+        'url' => 'https://xdoop.com'
     ]
 ];

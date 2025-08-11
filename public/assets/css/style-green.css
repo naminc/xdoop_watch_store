@@ -1465,6 +1465,18 @@ body.modal-open {
 .sqr-btn i {
   padding-right: 5px;
 }
+.sqr-btn-sm {
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  background-color: #2aaf74;
+  padding: 5px 10px 3px;
+  text-transform: capitalize;
+  display: inline-block;
+  border-radius: 5px;
+}
 .delete-btn {
   color: #ffffff;
   font-size: 14px;
