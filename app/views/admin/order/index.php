@@ -37,39 +37,39 @@ require_once __DIR__ . '/../../layouts/header.php';
                                                 <?php
                                                 if (!empty($orders)):
                                                     foreach ($orders as $item): ?>
-                                                <tr>
-                                                    <td>#<?= $item['id'] ?></td>
-                                                    <td><?= $item['user_name'] ?></td>
-                                                    <td><?= number_format($item['total'], 0, ',', '.') ?> VNĐ</td>
-                                                    <td>
-                                                        <?php switch ($item['status']) {
-                                                            case 'pending':
-                                                                echo '<span class="badge bg-warning"><i class="fa fa-spinner fa-spin"></i> Chờ xử lý</span>';
-                                                                break;
-                                                            case 'processing':
-                                                                echo '<span class="badge bg-info"><i class="fa fa-spinner fa-spin"></i> Đang xử lý</span>';
-                                                                break;
-                                                            case 'shipping':
-                                                                echo '<span class="badge bg-info"><i class="fa fa-truck"></i> Đang giao hàng</span>';
-                                                                break;
-                                                            case 'completed':
-                                                                echo '<span class="badge bg-success"><i class="fa fa-check"></i> Đã hoàn thành</span>';
-                                                                break;
-                                                            case 'cancelled':
-                                                                echo '<span class="badge bg-danger"><i class="fa fa-times"></i> Đã hủy</span>';
-                                                                break;
-                                                            default:
-                                                                echo '<span class="badge bg-secondary">Chưa xác định</span>';
-                                                                break;
-                                                        } ?>
-                                                    </td>
-                                                    <td><?= date('d/m/Y H:i:s', strtotime($item['created_at'])) ?></td>
-                                                    <td><?= date('d/m/Y H:i:s', strtotime($item['updated_at'])) ?></td>
-                                                    <td>
-                                                        <a href="/admin/order/edit/<?= $item['id'] ?>" class="check-btn sqr-btn "><i class="fa fa-edit"></i></a>
-                                                    </td>
-                                                </tr>
-                                                <?php endforeach;
+                                                        <tr>
+                                                            <td>#<?= $item['id'] ?></td>
+                                                            <td><?= $item['user_name'] ?></td>
+                                                            <td><?= number_format($item['total'], 0, ',', '.') ?> VNĐ</td>
+                                                            <td>
+                                                                <?php switch ($item['status']) {
+                                                                    case 'pending':
+                                                                        echo '<span class="badge bg-warning"><i class="fa fa-spinner fa-spin"></i> Chờ xử lý</span>';
+                                                                        break;
+                                                                    case 'processing':
+                                                                        echo '<span class="badge bg-info"><i class="fa fa-spinner fa-spin"></i> Đang xử lý</span>';
+                                                                        break;
+                                                                    case 'shipping':
+                                                                        echo '<span class="badge bg-info"><i class="fa fa-truck"></i> Đang giao hàng</span>';
+                                                                        break;
+                                                                    case 'completed':
+                                                                        echo '<span class="badge bg-success"><i class="fa fa-check"></i> Đã hoàn thành</span>';
+                                                                        break;
+                                                                    case 'cancelled':
+                                                                        echo '<span class="badge bg-danger"><i class="fa fa-times"></i> Đã hủy</span>';
+                                                                        break;
+                                                                    default:
+                                                                        echo '<span class="badge bg-secondary">Chưa xác định</span>';
+                                                                        break;
+                                                                } ?>
+                                                            </td>
+                                                            <td><?= date('d/m/Y H:i:s', strtotime($item['created_at'])) ?></td>
+                                                            <td><?= date('d/m/Y H:i:s', strtotime($item['updated_at'])) ?></td>
+                                                            <td>
+                                                                <a href="/admin/order/edit/<?= $item['id'] ?>" class="check-btn sqr-btn "><i class="fa fa-edit"></i></a>
+                                                            </td>
+                                                        </tr>
+                                                    <?php endforeach;
                                                 else: ?>
                                                     <tr>
                                                         <td colspan="11" class="text-center">Không có dữ liệu</td>
@@ -77,10 +77,52 @@ require_once __DIR__ . '/../../layouts/header.php';
                                                 <?php endif; ?>
                                             </tbody>
                                         </table>
+
+                                    </div>
+                                    <div class="row text-center mb-4 mt-2">
+                                        <div class="col-md-2 mb-2">
+                                            <div class="p-3 bg-dark text-white rounded shadow">
+                                                <h4><?= $totalOrders ?></h4>
+                                                <p style="color: #fff;"><i class="fa fa-cart-arrow-down"></i> Tổng đơn hàng</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 mb-2">
+                                            <div class="p-3 bg-warning text-white rounded shadow">
+                                                <h4><?= $totalOrdersPending ?></h4>
+                                                <p style="color: #fff;"><i class="fa fa-spinner fa-spin"></i> Đơn hàng chờ xử lý</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 mb-2">
+                                            <div class="p-3 bg-info text-white rounded shadow">
+                                                <h4><?= $totalOrdersProcessing ?></h4>
+                                                <p style="color: #fff;"><i class="fa fa-spinner fa-spin"></i> Đơn hàng đang xử lý</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 mb-2">
+                                            <div class="p-3 bg-success text-white rounded shadow">
+                                                <h4><?= $totalOrdersCompleted ?></h4>
+                                                <p style="color: #fff;"><i class="fa fa-check"></i> Đơn hàng đã hoàn thành</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 mb-2">
+                                            <div class="p-3 bg-info text-white rounded shadow">
+                                                <h4><?= $totalOrdersShipping ?></h4>
+                                                <p style="color: #fff;"><i class="fa fa-truck"></i> Đơn hàng đang giao</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 mb-2">
+                                            <div class="p-3 bg-danger text-white rounded shadow">
+                                                <h4><?= $totalOrdersCancelled ?></h4>
+                                                <p style="color: #fff;"><i class="fa fa-times"></i> Đơn hàng đã hủy</p>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
+
                             </div>
+
                         </div>
+
                     </div>
                 </div>
             </div>

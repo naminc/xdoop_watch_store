@@ -15,6 +15,12 @@ class OrderController extends BaseController
     {
         $orderM = new Order(); // khởi tạo model Order
         $data['orders'] = $orderM->getAll(); // lấy tất cả đơn hàng
+        $data['totalOrders'] = $orderM->countAll(); // lấy tổng số đơn hàng
+        $data['totalOrdersPending'] = $orderM->countAllPending(); // lấy tổng số đơn hàng chờ xử lý
+        $data['totalOrdersProcessing'] = $orderM->countAllProcessing(); // lấy tổng số đơn hàng đang xử lý
+        $data['totalOrdersCompleted'] = $orderM->countAllCompleted(); // lấy tổng số đơn hàng đã hoàn thành
+        $data['totalOrdersCancelled'] = $orderM->countAllCancelled(); // lấy tổng số đơn hàng đã hủy
+        $data['totalOrdersShipping'] = $orderM->countAllShipping(); // lấy tổng số đơn hàng đang giao
         $data['breadcrumbs'] = 'Quản lý đơn hàng'; // lấy breadcrumbs
         $this->view('admin/order/index', $data); // hiển thị view index
     }

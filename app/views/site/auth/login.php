@@ -29,7 +29,6 @@ require_once __DIR__ . '/../../layouts/header.php';
                                                 <label class="custom-control-label" for="rememberMe">Nhớ tôi</label>
                                             </div>
                                         </div>
-                                        <a href="#" class="forget-pwd">Quên mật khẩu?</a>
                                     </div>
                                 </div>
                                 <div class="single-input-item">

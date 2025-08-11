@@ -1,4 +1,5 @@
 <?php
+
 namespace models;
 
 use core\Model;
@@ -19,39 +20,129 @@ class Order extends Model
     private $total;
     private $status;
     private $created_at;
-    private $updated_at;    
+    private $updated_at;
     // Getter
-    public function getId() { return $this->id; }
-    public function getUserId() { return $this->user_id; }
-    public function getFullname() { return $this->fullname; }
-    public function getPhone() { return $this->phone; }
-    public function getEmail() { return $this->email; }
-    public function getAddress() { return $this->address; }
-    public function getDistrict() { return $this->district; }
-    public function getCity() { return $this->city; }
-    public function getPostcode() { return $this->postcode; }
-    public function getNote() { return $this->note; }
-    public function getPaymentMethod() { return $this->payment_method; }
-    public function getTotal() { return $this->total; }
-    public function getStatus() { return $this->status; }
-    public function getCreatedAt() { return $this->created_at; }
-    public function getUpdatedAt() { return $this->updated_at; }
+    public function getId()
+    {
+        return $this->id;
+    }
+    public function getUserId()
+    {
+        return $this->user_id;
+    }
+    public function getFullname()
+    {
+        return $this->fullname;
+    }
+    public function getPhone()
+    {
+        return $this->phone;
+    }
+    public function getEmail()
+    {
+        return $this->email;
+    }
+    public function getAddress()
+    {
+        return $this->address;
+    }
+    public function getDistrict()
+    {
+        return $this->district;
+    }
+    public function getCity()
+    {
+        return $this->city;
+    }
+    public function getPostcode()
+    {
+        return $this->postcode;
+    }
+    public function getNote()
+    {
+        return $this->note;
+    }
+    public function getPaymentMethod()
+    {
+        return $this->payment_method;
+    }
+    public function getTotal()
+    {
+        return $this->total;
+    }
+    public function getStatus()
+    {
+        return $this->status;
+    }
+    public function getCreatedAt()
+    {
+        return $this->created_at;
+    }
+    public function getUpdatedAt()
+    {
+        return $this->updated_at;
+    }
     // Setter
-    public function setId($id) { $this->id = $id; }
-    public function setUserId($user_id) { $this->user_id = $user_id; }
-    public function setFullname($fullname) { $this->fullname = $fullname; }
-    public function setPhone($phone) { $this->phone = $phone; }
-    public function setEmail($email) { $this->email = $email; }
-    public function setAddress($address) { $this->address = $address; }
-    public function setDistrict($district) { $this->district = $district; }
-    public function setCity($city) { $this->city = $city; }
-    public function setPostcode($postcode) { $this->postcode = $postcode; }
-    public function setNote($note) { $this->note = $note; }
-    public function setPaymentMethod($payment_method) { $this->payment_method = $payment_method; }
-    public function setTotal($total) { $this->total = $total; }
-    public function setStatus($status) { $this->status = $status; }
-    public function setCreatedAt($created_at) { $this->created_at = $created_at; }
-    public function setUpdatedAt($updated_at) { $this->updated_at = $updated_at; }
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+    public function setUserId($user_id)
+    {
+        $this->user_id = $user_id;
+    }
+    public function setFullname($fullname)
+    {
+        $this->fullname = $fullname;
+    }
+    public function setPhone($phone)
+    {
+        $this->phone = $phone;
+    }
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    }
+    public function setAddress($address)
+    {
+        $this->address = $address;
+    }
+    public function setDistrict($district)
+    {
+        $this->district = $district;
+    }
+    public function setCity($city)
+    {
+        $this->city = $city;
+    }
+    public function setPostcode($postcode)
+    {
+        $this->postcode = $postcode;
+    }
+    public function setNote($note)
+    {
+        $this->note = $note;
+    }
+    public function setPaymentMethod($payment_method)
+    {
+        $this->payment_method = $payment_method;
+    }
+    public function setTotal($total)
+    {
+        $this->total = $total;
+    }
+    public function setStatus($status)
+    {
+        $this->status = $status;
+    }
+    public function setCreatedAt($created_at)
+    {
+        $this->created_at = $created_at;
+    }
+    public function setUpdatedAt($updated_at)
+    {
+        $this->updated_at = $updated_at;
+    }
     // Method
     // Lấy tất cả đơn hàng
     public function getAll()
@@ -167,5 +258,30 @@ class Order extends Model
         $stmt = $this->db->prepare("SELECT users.id, users.username, users.fullname, COUNT(orders.id) as total_orders FROM users LEFT JOIN orders ON users.id = orders.user_id WHERE orders.status = 'completed' GROUP BY users.id ORDER BY total_orders DESC LIMIT 10");
         $stmt->execute();
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+    // Lấy tổng doanh thu theo ngày
+    public function getRevenueByDate($date)
+    {
+        $stmt = $this->db->prepare("SELECT SUM(total) AS revenue FROM orders WHERE DATE(created_at) = ? AND status = 'completed'");
+        $stmt->bind_param("s", $date);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_assoc();
+    }
+    // Lấy tổng doanh thu theo tháng
+    public function getRevenueByMonth($month)
+    {
+        $stmt = $this->db->prepare("SELECT SUM(total) AS revenue FROM orders WHERE DATE_FORMAT(created_at, '%Y-%m') = ? AND status = 'completed'");
+        $stmt->bind_param("s", $month);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_assoc();
+    }
+    // Lấy tổng doanh thu theo năm
+    public function getRevenueByYear($year)
+    {
+        $stmt = $this->db->prepare("SELECT SUM(total) AS revenue FROM orders WHERE YEAR(created_at) = ? AND status = 'completed'");
+        $stmt->bind_param("i", $year); // dùng kiểu int
+        $stmt->execute();
+        $result = $stmt->get_result()->fetch_assoc();
+        return $result['revenue'] ?? 0; // luôn trả về số
     }
 }

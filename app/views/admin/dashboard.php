@@ -24,51 +24,25 @@ require_once __DIR__ . '/../layouts/header.php';
                                                 <div class="col-md-3 mb-2">
                                                     <div class="p-3 bg-dark text-white rounded shadow">
                                                         <h4><?= $totalOrders ?></h4>
-                                                        <p style="color: #fff;">Tổng đơn hàng</p>
+                                                        <p style="color: #fff;"><i class="fa fa-cart-arrow-down"></i> Tổng đơn hàng</p>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3 mb-2">
                                                     <div class="p-3 bg-dark text-white rounded shadow">
                                                         <h4><?= $totalUsers ?></h4>
-                                                        <p style="color: #fff;">Tổng người dùng</p>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-3 mb-2">
-                                                    <div class="p-3 bg-dark text-white rounded shadow">
-                                                        <h4><?= $totalProducts ?></h4>
-                                                        <p style="color: #fff;">Tổng sản phẩm</p>
+                                                        <p style="color: #fff;"><i class="fa fa-users"></i> Tổng người dùng</p>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3 mb-2">
                                                     <div class="p-3 bg-dark text-white rounded shadow">
                                                         <h4><?= $totalCategories ?></h4>
-                                                        <p style="color: #fff;">Tổng danh mục</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row text-center mb-4 mt-4">
-                                                <div class="col-md-3 mb-2">
-                                                    <div class="p-3 bg-dark text-white rounded shadow">
-                                                        <h4><?= $totalOrdersPending ?></h4>
-                                                        <p style="color: #fff;"><i class="fa fa-spinner fa-spin"></i> Đơn hàng chờ xử lý</p>
+                                                        <p style="color: #fff;"><i class="fa fa-list-alt"></i> Tổng danh mục</p>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3 mb-2">
                                                     <div class="p-3 bg-dark text-white rounded shadow">
-                                                        <h4><?= $totalOrdersProcessing ?></h4>
-                                                        <p style="color: #fff;"><i class="fa fa-spinner fa-spin"></i> Đơn hàng đang xử lý</p>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-3 mb-2">
-                                                    <div class="p-3 bg-dark text-white rounded shadow">
-                                                        <h4><?= $totalOrdersCompleted ?></h4>
-                                                        <p style="color: #fff;"><i class="fa fa-check"></i> Đơn hàng đã hoàn thành</p>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-3 mb-2">
-                                                    <div class="p-3 bg-dark text-white rounded shadow">
-                                                        <h4><?= $totalOrdersShipping ?></h4>
-                                                        <p style="color: #fff;"><i class="fa fa-truck"></i> Đơn hàng đang giao</p>
+                                                        <h4><?= $totalProducts ?></h4>
+                                                        <p style="color: #fff;"><i class="fa fa-shopping-cart"></i> Tổng sản phẩm</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -77,24 +51,28 @@ require_once __DIR__ . '/../layouts/header.php';
                                                     <div class="p-3 bg-dark text-white rounded shadow">
                                                         <h5><?= number_format($totalRevenueAll, 0, ',', '.') ?> VNĐ</h5>
                                                         <p style="color: #fff;">Tổng doanh thu</p>
+                                                        <a href="#" class="text-white" title=""><i class="fa fa-eye"></i></a>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3 mb-2">
                                                     <div class="p-3 bg-dark text-white rounded shadow">
                                                         <h5><?= number_format($totalRevenueDay, 0, ',', '.') ?> VNĐ</h5>
-                                                        <p style="color: #fff;">Tổng danh thu ngày</p>
+                                                        <p style="color: #fff;">Doanh thu ngày <?= date('d/m/Y') ?></p>
+                                                        <a href="/admin/revenue/bydate" class="text-white" title="Xem theo ngày"><i class="fa fa-eye"></i></a>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3 mb-2">
                                                     <div class="p-3 bg-dark text-white rounded shadow">
                                                         <h5><?= number_format($totalRevenueMonth, 0, ',', '.') ?> VNĐ</h5>
-                                                        <p style="color: #fff;">Tổng danh thu tháng</p>
+                                                        <p style="color: #fff;">Doanh thu tháng <?= date('m/Y') ?></p>
+                                                        <a href="/admin/revenue/bymonth" class="text-white" title="Xem theo tháng"><i class="fa fa-eye"></i></a>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3 mb-2">
                                                     <div class="p-3 bg-dark text-white rounded shadow">
                                                         <h5><?= number_format($totalRevenueYear, 0, ',', '.') ?> VNĐ</h5>
-                                                        <p style="color: #fff;">Tổng danh thu năm</p>
+                                                        <p style="color: #fff;">Doanh thu năm <?= date('Y') ?></p>
+                                                        <a href="/admin/revenue/byyear" class="text-white" title="Xem theo năm"><i class="fa fa-eye"></i></a>
                                                     </div>
                                                 </div>
                                             </div>

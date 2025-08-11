@@ -15,71 +15,25 @@ class Coupon extends Model
     private $used_count;
     private $status;
 
-    public function getId()
-    {
-        return $this->id;
-    }
-    public function getCode()
-    {
-        return $this->code;
-    }
-    public function getDiscountType()
-    {
-        return $this->discount_type;
-    }
-    public function getDiscountValue()
-    {
-        return $this->discount_value;
-    }
-    public function getExpiresAt()
-    {
-        return $this->expires_at;
-    }
-    public function getUsageLimit()
-    {
-        return $this->usage_limit;
-    }
-    public function getUsedCount()
-    {
-        return $this->used_count;
-    }
-    public function getStatus()
-    {
-        return $this->status;
-    }
+    // Getter
+    public function getId() { return $this->id; }
+    public function getCode() { return $this->code; }
+    public function getDiscountType() { return $this->discount_type; }
+    public function getDiscountValue() { return $this->discount_value; }
+    public function getExpiresAt() { return $this->expires_at; }
+    public function getUsageLimit() { return $this->usage_limit; }
+    public function getUsedCount() { return $this->used_count; }
+    public function getStatus() { return $this->status; }
 
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-    public function setCode($code)
-    {
-        $this->code = $code;
-    }
-    public function setDiscountType($discount_type)
-    {
-        $this->discount_type = $discount_type;
-    }
-    public function setDiscountValue($discount_value)
-    {
-        $this->discount_value = $discount_value;
-    }
-    public function setExpiresAt($expires_at)
-    {
-        $this->expires_at = $expires_at;
-    }
-    public function setUsageLimit($usage_limit)
-    {
-        $this->usage_limit = $usage_limit;
-    }
-    public function setUsedCount($used_count)
-    {
-        $this->used_count = $used_count;
-    }
-    public function setStatus($status)
-    {
-        $this->status = $status;
-    }
+    // Setter
+    public function setId($id) { $this->id = $id; }
+    public function setCode($code) { $this->code = $code; }
+    public function setDiscountType($discount_type) { $this->discount_type = $discount_type; }
+    public function setDiscountValue($discount_value) { $this->discount_value = $discount_value; }
+    public function setExpiresAt($expires_at) { $this->expires_at = $expires_at; }
+    public function setUsageLimit($usage_limit) { $this->usage_limit = $usage_limit; }
+    public function setUsedCount($used_count) { $this->used_count = $used_count; }
+    public function setStatus($status) { $this->status = $status; }
 
     public function getByCode()
     {

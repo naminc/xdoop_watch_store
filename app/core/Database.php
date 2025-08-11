@@ -19,17 +19,17 @@ class Database
         $charset = $config['database']['charset']; // charset
         $this->conn = new mysqli($host, $user, $pass, $dbname); // kết nối đến database
 
-        if ($this->conn->connect_error) { // kiểm tra xem có lỗi kết nối không
-            die("Kết nối thất bại: " . $this->conn->connect_error); // hiển thị lỗi kết nối
+        if ($this->conn->connect_error) {
+            die("Kết nối thất bại: " . $this->conn->connect_error);
         }
-        $this->conn->set_charset($charset); // set charset
+        $this->conn->set_charset($charset);
     }
 
-    public static function getInstance() // lấy instance của database
+    public static function getInstance()
     {
-        if (self::$instance === null) { // kiểm tra xem instance đã tồn tại chưa
-            self::$instance = new Database(); // khởi tạo instance
+        if (self::$instance === null) {
+            self::$instance = new Database();
         }
-        return self::$instance->conn; // trả về instance
+        return self::$instance->conn;
     }
 }

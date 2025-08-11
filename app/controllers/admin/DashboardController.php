@@ -29,11 +29,6 @@ class DashboardController extends BaseController
             'totalUsers' => $this->userModel->countAll(), // lấy tổng số người dùng
             'totalProducts' => $this->productModel->countAll(), // lấy tổng số sản phẩm
             'totalCategories' => $this->categoryModel->countAll(), // lấy tổng số danh mục
-            'totalOrdersPending' => $this->orderModel->countAllPending(), // lấy tổng số đơn hàng chờ xử lý
-            'totalOrdersProcessing' => $this->orderModel->countAllProcessing(), // lấy tổng số đơn hàng đang xử lý
-            'totalOrdersCompleted' => $this->orderModel->countAllCompleted(), // lấy tổng số đơn hàng đã hoàn thành
-            'totalOrdersCancelled' => $this->orderModel->countAllCancelled(), // lấy tổng số đơn hàng đã hủy
-            'totalOrdersShipping' => $this->orderModel->countAllShipping(), // lấy tổng số đơn hàng đang giao
             'totalRevenueDay' => $this->orderModel->getTotalRevenueDay(), // lấy tổng số doanh thu theo ngày
             'totalRevenueMonth' => $this->orderModel->getTotalRevenueMonth(), // lấy tổng số doanh thu theo tháng
             'totalRevenueYear' => $this->orderModel->getTotalRevenueYear(), // lấy tổng số doanh thu theo năm
